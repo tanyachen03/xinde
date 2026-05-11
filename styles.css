@@ -6,9 +6,11 @@
 
 :root {
     /* Modern Color Palette */
-    --primary-color: #3b82f6;
-    --primary-light: #60a5fa;
-    --primary-dark: #2563eb;
+    --primary-color: #4F46E5;
+    --primary-light: #818CF8;
+    --primary-dark: #4338CA;
+    --primary-light: #818CF8;
+    --primary-dark: #4338CA;
     --secondary-color: #8b5cf6;
     --accent-color: #06b6d4;
     --success-color: #10b981;
@@ -2018,7 +2020,7 @@ body {
 }
 
 .projects-page-header {
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #4F46E5 50%, #06b6d4 100%);
     padding: 3rem 2rem;
     text-align: center;
 }
@@ -2069,7 +2071,7 @@ body {
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    background: linear-gradient(135deg, #1e40af, #4F46E5);
     color: white;
     border-color: transparent;
 }
@@ -2101,7 +2103,7 @@ body {
 .project-detail-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    background: linear-gradient(135deg, #1e40af, #4F46E5);
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -2148,7 +2150,7 @@ body {
 
 .difficulty-badge.intermediate {
     background-color: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    color: #4F46E5;
 }
 
 .difficulty-badge.advanced {
