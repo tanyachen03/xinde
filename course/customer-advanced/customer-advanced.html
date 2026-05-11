@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户数据分析进阶 - 数析学院</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #1a1a2e;
+            --primary-light: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --text-muted: #b2bec3;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --border: #e9ecef;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; color: var(--text-primary); background: var(--bg-secondary); }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .navbar-brand { display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .navbar-brand i { color: var(--highlight); }
+        .navbar-menu { display: flex; gap: 32px; }
+        .navbar-link { font-size: 0.9375rem; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 8px 0; position: relative; transition: all 0.3s; }
+        .navbar-link:hover, .navbar-link.active { color: var(--primary); }
+        .navbar-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--highlight); transition: all 0.3s; }
+        .navbar-link:hover::after, .navbar-link.active::after { width: 100%; }
+        .navbar-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--primary); cursor: pointer; }
+        .main-content { padding-top: 64px; }
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 80px 24px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); opacity: 0.5; }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(233,69,96,0.2); border: 1px solid rgba(233,69,96,0.3); padding: 8px 16px; border-radius: 100px; font-size: 0.875rem; margin-bottom: 24px; }
+        .hero-badge i { color: var(--highlight); }
+        .hero h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+        .hero-subtitle { font-size: 1.25rem; opacity: 0.9; margin-bottom: 32px; }
+        .section { padding: 60px 24px; }
+        .section-header { text-align: center; max-width: 600px; margin: 0 auto 40px; }
+        .section-tag { display: inline-block; font-size: 0.875rem; font-weight: 600; color: var(--highlight); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .section-title { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+        .section-desc { font-size: 1.125rem; color: var(--text-secondary); }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .modules-grid { display: flex; flex-direction: column; gap: 24px; }
+        .module-card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-md); overflow: hidden; }
+        .module-header { padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
+        .module-header:hover { background: var(--bg-secondary); }
+        .module-info { display: flex; align-items: center; gap: 16px; }
+        .module-icon { width: 56px; height: 56px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+        .module-icon i { font-size: 1.5rem; color: white; }
+        .module-title h3 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+        .module-title p { font-size: 0.875rem; color: var(--text-secondary); }
+        .module-meta { display: flex; align-items: center; gap: 12px; }
+        .lesson-count { font-size: 0.875rem; color: var(--text-muted); background: var(--bg-secondary); padding: 6px 12px; border-radius: 100px; }
+        .expand-icon { font-size: 1.25rem; color: var(--text-muted); transition: transform 0.3s; }
+        .module-card.open .expand-icon { transform: rotate(180deg); }
+        .module-lessons { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .module-card.open .module-lessons { max-height: 2000px; }
+        .lesson-list { padding: 0 28px 24px; }
+        .lesson-item { display: flex; align-items: center; padding: 14px 16px; border-radius: var(--radius-sm); text-decoration: none; color: var(--text-primary); transition: all 0.2s; margin-bottom: 8px; background: var(--bg-secondary); }
+        .lesson-item:hover { background: rgba(233,69,96,0.08); transform: translateX(4px); border-left: 3px solid var(--highlight); }
+        .lesson-number { width: 32px; height: 32px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 600; margin-right: 14px; color: var(--accent); }
+        .lesson-info { flex: 1; }
+        .lesson-info h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
+        .lesson-info p { font-size: 0.8rem; color: var(--text-secondary); }
+        .lesson-arrow { color: var(--accent); }
+        .footer { background: var(--primary); color: white; padding: 48px 24px 24px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .footer p { opacity: 0.7; font-size: 0.875rem; }
+        @media (max-width: 768px) {
+            .navbar-menu { display: none; }
+            .navbar-toggle { display: block; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .section { padding: 40px 16px; }
+            .module-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
+            .lesson-list { padding: 0 20px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="navbar-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>数析学院</span>
+            </a>
+            <div class="navbar-menu">
+                <a href="../index.html" class="navbar-link">首页</a>
+                <a href="../course-center.html" class="navbar-link">课程中心</a>
+                <a href="customer-advanced.html" class="navbar-link active">客户分析进阶</a>
+                <a href="../projects.html" class="navbar-link">实战项目</a>
+            </div>
+            <button class="navbar-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>进阶课程 · 16个知识点</span>
+                </div>
+                <h1>客户数据分析进阶</h1>
+                <p class="hero-subtitle">成为数据驱动的分析指挥官</p>
+            </div>
+        </section>
+
+        <section class="section" style="background: var(--bg-primary);">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Course Modules</span>
+                    <h2 class="section-title">课程模块</h2>
+                    <p class="section-desc">四个阶段，系统掌握客户数据分析</p>
+                </div>
+                <div class="modules-grid">
+
+                    <div class="module-card" id="module-1">
+                        <div class="module-header" onclick="toggleModule(1)">
+                            <div class="module-info">
+                                <div class="module-icon" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="module-title">
+                                    <h3>模块1：数据分析基本功</h3>
+                                    <p>4个知识点</p>
+                                </div>
+                            </div>
+                            <div class="module-meta">
+                                <span class="lesson-count">4小节</span>
+                                <i class="fas fa-chevron-down expand-icon"></i>
+                            </div>
+                        </div>
+                        <div class="module-lessons">
+                            <div class="lesson-list">
+
+                                <a href="lesson1.html" class="lesson-item">
+                                    <div class="lesson-number">1</div>
+                                    <div class="lesson-info">
+                                        <h4>数据觉醒：认识数据价值与思维转变</h4>
+                                        <p>了解数据分析如何重塑商业决策，培养数据驱动思维</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson2.html" class="lesson-item">
+                                    <div class="lesson-number">2</div>
+                                    <div class="lesson-info">
+                                        <h4>数据清洗：面向客户数据的清洗实战</h4>
+                                        <p>掌握客户数据的清洗方法，确保数据质量</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson3.html" class="lesson-item">
+                                    <div class="lesson-number">3</div>
+                                    <div class="lesson-info">
+                                        <h4>客户画像与RFM分析：用户分层核心模型</h4>
+                                        <p>构建客户标签体系，掌握RFM用户分层方法</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson4.html" class="lesson-item">
+                                    <div class="lesson-number">4</div>
+                                    <div class="lesson-info">
+                                        <h4>数据可视化：商业图表与数据叙事基础</h4>
+                                        <p>掌握商业可视化原则，让数据会说话</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="module-card" id="module-2">
+                        <div class="module-header" onclick="toggleModule(2)">
+                            <div class="module-info">
+                                <div class="module-icon" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="module-title">
+                                    <h3>模块2：洞察客户行为</h3>
+                                    <p>4个知识点</p>
+                                </div>
+                            </div>
+                            <div class="module-meta">
+                                <span class="lesson-count">4小节</span>
+                                <i class="fas fa-chevron-down expand-icon"></i>
+                            </div>
+                        </div>
+                        <div class="module-lessons">
+                            <div class="lesson-list">
+
+                                <a href="lesson5.html" class="lesson-item">
+                                    <div class="lesson-number">5</div>
+                                    <div class="lesson-info">
+                                        <h4>客户细分：聚类分析与分层策略</h4>
+                                        <p>运用聚类算法实现精细化客户分群</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson6.html" class="lesson-item">
+                                    <div class="lesson-number">6</div>
+                                    <div class="lesson-info">
+                                        <h4>CLV分析：客户生命周期价值计算与应用</h4>
+                                        <p>预测客户长期价值，指导资源配置决策</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson7.html" class="lesson-item">
+                                    <div class="lesson-number">7</div>
+                                    <div class="lesson-info">
+                                        <h4>流失预警：识别高流失风险用户</h4>
+                                        <p>建立流失预警模型，实现主动客户运营</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson8.html" class="lesson-item">
+                                    <div class="lesson-number">8</div>
+                                    <div class="lesson-info">
+                                        <h4>A/B测试：科学验证运营策略</h4>
+                                        <p>掌握A/B测试方法论，实现数据驱动决策</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="module-card" id="module-3">
+                        <div class="module-header" onclick="toggleModule(3)">
+                            <div class="module-info">
+                                <div class="module-icon" style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="module-title">
+                                    <h3>模块3：驱动业务增长</h3>
+                                    <p>4个知识点</p>
+                                </div>
+                            </div>
+                            <div class="module-meta">
+                                <span class="lesson-count">4小节</span>
+                                <i class="fas fa-chevron-down expand-icon"></i>
+                            </div>
+                        </div>
+                        <div class="module-lessons">
+                            <div class="lesson-list">
+
+                                <a href="lesson9.html" class="lesson-item">
+                                    <div class="lesson-number">9</div>
+                                    <div class="lesson-info">
+                                        <h4>精准营销：基于分群的营销策略</h4>
+                                        <p>利用客户洞察实现精准触达和高效转化</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson10.html" class="lesson-item">
+                                    <div class="lesson-number">10</div>
+                                    <div class="lesson-info">
+                                        <h4>全渠道体验：线上线下数据整合分析</h4>
+                                        <p>打破数据孤岛，实现全渠道客户洞察</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson11.html" class="lesson-item">
+                                    <div class="lesson-number">11</div>
+                                    <div class="lesson-info">
+                                        <h4>会员体系：积分与等级设计分析</h4>
+                                        <p>设计科学的会员体系，驱动客户持续增长</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson12.html" class="lesson-item">
+                                    <div class="lesson-number">12</div>
+                                    <div class="lesson-info">
+                                        <h4>数据隐私：GDPR与合规数据分析</h4>
+                                        <p>在保护隐私的前提下进行数据分析</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="module-card" id="module-4">
+                        <div class="module-header" onclick="toggleModule(4)">
+                            <div class="module-info">
+                                <div class="module-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="module-title">
+                                    <h3>模块4：AI时代的分析指挥官</h3>
+                                    <p>4个知识点</p>
+                                </div>
+                            </div>
+                            <div class="module-meta">
+                                <span class="lesson-count">4小节</span>
+                                <i class="fas fa-chevron-down expand-icon"></i>
+                            </div>
+                        </div>
+                        <div class="module-lessons">
+                            <div class="lesson-list">
+
+                                <a href="lesson13.html" class="lesson-item">
+                                    <div class="lesson-number">13</div>
+                                    <div class="lesson-info">
+                                        <h4>AI时代的分析思维转型</h4>
+                                        <p>拥抱AI工具，提升分析效率与洞察深度</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson14.html" class="lesson-item">
+                                    <div class="lesson-number">14</div>
+                                    <div class="lesson-info">
+                                        <h4>综合实战工作坊：完整项目演练</h4>
+                                        <p>从需求到交付，完成端到端的数据分析项目</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson15.html" class="lesson-item">
+                                    <div class="lesson-number">15</div>
+                                    <div class="lesson-info">
+                                        <h4>从数据到故事：数据叙事技巧</h4>
+                                        <p>将复杂数据转化为有影响力的商业故事</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                                <a href="lesson16.html" class="lesson-item">
+                                    <div class="lesson-number">16</div>
+                                    <div class="lesson-info">
+                                        <h4>成果展示：制作专业分析报告</h4>
+                                        <p>交付高质量的分析报告，展示专业能力</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right lesson-arrow"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2024 数析学院 · 专注数据分析教育</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleModule(id) {
+            document.getElementById('module-' + id).classList.toggle('open');
+        }
+        document.querySelector('.navbar-toggle').addEventListener('click', function() {
+            document.querySelector('.navbar-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
