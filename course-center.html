@@ -14,16 +14,16 @@
         }
 
         :root {
-            --primary-color: #3b82f6;
-            --primary-light: #60a5fa;
-            --primary-dark: #2563eb;
-            --secondary-color: #8b5cf6;
-            --accent-color: #06b6d4;
+            --primary-color: #e94560;
+            --primary-light: #f97316;
+            --primary-dark: #dc2626;
+            --secondary-color: #10b981;
+            --accent-color: #8b5cf6;
             --success-color: #10b981;
             --bg-light: #f8fafc;
             --bg-white: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
             --border-radius: 12px;
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
             --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -63,8 +63,11 @@
             gap: 0.75rem;
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--primary-color);
+            color: #1a1a2e;
             text-decoration: none;
+        }
+        .navbar-logo i {
+            color: #e94560;
         }
 
         .navbar-menu {
@@ -122,9 +125,21 @@
 
         .hero {
             padding: 120px 2rem 3rem;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             text-align: center;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
         }
 
         .hero h1 {
@@ -393,8 +408,18 @@
     </header>
 
     <section class="hero">
-        <h1>商务数据分析与应用 · 系统课程</h1>
-        <p>从零基础到实战高手，四个模块循序渐进</p>
+        <div style="position: relative; z-index: 1;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(233,69,96,0.2); border: 1px solid rgba(233,69,96,0.3); padding: 8px 16px; border-radius: 100px; font-size: 0.875rem; margin-bottom: 24px;">
+                <i class="fas fa-fire" style="color: #e94560;"></i>
+                <span>500+ 学员已加入学习</span>
+            </div>
+            <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px;">商务数据分析与应用</h1>
+            <p style="font-size: 1.25rem; opacity: 0.9; margin-bottom: 32px;">系统课程 · 从零基础到实战高手</p>
+            <a href="#module-1" style="display: inline-flex; align-items: center; gap: 10px; background: white; color: #1a1a2e; padding: 16px 32px; border-radius: 12px; font-size: 1.125rem; font-weight: 600; text-decoration: none; box-shadow: 0 8px 25px rgba(0,0,0,0.2); transition: all 0.3s;">
+                <i class="fas fa-rocket"></i>
+                立即开始学习
+            </a>
+        </div>
     </section>
 
     <div class="course-container">
