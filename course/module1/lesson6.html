@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jupyter Notebook使用 - 数析学院</title>
+<title>初学者常见误区 - 数析学院</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
@@ -68,32 +68,32 @@ body{font-family:-apple-system,sans-serif;background:var(--b);color:#1e293b;line
 <div class="sc">
 <div class="st">模块一：Python快速入门</div>
 <a href="lesson1.html" class="lni "><span class="nn">1</span><span class="nt">Python简介与环境准备</span></a>
-<a href="lesson2.html" class="lni active"><span class="nn">2</span><span class="nt">Jupyter Notebook使用</span></a>
+<a href="lesson2.html" class="lni "><span class="nn">2</span><span class="nt">Jupyter Notebook使用</span></a>
 <a href="lesson3.html" class="lni "><span class="nn">3</span><span class="nt">基本语法与数据输出</span></a>
 <a href="lesson4.html" class="lni "><span class="nn">4</span><span class="nt">变量定义与命名规范</span></a>
 <a href="lesson5.html" class="lni "><span class="nn">5</span><span class="nt">数字运算与表达式</span></a>
-<a href="lesson6.html" class="lni "><span class="nn">6</span><span class="nt">初学者常见误区</span></a>
+<a href="lesson6.html" class="lni active"><span class="nn">6</span><span class="nt">初学者常见误区</span></a>
 </div>
 </aside>
 <main class="mc">
 <div class="lh">
 <div class="lm"><span class="mt">入门必学</span></div>
-<h1>Jupyter Notebook使用</h1>
-<p>掌握在线笔记本的基本操作和快捷键</p>
+<h1>初学者常见误区</h1>
+<p>编码格式、缩进、调试技巧</p>
 </div>
 <div class="se">
 <h2>学习目标</h2>
 <ul>
-<li>理解Jupyter Notebook的概念</li><li>掌握基本操作和快捷键</li><li>创建和运行代码单元格</li>
+<li>了解常见的编码问题</li><li>掌握正确的缩进方式</li><li>学会基本的调试技巧</li>
 </ul>
 </div>
 <div class="se">
 <h2>知识点讲解</h2>
-<p>Jupyter Notebook是一个交互式的编程环境，它允许你在浏览器中编写和运行代码，同时可以添加文字说明、公式和图表。这使得Jupyter Notebook成为数据探索和报告生成的理想工具。
+<p>初学者在学习Python时常常会遇到一些常见问题。其中最常见的是编码问题，特别是在处理中文时。Python 3默认使用UTF-8编码，但如果文件中包含特殊字符，可能会出现编码错误。
 
-Jupyter Notebook的界面由多个单元格组成，每个单元格可以包含代码、Markdown文字或原始文本。代码单元格可以独立运行，运行结果会显示在单元格下方。这种交互式的方式非常适合数据探索和教学演示。
+缩进问题也是初学者经常遇到的问题。Python使用缩进来区分代码块，缩进不一致会导致SyntaxError。建议使用4个空格作为缩进，不要混用空格和制表符。
 
-常用的快捷键包括：Shift+Enter运行当前单元格并移动到下一个，Ctrl+Enter仅运行当前单元格，Esc进入命令模式，Enter进入编辑模式。熟练使用快捷键可以大大提高工作效率。</p>
+调试是编程中必不可少的技能。print()函数是最简单的调试工具，可以用来查看变量的值。此外，学会阅读错误信息也是非常重要的，错误信息通常会指出问题所在的位置和原因。</p>
 </div>
 <div class="se">
 <h2>代码示例一</h2>
@@ -121,8 +121,8 @@ Jupyter Notebook的界面由多个单元格组成，每个单元格可以包含�
 <div class="oa"><pre id="output2"></pre></div>
 </div>
 </div>
-<div class="qb"><div class="qt">💡 互动思考</div><p>在Jupyter Notebook中，如何将一个代码单元格转换为Markdown单元格？</p></div>
-<div class="tb"><div class="tt">💫 小贴士</div><p>使用Shift+Enter快捷键运行单元格比点击工具栏按钮更快捷高效。</p></div>
+<div class="qb"><div class="qt">💡 互动思考</div><p>当Python程序出现错误时，应该如何定位和解决问题？</p></div>
+<div class="tb"><div class="tt">💫 小贴士</div><p>养成良好的代码习惯，使用IDE（如VS Code）可以自动检测缩进和语法错误，提高编程效率。</p></div>
 <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid #f1f5f9;">
 <button class="cb" id="completeBtn" onclick="markComplete()"><i class="fas fa-check-circle"></i><span id="btnText">标记为已完成</span></button>
 </div>
@@ -130,12 +130,31 @@ Jupyter Notebook的界面由多个单元格组成，每个单元格可以包含�
 </div>
 <script>
 let editor1, editor2, pyodide;
-const code1 = '# 第一个Jupyter Notebook代码
-print(\'Hello, Jupyter!\')';
-const code2 = '# 在Notebook中进行简单计算
-radius = 5
-area = 3.14159 * radius ** 2
-print(f\'半径为{radius}的圆面积是: {area:.2f}\')';
+const code1 = '# 调试技巧：使用print查看变量
+def calculate_area(radius):
+    print(f\'计算半径为{radius}的圆面积\')
+    area = 3.14159 * radius ** 2
+    print(f\'计算结果: {area}\')
+    return area
+
+calculate_area(5)';
+const code2 = '# 常见错误示例
+# 注意：以下代码故意包含错误用于演示
+
+# 错误1：缩进不一致
+# def greet(name):
+#     print(f\'Hello, {name}\')
+#      print(\'Welcome!\')  # 这里缩进错误
+
+# 错误2：中英文符号混用
+# print(\"你好\")  # 注意引号是中文的
+
+# 正确写法示例
+def greet(name):
+    print(f\'Hello, {name}\')
+    print(\'Welcome!\')
+
+greet(\'Python\')';
 
 function initEditor(){
 editor1 = CodeMirror(document.getElementById('code-editor1'), {mode:'python',theme:'monokai',lineNumbers:true,tabSize:4,value:code1});
@@ -176,8 +195,8 @@ function resetCode2(){ editor2.setValue(code2); document.getElementById('output2
 
 function markComplete(){
 const progress = JSON.parse(localStorage.getItem('module-1-progress') || '[]');
-if(!progress.includes(2)){
-progress.push(2);
+if(!progress.includes(6)){
+progress.push(6);
 localStorage.setItem('module-1-progress', JSON.stringify(progress));
 }
 const b = document.getElementById('completeBtn');
@@ -189,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function(){
 initEditor();
 initPyodide();
 const progress = JSON.parse(localStorage.getItem('module-1-progress') || '[]');
-if(progress.includes(2)){
+if(progress.includes(6)){
 const b = document.getElementById('completeBtn');
 b.innerHTML = '<i class="fas fa-check-circle"></i> 已完成';
 b.disabled = true;

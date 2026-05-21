@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python极简入门 - 数析学院</title>
+<title>基本语法与数据输出 - 数析学院</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
@@ -42,12 +42,14 @@ body{font-family:-apple-system,sans-serif;background:var(--b);color:#1e293b;line
 .tt{font-weight:600;color:var(--p);margin-bottom:.5rem}
 .eb{background:#fef2f2;border-left:4px solid #ef4444;padding:1rem;border-radius:8px;margin:1rem 0}
 .et{font-weight:600;color:#ef4444;margin-bottom:.5rem}
+.qb{background:#f0fdf4;border-left:4px solid #22c55e;padding:1rem;border-radius:8px;margin:1rem 0}
+.qt{font-weight:600;color:#22c55e;margin-bottom:.5rem}
 .ec{background:white;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;margin:1.5rem 0}
 .etb{background:#f8fafc;padding:12px 16px;border-bottom:1px solid #e2e8f0;display:flex;gap:10px}
 .etb button{padding:8px 16px;border:none;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer}
 .br{background:#22c55e;color:white}
 .bz{background:#f1f5f9;color:#475569}
-.CodeMirror{height:300px!important;font-size:14px}
+.CodeMirror{height:250px!important;font-size:14px}
 .oa{background:#0f172a;padding:16px}
 .oa pre{margin:0;color:#e2e8f0;font-family:monospace;font-size:14px}
 .cb{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer}
@@ -64,79 +66,140 @@ body{font-family:-apple-system,sans-serif;background:var(--b);color:#1e293b;line
 <div class="lc">
 <aside class="s">
 <div class="sc">
-<div class="st">模块一：数据分析前置基础</div>
-<a href="lesson1.html" class="lesson-nav-item "><span class="nav-number">1</span><span class="nav-title">数据分析行业前景与岗位介绍</span></a><a href="lesson2.html" class="lesson-nav-item "><span class="nav-number">2</span><span class="nav-title">数据分析思维</span></a><a href="lesson3.html" class="lesson-nav-item active"><span class="nav-number">3</span><span class="nav-title">Python极简入门</span></a><a href="lesson4.html" class="lesson-nav-item "><span class="nav-number">4</span><span class="nav-title">Anaconda与Jupyter环境</span></a><a href="lesson5.html" class="lesson-nav-item "><span class="nav-number">5</span><span class="nav-title">在线编程平台使用</span></a>
+<div class="st">模块一：Python快速入门</div>
+<a href="lesson1.html" class="lni "><span class="nn">1</span><span class="nt">Python简介与环境准备</span></a>
+<a href="lesson2.html" class="lni "><span class="nn">2</span><span class="nt">Jupyter Notebook使用</span></a>
+<a href="lesson3.html" class="lni active"><span class="nn">3</span><span class="nt">基本语法与数据输出</span></a>
+<a href="lesson4.html" class="lni "><span class="nn">4</span><span class="nt">变量定义与命名规范</span></a>
+<a href="lesson5.html" class="lni "><span class="nn">5</span><span class="nt">数字运算与表达式</span></a>
+<a href="lesson6.html" class="lni "><span class="nn">6</span><span class="nt">初学者常见误区</span></a>
 </div>
 </aside>
 <main class="mc">
 <div class="lh">
 <div class="lm"><span class="mt">入门必学</span></div>
-<h1>LESSON_Python极简入门</h1>
-<p>变量、列表、字典、循环、函数基础</p>
+<h1>基本语法与数据输出</h1>
+<p>print函数、注释、代码结构基础</p>
 </div>
 <div class="se">
 <h2>学习目标</h2>
 <ul>
-<li>理解LESSON_Python极简入门的核心概念</li>
-<li>掌握相关的代码实现方法</li>
-<li>能够在实际项目中应用</li>
+<li>掌握print函数的使用</li><li>理解注释的重要性</li><li>了解Python代码结构</li>
 </ul>
 </div>
 <div class="se">
 <h2>知识点讲解</h2>
-<p>变量、列表、字典、循环、函数基础。本节将详细介绍相关概念和实用技巧。</p>
+<p>print()函数是Python中最常用的函数之一，用于向控制台输出信息。它可以输出字符串、数字、变量等各种类型的数据。print()函数还支持格式化输出，可以通过多种方式控制输出格式。
+
+注释是代码中非常重要的一部分，它用于解释代码的功能和逻辑。Python中有两种注释方式：单行注释以#开头，多行注释用三个单引号或双引号包裹。良好的注释习惯可以提高代码的可读性和可维护性。
+
+Python使用缩进来组织代码块，这是Python语法的一个重要特点。通常使用4个空格或1个制表符作为缩进。正确的缩进对于代码的执行至关重要。</p>
 </div>
-<div class="tb"><div class="tt">小贴士</div><p>多动手实践，遇到问题多查看官方文档。</p></div>
 <div class="se">
-<h2>代码示例</h2>
-<p>在下方编辑器中尝试运行代码：</p>
-</div>
+<h2>代码示例一</h2>
+<p>尝试运行以下代码，观察输出结果：</p>
 <div class="ec">
 <div class="etb">
-<button class="br" onclick="runCode()"><i class="fas fa-play"></i> 运行</button>
-<button class="bz" onclick="resetCode()"><i class="fas fa-undo"></i> 重置</button>
-<span id="status" style="margin-left:auto;color:#64748b;font-size:14px;">环境加载中...</span>
+<button class="br" onclick="runCode1()"><i class="fas fa-play"></i> 运行</button>
+<button class="bz" onclick="resetCode1()"><i class="fas fa-undo"></i> 重置</button>
+<span id="status1" style="margin-left:auto;color:#64748b;font-size:14px;">环境加载中...</span>
 </div>
-<div id="code-editor"></div>
-<div class="oa"><pre id="output"></pre></div>
+<div id="code-editor1"></div>
+<div class="oa"><pre id="output1"></pre></div>
 </div>
-<div class="eb"><div class="et">常见错误</div><p>注意代码缩进，确保Python语法正确。</p></div>
+</div>
+<div class="se">
+<h2>代码示例二</h2>
+<p>尝试运行以下代码，观察输出结果：</p>
+<div class="ec">
+<div class="etb">
+<button class="br" onclick="runCode2()"><i class="fas fa-play"></i> 运行</button>
+<button class="bz" onclick="resetCode2()"><i class="fas fa-undo"></i> 重置</button>
+<span id="status2" style="margin-left:auto;color:#64748b;font-size:14px;">环境加载中...</span>
+</div>
+<div id="code-editor2"></div>
+<div class="oa"><pre id="output2"></pre></div>
+</div>
+</div>
+<div class="qb"><div class="qt">💡 互动思考</div><p>为什么Python代码需要缩进？缩进在Python中有什么作用？</p></div>
+<div class="tb"><div class="tt">💫 小贴士</div><p>使用#进行注释时，注释内容应简洁明了，避免过多的冗余注释。</p></div>
 <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid #f1f5f9;">
 <button class="cb" id="completeBtn" onclick="markComplete()"><i class="fas fa-check-circle"></i><span id="btnText">标记为已完成</span></button>
 </div>
 </main>
 </div>
 <script>
-let editor, pyodide;
+let editor1, editor2, pyodide;
+const code1 = '# 基本的print用法
+print(\'Hello, World!\')
+print(123)
+print(3.14)
+print(True)';
+const code2 = '# 格式化输出
+name = \'小明\'
+age = 25
+score = 95.5
+print(f\'{name}今年{age}岁，考试成绩{score}分\')
+print(\'{}今年{}岁，考试成绩{}分\'.format(name, age, score))';
+
 function initEditor(){
-editor=CodeMirror(document.getElementById('code-editor'),{mode:'python',theme:'monokai',lineNumbers:true,tabSize:4,value:"# LESSON_Python极简入门
-print('欢迎学习数据分析!')"});
+editor1 = CodeMirror(document.getElementById('code-editor1'), {mode:'python',theme:'monokai',lineNumbers:true,tabSize:4,value:code1});
+editor2 = CodeMirror(document.getElementById('code-editor2'), {mode:'python',theme:'monokai',lineNumbers:true,tabSize:4,value:code2});
 }
+
 async function initPyodide(){
-try{pyodide=await loadPyodide();document.getElementById('status').textContent='环境就绪'}catch(e){document.getElementById('status').textContent='加载失败'}}
-async function runCode(){
-if(!pyodide){document.getElementById('output').textContent='环境加载中...';return}
-const code=editor.getValue();
-document.getElementById('output').textContent='运行中...';
+try{
+pyodide = await loadPyodide();
+document.getElementById('status1').textContent = '环境就绪';
+document.getElementById('status2').textContent = '环境就绪';
+} catch(e) {
+document.getElementById('status1').textContent = '加载失败';
+document.getElementById('status2').textContent = '加载失败';
+}
+}
+
+async function runCode(code, outputId){
+if(!pyodide){
+document.getElementById(outputId).textContent = '环境加载中...';
+return;
+}
+document.getElementById(outputId).textContent = '运行中...';
 try{
 pyodide.runPython("import sys;from io import StringIO;sys.stdout=StringIO()");
 await pyodide.runPythonAsync(code);
-const out=pyodide.runPython("sys.stdout.getvalue()");
-document.getElementById('output').textContent=out||'（无输出）';
-}catch(e){document.getElementById('output').textContent='错误: '+e}}
-function resetCode(){editor.setValue("# LESSON_Python极简入门
-print('欢迎学习数据分析!')");document.getElementById('output').textContent=''}
+const out = pyodide.runPython("sys.stdout.getvalue()");
+document.getElementById(outputId).textContent = out || '（无输出）';
+} catch(e) {
+document.getElementById(outputId).textContent = '错误: ' + e;
+}
+}
+
+function runCode1(){ runCode(editor1.getValue(), 'output1'); }
+function runCode2(){ runCode(editor2.getValue(), 'output2'); }
+function resetCode1(){ editor1.setValue(code1); document.getElementById('output1').textContent = ''; }
+function resetCode2(){ editor2.setValue(code2); document.getElementById('output2').textContent = ''; }
+
 function markComplete(){
-const c=JSON.parse(localStorage.getItem('completedLessons')||'{}');
-c['m1l3']=true;
-localStorage.setItem('completedLessons',JSON.stringify(c));
-const b=document.getElementById('completeBtn');
-b.innerHTML='<i class="fas fa-check-circle"></i> 已完成';
-b.disabled=true}
-document.addEventListener('DOMContentLoaded',function(){
-initEditor();initPyodide();
-const c=JSON.parse(localStorage.getItem('completedLessons')||'{}');
-if(c['m1l3']){const b=document.getElementById('completeBtn');b.innerHTML='<i class="fas fa-check-circle"></i> 已完成';b.disabled=true}});
+const progress = JSON.parse(localStorage.getItem('module-1-progress') || '[]');
+if(!progress.includes(3)){
+progress.push(3);
+localStorage.setItem('module-1-progress', JSON.stringify(progress));
+}
+const b = document.getElementById('completeBtn');
+b.innerHTML = '<i class="fas fa-check-circle"></i> 已完成';
+b.disabled = true;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+initEditor();
+initPyodide();
+const progress = JSON.parse(localStorage.getItem('module-1-progress') || '[]');
+if(progress.includes(3)){
+const b = document.getElementById('completeBtn');
+b.innerHTML = '<i class="fas fa-check-circle"></i> 已完成';
+b.disabled = true;
+}
+});
 </script>
 </body>
 </html>

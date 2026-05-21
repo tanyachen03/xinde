@@ -5,14 +5,14 @@
 }
 
 :root {
-    /* Modern Color Palette */
-    --primary-color: #4F46E5;
-    --primary-light: #818CF8;
-    --primary-dark: #4338CA;
-    --primary-light: #818CF8;
-    --primary-dark: #4338CA;
-    --secondary-color: #8b5cf6;
-    --accent-color: #06b6d4;
+    /* Business Style Color Palette - Match Homepage */
+    --primary: #1a1a2e;
+    --primary-color: #1a1a2e;
+    --primary-light: #16213e;
+    --primary-dark: #0f3460;
+    --highlight: #e94560;
+    --secondary-color: #16213e;
+    --accent-color: #0f3460;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --danger-color: #ef4444;
@@ -20,21 +20,21 @@
     /* Background Colors */
     --bg-light: #f8fafc;
     --bg-white: #ffffff;
-    --bg-gradient-start: #eff6ff;
-    --bg-gradient-end: #f8fafc;
+    --bg-gradient-start: #1a1a2e;
+    --bg-gradient-end: #16213e;
     
     /* Text Colors */
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --text-muted: #94a3b8;
+    --text-primary: #2d3436;
+    --text-secondary: #636e72;
+    --text-muted: #b2bec3;
     
     /* Border & Shadow */
-    --border-color: #e2e8f0;
+    --border-color: #e9ecef;
     --border-radius: 12px;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 35px rgba(0, 0, 0, 0.12);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
 }
 
 body {
@@ -73,9 +73,13 @@ body {
     gap: 0.75rem;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #1a1a2e;
     cursor: pointer;
     transition: transform 0.2s ease;
+}
+
+.navbar-logo i {
+    color: #e94560;
 }
 
 .navbar-logo:hover {
@@ -103,8 +107,24 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--primary-color);
-    background-color: rgba(59, 130, 246, 0.08);
+    color: #e94560;
+    background-color: rgba(233, 69, 96, 0.08);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #e94560;
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
 }
 
 .navbar-auth {
@@ -118,7 +138,7 @@ body {
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 1rem;
-    background-color: rgba(30, 64, 175, 0.05);
+    background-color: rgba(26, 26, 46, 0.05);
     border-radius: 9999px;
 }
 
@@ -130,7 +150,7 @@ body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 2px solid var(--primary-color);
+    border: 2px solid #1a1a2e;
 }
 
 #user-name {
@@ -167,28 +187,28 @@ body {
 
 .login-btn {
     background-color: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    color: #e94560;
+    border: 2px solid #e94560;
 }
 
 .login-btn:hover {
-    background-color: rgba(30, 64, 175, 0.05);
+    background-color: rgba(233, 69, 96, 0.05);
 }
 
 .register-btn {
-    background-color: var(--primary-color);
+    background-color: #e94560;
     color: white;
 }
 
 .register-btn:hover {
-    background-color: var(--primary-dark);
+    background-color: #c43a51;
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
 
 .hero {
     padding: 120px 2rem 80px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 50%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -347,13 +367,13 @@ body {
 .course-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(26, 26, 46, 0.3);
     transition: transform 0.3s ease;
 }
 
@@ -386,8 +406,8 @@ body {
 
 .tag {
     padding: 0.375rem 0.875rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
-    color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.08), rgba(15, 52, 96, 0.08));
+    color: #1a1a2e;
     font-size: 0.8125rem;
     font-weight: 500;
     border-radius: 9999px;
@@ -395,7 +415,7 @@ body {
 }
 
 .tag:hover {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.15), rgba(15, 52, 96, 0.15));
 }
 
 .projects-section {
@@ -425,7 +445,7 @@ body {
 
 .project-image {
     height: 200px;
-    background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
+    background: linear-gradient(135deg, #16213e, #0f3460);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -464,7 +484,7 @@ body {
 
 .achievements-section {
     padding: 80px 2rem;
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .achievements-section .section-header h2,
@@ -508,7 +528,7 @@ body {
 
 .achievement-icon i {
     font-size: 2.5rem;
-    color: var(--warning-color);
+    color: #e94560;
 }
 
 .achievement-card h3 {
@@ -531,7 +551,7 @@ body {
 }
 
 .footer {
-    background: linear-gradient(135deg, #1e293b, #334155);
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
     color: white;
     padding: 4rem 2rem;
 }
@@ -689,14 +709,14 @@ body {
 }
 
 .form-group input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    border-color: #1a1a2e;
+    box-shadow: 0 0 0 4px rgba(26, 26, 46, 0.1);
 }
 
 .submit-btn {
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
     color: white;
     border: none;
     border-radius: var(--border-radius);
@@ -704,12 +724,12 @@ body {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(26, 26, 46, 0.3);
 }
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 25px rgba(26, 26, 46, 0.4);
 }
 
 .modal-link {
@@ -720,7 +740,7 @@ body {
 }
 
 .modal-link a {
-    color: var(--primary-color);
+    color: #e94560;
     text-decoration: none;
     font-weight: 600;
 }
@@ -775,8 +795,8 @@ body {
 
 .sidebar-item:hover,
 .sidebar-item.active {
-    color: var(--primary-color);
-    background-color: rgba(30, 64, 175, 0.05);
+    color: #1a1a2e;
+    background-color: rgba(26, 26, 46, 0.05);
 }
 
 .sidebar-item i {
@@ -793,8 +813,8 @@ body {
 .course-badge {
     display: inline-block;
     padding: 0.375rem 0.875rem;
-    background-color: rgba(30, 64, 175, 0.1);
-    color: var(--primary-color);
+    background-color: rgba(26, 26, 46, 0.1);
+    color: #1a1a2e;
     font-size: 0.8125rem;
     font-weight: 600;
     border-radius: 9999px;
@@ -850,7 +870,7 @@ body {
     transform: translateY(-50%);
     width: 8px;
     height: 8px;
-    background-color: var(--primary-color);
+    background-color: #1a1a2e;
     border-radius: 50%;
 }
 
@@ -875,7 +895,7 @@ body {
 }
 
 .section-subtitle i {
-    color: var(--primary-color);
+    color: #1a1a2e;
     margin-right: 0.5rem;
 }
 
@@ -1046,7 +1066,7 @@ body {
 .feature-item i {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 0.5rem;
     display: flex;
     justify-content: center;
@@ -1126,7 +1146,7 @@ body {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: #1a1a2e;
     cursor: pointer;
     padding: 0.5rem;
 }
@@ -1191,7 +1211,7 @@ body {
     border-radius: 1rem;
     padding: 1.5rem;
     margin: 1.5rem 0;
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid #1a1a2e;
 }
 
 .quiz-title {
@@ -1205,7 +1225,7 @@ body {
 }
 
 .quiz-title i {
-    color: var(--primary-color);
+    color: #1a1a2e;
 }
 
 .quiz-question {
@@ -1232,8 +1252,8 @@ body {
 }
 
 .quiz-option:hover {
-    border-color: var(--primary-color);
-    background-color: rgba(59, 130, 246, 0.05);
+    border-color: #1a1a2e;
+    background-color: rgba(26, 26, 46, 0.05);
 }
 
 .quiz-option.quiz-correct {
@@ -1251,7 +1271,7 @@ body {
 .quiz-explanation {
     margin-top: 1rem;
     padding: 1rem;
-    background-color: rgba(30, 64, 175, 0.05);
+    background-color: rgba(26, 26, 46, 0.05);
     border-radius: 0.5rem;
     color: var(--text-secondary);
     font-size: 0.9rem;
@@ -1263,7 +1283,7 @@ body {
 
 /* 综合测评样式 */
 .chapter-test-container {
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.05), rgba(59, 130, 246, 0.05));
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.05), rgba(15, 52, 96, 0.05));
     border-radius: 1rem;
     padding: 2rem;
     margin: 2rem 0;
@@ -1280,7 +1300,7 @@ body {
 }
 
 .chapter-test-title i {
-    color: var(--primary-color);
+    color: #1a1a2e;
 }
 
 .test-questions {
@@ -1298,7 +1318,7 @@ body {
 
 .test-question .question-number {
     font-size: 0.875rem;
-    color: var(--primary-color);
+    color: #1a1a2e;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -1328,19 +1348,19 @@ body {
 }
 
 .test-question .question-option:hover {
-    border-color: var(--primary-color);
+    border-color: #1a1a2e;
 }
 
 .test-question .question-option input[type="radio"] {
     width: 1.25rem;
     height: 1.25rem;
-    accent-color: var(--primary-color);
+    accent-color: #1a1a2e;
 }
 
 .submit-test-btn {
     margin-top: 1.5rem;
     padding: 0.875rem 2rem;
-    background-color: var(--primary-color);
+    background-color: #1a1a2e;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -1351,7 +1371,7 @@ body {
 }
 
 .submit-test-btn:hover {
-    background-color: var(--primary-dark);
+    background-color: #0f3460;
     transform: translateY(-1px);
 }
 
@@ -1388,13 +1408,13 @@ body {
 .score-number {
     font-size: 3rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: #1a1a2e;
 }
 
 .score-percentage {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--secondary-color);
+    color: #e94560;
 }
 
 .score-message {
@@ -1439,7 +1459,7 @@ body {
 
 /* Python代码挑战样式 */
 .code-challenge {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(30, 64, 175, 0.05));
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.05), rgba(15, 52, 96, 0.05));
     border-radius: 1rem;
     padding: 2rem;
     margin: 2rem 0;
@@ -1648,7 +1668,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    background: linear-gradient(90deg, #1a1a2e, #e94560);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1678,25 +1698,25 @@ body {
 
 .achievement-card.unlocked::before {
     opacity: 1;
-    background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+    background: linear-gradient(90deg, var(--success-color), #e94560);
 }
 
 .achievement-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto 1.5rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 25px rgba(26, 26, 46, 0.3);
 }
 
 .achievement-card:hover .achievement-icon {
     transform: scale(1.1);
-    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 12px 35px rgba(26, 26, 46, 0.4);
 }
 
 .achievement-icon i {
@@ -1884,7 +1904,7 @@ body {
 
 .achievement-progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    background: linear-gradient(90deg, #1a1a2e, #e94560);
     border-radius: 9999px;
     transition: width 0.5s ease;
     position: relative;
@@ -1928,7 +1948,7 @@ body {
 .achievement-stat-number {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: #1a1a2e;
     margin-bottom: 0.25rem;
 }
 
@@ -1942,10 +1962,10 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.1), rgba(233, 69, 96, 0.1));
     border-radius: 9999px;
     font-size: 0.875rem;
-    color: var(--success-color);
+    color: #1a1a2e;
     font-weight: 600;
 }
 
@@ -1956,7 +1976,7 @@ body {
 .achievements-page {
     padding-top: 70px;
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+    background: #f8fafc;
 }
 
 .achievements-page-container {
@@ -2016,11 +2036,11 @@ body {
 .projects-page {
     padding-top: 70px;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: #f8fafc;
 }
 
 .projects-page-header {
-    background: linear-gradient(135deg, #1e40af 0%, #4F46E5 50%, #06b6d4 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     padding: 3rem 2rem;
     text-align: center;
 }
@@ -2066,12 +2086,12 @@ body {
 }
 
 .filter-btn:hover {
-    border-color: #1e40af;
-    color: #1e40af;
+    border-color: #1a1a2e;
+    color: #1a1a2e;
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, #1e40af, #4F46E5);
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
     color: white;
     border-color: transparent;
 }
@@ -2097,13 +2117,13 @@ body {
 .project-detail-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-    border-color: #1e40af;
+    border-color: #1a1a2e;
 }
 
 .project-detail-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #1e40af, #4F46E5);
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 1rem;
     display: flex;
     justify-content: center;
@@ -2149,8 +2169,8 @@ body {
 }
 
 .difficulty-badge.intermediate {
-    background-color: rgba(59, 130, 246, 0.1);
-    color: #4F46E5;
+    background-color: rgba(26, 26, 46, 0.1);
+    color: #1a1a2e;
 }
 
 .difficulty-badge.advanced {
@@ -2191,7 +2211,7 @@ body {
 }
 
 .project-detail-card:hover .project-detail-arrow {
-    color: #1e40af;
+    color: #e94560;
     transform: translateX(5px);
 }
 
