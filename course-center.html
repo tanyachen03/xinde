@@ -154,6 +154,10 @@
             margin-bottom: 6px;
             background: #252525;
             transition: all 0.2s;
+            cursor: pointer;
+        }
+        .lesson-item:hover {
+            background: #2D2D2D;
         }
         .lesson-info {
             display: flex;
@@ -194,6 +198,180 @@
             color: #B0B0B0;
             cursor: default;
         }
+        /* 小节详情页 */
+        .lesson-detail-page {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1E1E1E;
+            border: 1px solid #2D2D2D;
+            color: #E0E0E0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+        .back-btn:hover {
+            background: #252525;
+            border-color: #58A6FF;
+        }
+        .detail-header {
+            background: #1E1E1E;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            border: 1px solid #2D2D2D;
+        }
+        .detail-header h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            color: white;
+        }
+        .detail-meta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .detail-meta span {
+            color: #B0B0B0;
+        }
+        .mark-complete-btn {
+            margin-left: auto;
+            background: #2C974B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .mark-complete-btn:hover {
+            background: #36b153;
+        }
+        .mark-complete-btn.done {
+            background: #2D2D2D;
+            color: #B0B0B0;
+            cursor: default;
+        }
+        .content-section {
+            background: #1E1E1E;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #2D2D2D;
+        }
+        .content-section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .content-section p {
+            color: #E0E0E0;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .content-section ul, .content-section ol {
+            margin-left: 24px;
+            color: #E0E0E0;
+            line-height: 2;
+        }
+        .tip-box {
+            background: rgba(44, 151, 75, 0.1);
+            border-left: 4px solid #2C974B;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .tip-box h3 {
+            color: #2C974B;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .error-box {
+            background: rgba(218, 54, 51, 0.1);
+            border-left: 4px solid #DA3633;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .error-box h3 {
+            color: #DA3633;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .question-box {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid #58A6FF;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .question-box h3 {
+            color: #58A6FF;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        .code-editor-container {
+            background: #1E1E1E;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2D2D2D;
+        }
+        .editor-toolbar {
+            background: #252525;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2D2D2D;
+        }
+        .run-btn {
+            background: #2C974B;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .run-btn:hover {
+            background: #36b153;
+        }
+        .editor-textarea {
+            width: 100%;
+            min-height: 200px;
+            background: #0A0A0A;
+            color: #E0E0E0;
+            border: none;
+            padding: 16px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        .output-area {
+            background: #0A0A0A;
+            border-top: 1px solid #2D2D2D;
+            padding: 16px;
+            min-height: 80px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #2C974B;
+        }
         @media (max-width: 700px) {
             .courses-grid { grid-template-columns: 1fr; }
             .navbar { flex-direction: column; gap: 16px; }
@@ -214,15 +392,20 @@
     <div class="login-btn">登录</div>
 </div>
 
-<div class="page-title">
-    <h1>📚 课程中心</h1>
-    <p>选择你感兴趣的课程，点击卡片展开小节列表</p>
+<div id="courses-page">
+    <div class="page-title">
+        <h1>📚 课程中心</h1>
+        <p>选择你感兴趣的课程，点击卡片展开小节列表，再点击小节名称开始学习</p>
+    </div>
+
+    <div class="courses-grid" id="coursesGrid"></div>
 </div>
 
-<div class="courses-grid" id="coursesGrid"></div>
+<div id="lesson-detail-page" class="lesson-detail-page">
+</div>
 
 <script>
-    // ==================== 课程数据 ====================
+    // ==================== 完整课程数据 ====================
     const coursesData = [
         {
             id: 0,
@@ -232,14 +415,449 @@
             difficulty: "beginner",
             difficultyText: "入门",
             lessons: [
-                { name: "Python安装与环境配置", duration: "15分钟", completed: false },
-                { name: "变量与数据类型", duration: "20分钟", completed: false },
-                { name: "条件判断if-else", duration: "20分钟", completed: false },
-                { name: "循环语句for/while", duration: "25分钟", completed: false },
-                { name: "列表与元组", duration: "20分钟", completed: false },
-                { name: "字典与集合", duration: "20分钟", completed: false },
-                { name: "函数定义与调用", duration: "25分钟", completed: false },
-                { name: "模块与包导入", duration: "15分钟", completed: false }
+                {
+                    name: "Python安装与环境配置",
+                    duration: "15分钟",
+                    completed: false,
+                    content: {
+                        explanation: `Python是一门简洁优雅的编程语言，被广泛应用于数据分析、人工智能、Web开发等领域。
+
+要开始学习Python，我们首先需要安装Python环境。推荐使用Anaconda发行版，它预装了数据科学常用的库。
+
+安装步骤：
+1. 访问 https://www.anaconda.com/ 下载对应系统的安装包
+2. 双击安装包，按照向导完成安装
+3. 安装完成后，在终端输入 python --version 检查是否安装成功`,
+                        code: `# 检查Python版本
+import sys
+print(f"Python版本: {sys.version}")
+print("🎉 恭喜！Python环境已配置成功！")`,
+                        tips: [
+                            "安装路径不要包含中文，避免路径编码问题",
+                            "Anaconda自带Jupyter Notebook，是学习Python的好工具",
+                            "学习初期不要安装过多第三方库，循序渐进"
+                        ],
+                        errors: [
+                            "命令行输入python提示'不是内部或外部命令' - 需要检查环境变量配置",
+                            "Windows下注意区分命令行终端和PowerShell的使用差异",
+                            "Mac用户建议使用Homebrew安装管理Python环境"
+                        ],
+                        question: "你为什么想要学习Python？写出你最想用Python实现的一个功能。"
+                    }
+                },
+                {
+                    name: "变量与数据类型",
+                    duration: "20分钟",
+                    completed: false,
+                    content: {
+                        explanation: `变量是存储数据的容器，就像一个个盒子，可以放入不同的内容。
+
+Python主要数据类型：
+- 整数 (int): 没有小数的数字，如 1, 100, -5
+- 浮点数 (float): 带小数的数字，如 3.14, 2.5, -0.5
+- 字符串 (str): 用引号包裹的文本，如 "hello", 'Python'
+- 布尔值 (bool): 只有两个值 True 和 False
+
+变量命名规则：
+1. 只能包含字母、数字、下划线
+2. 不能以数字开头
+3. 区分大小写
+4. 建议使用有意义的名字`,
+                        code: `# 变量定义示例
+name = "小明"  # 字符串
+age = 25        # 整数
+height = 1.75  # 浮点数
+is_student = True  # 布尔值
+
+print("姓名:", name)
+print("年龄:", age)
+print("身高:", height)
+print("是否学生:", is_student)
+
+# 查看数据类型
+print("姓名类型:", type(name))
+print("年龄类型:", type(age))
+
+# 变量可以重新赋值
+age = 26
+print("修改后的年龄:", age)`,
+                        tips: [
+                            "变量名最好使用英文，见名知意",
+                            "多个单词可以用下划线连接，如 user_name",
+                            "变量赋值时，右边的表达式先计算，再赋值给左边的变量"
+                        ],
+                        errors: [
+                            "SyntaxError: invalid syntax - 检查引号、括号、冒号是否配对",
+                            "NameError: name 'xxx' is not defined - 变量没有先定义就使用",
+                            "TypeError: can only concatenate str (not 'int') to str - 字符串和数字拼接需要类型转换"
+                        ],
+                        question: "创建3个变量，分别存储你的姓名、生日年份和所在城市，然后打印出来。"
+                    }
+                },
+                {
+                    name: "条件判断if-else",
+                    duration: "20分钟",
+                    completed: false,
+                    content: {
+                        explanation: `条件判断让程序可以根据不同情况执行不同的代码。
+
+比较运算符：
+- == 等于
+- != 不等于
+- > 大于
+- < 小于
+- >= 大于等于
+- <= 小于等于
+
+if-else结构：
+如果条件满足，执行if块；否则执行else块`,
+                        code: `# 简单条件判断示例
+age = 20
+
+if age >= 18:
+    print("🎂 你是成年人了！")
+else:
+    print("👶 你还未成年~")
+
+# 多重判断
+score = 85
+
+if score >= 90:
+    grade = "优秀"
+elif score >= 80:
+    grade = "良好"
+elif score >= 60:
+    grade = "及格"
+else:
+    grade = "需要加油"
+
+print(f"成绩等级: {grade}")
+
+# 逻辑运算符
+is_weekend = False
+has_homework = False
+
+if not is_weekend and not has_homework:
+    print("📺 可以看电视！")
+else:
+    print("📚 先学习吧~")`,
+                        tips: [
+                            "冒号(:)非常重要，一定不要漏掉",
+                            "缩进表示代码块，一般用4个空格",
+                            "条件判断中使用 ==，不是 =",
+                            "可以使用括号让复杂条件更清晰"
+                        ],
+                        errors: [
+                            "IndentationError: expected an indented block - 缩进不正确",
+                            "TypeError: unsupported operand type(s) for + - 类型不匹配",
+                            "SyntaxError: invalid syntax - 语法错误，检查冒号、引号"
+                        ],
+                        question: "写一个程序，判断某个数字是奇数还是偶数。提示：用 % 2 == 0 判断。"
+                    }
+                },
+                {
+                    name: "循环语句for/while",
+                    duration: "25分钟",
+                    completed: false,
+                    content: {
+                        explanation: `循环让计算机重复执行某些操作，非常适合处理大量数据。
+
+for循环：遍历序列（列表、字符串等）
+while循环：当条件满足时一直执行
+
+常用操作：
+- break：跳出整个循环
+- continue：跳过这次，继续下一次`,
+                        code: `# for循环示例
+print("=== for循环 ===")
+
+# 打印1-5
+for i in range(1, 6):
+    print(f"第 {i} 次")
+
+# 遍历列表
+fruits = ["苹果", "香蕉", "橙子"]
+for fruit in fruits:
+    print(f"我喜欢吃{fruit}")
+
+# while循环示例
+print("\\n=== while循环 ===")
+
+count = 1
+while count <= 5:
+    print(f"循环 {count}")
+    count += 1
+
+# break和continue
+print("\\n=== break和continue ===")
+for num in range(1, 11):
+    if num == 5:
+        continue  # 跳过5
+    if num == 8:
+        break     # 到8就停止
+    print(num)`,
+                        tips: [
+                            "for循环适合知道循环次数的情况",
+                            "while循环适合条件满足时一直执行",
+                            "一定要设置循环退出条件，避免无限循环",
+                            "range(a, b) 包含a不包含b"
+                        ],
+                        errors: [
+                            "无限循环 - while循环忘记增加计数器",
+                            "IndentationError - 缩进问题",
+                            "NameError - 变量作用域问题"
+                        ],
+                        question: "用循环计算1到100的和。提示：用一个变量累加。"
+                    }
+                },
+                {
+                    name: "列表与元组",
+                    duration: "20分钟",
+                    completed: false,
+                    content: {
+                        explanation: `列表是存储多个数据的容器，像一个大仓库，可以存放各种东西。
+
+列表特点：
+- 有序集合
+- 可以包含不同类型元素
+- 可以修改
+- 用方括号[]表示
+
+元组和列表类似，但不能修改，用圆括号()表示`,
+                        code: `# 列表操作示例
+print("=== 列表操作 ===")
+
+# 创建列表
+students = ["小明", "小红", "小刚"]
+numbers = [1, 2, 3, 4, 5]
+mixed = ["hello", 123, True, 3.14]
+
+print("学生列表:", students)
+print("第二个学生:", students[1])  # 索引从0开始
+
+# 修改列表
+students[0] = "大明"
+print("修改后:", students)
+
+# 添加元素
+students.append("小丽")
+print("添加后:", students)
+
+# 删除元素
+students.remove("小红")
+print("删除后:", students)
+
+# 列表长度
+print("列表长度:", len(students))
+
+# 元组示例
+print("\\n=== 元组 ===")
+coordinates = (100, 200)
+print("坐标:", coordinates)
+print("x坐标:", coordinates[0])`,
+                        tips: [
+                            "索引从0开始，不是从1开始！",
+                            "列表可以嵌套，列表中包含列表",
+                            "append()总是添加到末尾",
+                            "需要数据不被修改时用元组"
+                        ],
+                        errors: [
+                            "IndexError: list index out of range - 索引超出范围",
+                            "TypeError: 'tuple' object does not support item assignment - 元组不能修改",
+                            "ValueError: list.remove(x): x not in list - 删除不存在的元素"
+                        ],
+                        question: "创建一个你喜欢的5个电影的列表，添加一部，删除一部，最后打印出来。"
+                    }
+                },
+                {
+                    name: "字典与集合",
+                    duration: "20分钟",
+                    completed: false,
+                    content: {
+                        explanation: `字典是键值对的集合，像一本词典，通过词语（键）查找解释（值）。
+
+字典特点：
+- 键唯一，值可以重复
+- 键必须是不可变类型（字符串、数字等）
+- 用花括号{}表示
+
+集合是无序的元素集合，自动去重`,
+                        code: `# 字典示例
+print("=== 字典操作 ===")
+
+# 创建字典
+person = {
+    "name": "小明",
+    "age": 25,
+    "city": "北京",
+    "skills": ["Python", "英语"]
+}
+
+print("个人信息:", person)
+print("姓名:", person["name"])
+print("年龄:", person["age"])
+
+# 添加/修改键值对
+person["email"] = "xiaoming@example.com"
+person["age"] = 26
+print("更新后:", person)
+
+# 遍历字典
+print("\\n遍历字典:")
+for key, value in person.items():
+    print(f"{key}: {value}")
+
+# 集合示例
+print("\\n=== 集合 ===")
+numbers = {1, 2, 3, 2, 1}
+print("集合（自动去重）:", numbers)
+
+# 集合运算
+set1 = {1, 2, 3, 4}
+set2 = {3, 4, 5, 6}
+print("交集:", set1 & set2)
+print("并集:", set1 | set2)`,
+                        tips: [
+                            "字典键不能重复，后面会覆盖前面的",
+                            "字典查找速度比列表快很多",
+                            "集合用于去重和集合运算",
+                            "用 get() 方法访问键，不会报错"
+                        ],
+                        errors: [
+                            "KeyError - 键不存在",
+                            "TypeError: unhashable type - 不能用可变类型作为键",
+                            "字典无序，不要依赖插入顺序（Python3.7+有序）"
+                        ],
+                        question: "创建一个字典，存储一个学生的课程和分数，添加一门课程，然后打印总分。"
+                    }
+                },
+                {
+                    name: "函数定义与调用",
+                    duration: "25分钟",
+                    completed: false,
+                    content: {
+                        explanation: `函数是一段可复用的代码，接受输入，返回输出。
+
+定义函数：def 函数名(参数):
+调用函数：函数名(参数)
+
+函数要素：
+- 函数名：描述功能
+- 参数：输入数据
+- 返回值：输出数据（可选）
+- 文档字符串：说明函数用途`,
+                        code: `# 函数示例
+print("=== 函数基础 ===")
+
+# 简单函数
+def greet(name):
+    """向某人问好"""
+    print(f"你好，{name}！")
+
+greet("小明")
+greet("小红")
+
+# 带返回值的函数
+def add(a, b):
+    """计算两个数的和"""
+    result = a + b
+    return result
+
+sum_result = add(5, 3)
+print("5 + 3 =", sum_result)
+
+# 默认参数
+def introduce(name, city="北京"):
+    """介绍某人"""
+    print(f"我是{name}，来自{city}")
+
+introduce("小明")
+introduce("小红", "上海")
+
+# 不定参数
+def sum_all(*numbers):
+    """计算所有数的和"""
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+print("总和:", sum_all(1, 2, 3, 4, 5))`,
+                        tips: [
+                            "函数名应该描述函数做什么",
+                            "写文档字符串是好的习惯",
+                            "函数参数不要太多，太多考虑拆分",
+                            "一个函数最好只做一件事"
+                        ],
+                        errors: [
+                            "SyntaxError - 定义函数忘记冒号",
+                            "IndentationError - 缩进错误",
+                            "TypeError - 参数数量不匹配"
+                        ],
+                        question: "写一个函数，输入温度（摄氏度），返回华氏度。公式：F = C × 1.8 + 32"
+                    }
+                },
+                {
+                    name: "模块与包导入",
+                    duration: "15分钟",
+                    completed: false,
+                    content: {
+                        explanation: `模块是包含Python代码的文件，包是模块的集合。
+
+导入方式：
+- import 模块名
+- from 模块名 import 函数/类
+- import 模块名 as 别名
+
+常用标准库：
+- math：数学函数
+- random：随机数
+- datetime：日期时间
+- json：JSON处理`,
+                        code: `# 模块导入示例
+print("=== 使用标准库 ===")
+
+import math
+
+print("π的值:", math.pi)
+print("平方根:", math.sqrt(16))
+print("绝对值:", math.fabs(-5))
+print("幂运算:", math.pow(2, 3))
+
+import random
+
+print("\\n随机数:")
+print("0-1随机:", random.random())
+print("1-10随机整数:", random.randint(1, 10))
+print("随机选择:", random.choice(["苹果", "香蕉", "橙子"]))
+
+import datetime
+
+print("\\n日期时间:")
+now = datetime.datetime.now()
+print("当前时间:", now)
+print("今天日期:", datetime.date.today())
+print("格式化:", now.strftime("%Y-%m-%d %H:%M:%S"))
+
+# 模块别名
+import time as t
+print("\\n等待1秒...")
+t.sleep(1)
+print("好了！")`,
+                        tips: [
+                            "导入语句放在文件顶部",
+                            "标准库很丰富，先看看有没有现成的",
+                            "避免循环导入",
+                            "第三方库需要用pip安装"
+                        ],
+                        errors: [
+                            "ModuleNotFoundError - 模块不存在或未安装",
+                            "ImportError - 导入失败",
+                            "NameError - 使用模块内容前忘记导入"
+                        ],
+                        question: "用random模块模拟掷骰子，生成1-6的随机数。"
+                    }
+                }
             ]
         },
         {
@@ -250,12 +868,12 @@
             difficulty: "beginner",
             difficultyText: "入门",
             lessons: [
-                { name: "Pandas安装与Series", duration: "15分钟", completed: false },
-                { name: "DataFrame创建与查看", duration: "20分钟", completed: false },
-                { name: "数据读取与写入", duration: "20分钟", completed: false },
-                { name: "数据筛选与过滤", duration: "25分钟", completed: false },
-                { name: "缺失值处理", duration: "20分钟", completed: false },
-                { name: "分组聚合groupby", duration: "25分钟", completed: false }
+                { name: "Pandas安装与Series", duration: "15分钟", completed: false, content: None },
+                { name: "DataFrame创建与查看", duration: "20分钟", completed: false, content: None },
+                { name: "数据读取与写入", duration: "20分钟", completed: false, content: None },
+                { name: "数据筛选与过滤", duration: "25分钟", completed: false, content: None },
+                { name: "缺失值处理", duration: "20分钟", completed: false, content: None },
+                { name: "分组聚合groupby", duration: "25分钟", completed: false, content: None }
             ]
         },
         {
@@ -266,13 +884,13 @@
             difficulty: "intermediate",
             difficultyText: "进阶",
             lessons: [
-                { name: "缺失值识别与统计", duration: "15分钟", completed: false },
-                { name: "fillna填充方法", duration: "20分钟", completed: false },
-                { name: "dropna删除缺失值", duration: "15分钟", completed: false },
-                { name: "重复值检测与删除", duration: "15分钟", completed: false },
-                { name: "异常值识别", duration: "20分钟", completed: false },
-                { name: "数据类型转换", duration: "15分钟", completed: false },
-                { name: "数据标准化与归一化", duration: "20分钟", completed: false }
+                { name: "缺失值识别与统计", duration: "15分钟", completed: false, content: None },
+                { name: "fillna填充方法", duration: "20分钟", completed: false, content: None },
+                { name: "dropna删除缺失值", duration: "15分钟", completed: false, content: None },
+                { name: "重复值检测与删除", duration: "15分钟", completed: false, content: None },
+                { name: "异常值识别", duration: "20分钟", completed: false, content: None },
+                { name: "数据类型转换", duration: "15分钟", completed: false, content: None },
+                { name: "数据标准化与归一化", duration: "20分钟", completed: false, content: None }
             ]
         },
         {
@@ -283,12 +901,12 @@
             difficulty: "intermediate",
             difficultyText: "进阶",
             lessons: [
-                { name: "matplotlib基础绘图", duration: "15分钟", completed: false },
-                { name: "折线图与散点图", duration: "20分钟", completed: false },
-                { name: "柱状图与直方图", duration: "20分钟", completed: false },
-                { name: "饼图与箱线图", duration: "20分钟", completed: false },
-                { name: "子图与布局", duration: "15分钟", completed: false },
-                { name: "图表美化与保存", duration: "15分钟", completed: false }
+                { name: "matplotlib基础绘图", duration: "15分钟", completed: false, content: None },
+                { name: "折线图与散点图", duration: "20分钟", completed: false, content: None },
+                { name: "柱状图与直方图", duration: "20分钟", completed: false, content: None },
+                { name: "饼图与箱线图", duration: "20分钟", completed: false, content: None },
+                { name: "子图与布局", duration: "15分钟", completed: false, content: None },
+                { name: "图表美化与保存", duration: "15分钟", completed: false, content: None }
             ]
         }
     ];
@@ -322,8 +940,8 @@
         return course.lessons.filter(l => l.completed).length;
     }
 
-    // 渲染所有课程
-    function renderCourses() {
+    // 渲染课程列表页面
+    function renderCoursesPage() {
         const grid = document.getElementById("coursesGrid");
         grid.innerHTML = "";
         coursesData.forEach((course, idx) => {
@@ -344,7 +962,7 @@
                     <div class="progress-fill" style="width: ${percent}%;"></div>
                 </div>
                 <div class="lessons-container" data-course="${idx}">
-                    ${renderLessons(course, idx)}
+                    ${renderLessonsList(course, idx)}
                 </div>
             `;
             grid.appendChild(card);
@@ -353,9 +971,21 @@
         document.querySelectorAll(".course-card").forEach((card, cardIdx) => {
             const lessonsDiv = card.querySelector(".lessons-container");
             card.addEventListener("click", (e) => {
-                // 防止点到按钮时触发卡片关闭
+                if (e.target.closest(".lesson-item")) return;
                 if (e.target.classList.contains("complete-btn")) return;
                 lessonsDiv.classList.toggle("open");
+            });
+        });
+        // 绑定小节点击事件
+        document.querySelectorAll(".lesson-item").forEach(item => {
+            item.addEventListener("click", (e) => {
+                if (e.target.classList.contains("complete-btn")) {
+                    e.stopPropagation();
+                    return;
+                }
+                const courseId = parseInt(item.dataset.course);
+                const lessonId = parseInt(item.dataset.lesson);
+                showLessonDetail(courseId, lessonId);
             });
         });
         // 绑定完成按钮事件
@@ -369,26 +999,26 @@
                     if (!lesson.completed) {
                         lesson.completed = true;
                         saveProgress();
-                        renderCourses(); // 重新渲染更新UI
+                        renderCoursesPage();
                     }
                 }
             });
         });
     }
 
-    function renderLessons(course, courseId) {
+    function renderLessonsList(course, courseId) {
         let html = '<div style="margin-top: 12px;">';
         course.lessons.forEach((lesson, lIdx) => {
             const statusIcon = lesson.completed ? "✅" : "⭕";
             html += `
-                <div class="lesson-item">
+                <div class="lesson-item" data-course="${courseId}" data-lesson="${lIdx}">
                     <div class="lesson-info">
                         <span class="lesson-status ${lesson.completed ? 'completed' : ''}">${statusIcon}</span>
                         <span class="lesson-name">${lesson.name}</span>
                         <span class="lesson-duration">${lesson.duration}</span>
                     </div>
                     <button class="complete-btn ${lesson.completed ? 'done' : ''}" data-course="${courseId}" data-lesson="${lIdx}" ${lesson.completed ? 'disabled' : ''}>
-                        ${lesson.completed ? '已完成' : '✓ 标记完成'}
+                        ${lesson.completed ? '已完成' : '✓'}
                     </button>
                 </div>
             `;
@@ -397,9 +1027,198 @@
         return html;
     }
 
+    // 显示小节详情页
+    function showLessonDetail(courseId, lessonId) {
+        const course = coursesData[courseId];
+        const lesson = course.lessons[lessonId];
+        
+        document.getElementById("courses-page").style.display = "none";
+        document.getElementById("lesson-detail-page").style.display = "block";
+        
+        window.location.hash = `#lesson/${courseId}/${lessonId}`;
+        
+        renderLessonDetail(courseId, lessonId);
+    }
+
+    // 返回课程列表
+    function backToCourses() {
+        document.getElementById("courses-page").style.display = "block";
+        document.getElementById("lesson-detail-page").style.display = "none";
+        window.location.hash = "";
+        renderCoursesPage();
+    }
+
+    // 渲染小节详情
+    function renderLessonDetail(courseId, lessonId) {
+        const course = coursesData[courseId];
+        const lesson = course.lessons[lessonId];
+        
+        const container = document.getElementById("lesson-detail-page");
+        
+        if (!lesson.content) {
+            container.innerHTML = `
+                <button class="back-btn" onclick="backToCourses()">
+                    ← 返回课程列表
+                </button>
+                <div class="detail-header">
+                    <h1>📖 ${lesson.name}</h1>
+                    <div class="detail-meta">
+                        <span>⏱️ 预计时长: ${lesson.duration}</span>
+                        <span>所属课程: ${course.title}</span>
+                    </div>
+                </div>
+                <div class="content-section">
+                    <h2>🚧 内容开发中</h2>
+                    <p>这节课程的详细内容正在紧张开发中，敬请期待！</p>
+                    <p>您可以先学习其他已完成的课程。</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const content = lesson.content;
+        
+        let tipsHtml = content.tips.map(tip => `
+            <div class="tip-box">
+                <h3>💡 小贴士</h3>
+                <p>${tip}</p>
+            </div>
+        `).join("");
+        
+        let errorsHtml = content.errors.map(err => `
+            <div class="error-box">
+                <h3>⚠️ 常见错误</h3>
+                <p>${err}</p>
+            </div>
+        `).join("");
+        
+        container.innerHTML = `
+            <button class="back-btn" onclick="backToCourses()">
+                ← 返回课程列表
+            </button>
+            
+            <div class="detail-header">
+                <h1>📖 ${lesson.name}</h1>
+                <div class="detail-meta">
+                    <span>⏱️ 预计时长: ${lesson.duration}</span>
+                    <span>所属课程: ${course.title}</span>
+                    <button class="mark-complete-btn ${lesson.completed ? 'done' : ''}" 
+                            onclick="toggleLessonComplete(${courseId}, ${lessonId})">
+                        ${lesson.completed ? '✅ 已完成' : '✓ 标记完成'}
+                    </button>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <h2>📝 知识讲解</h2>
+                <pre style="white-space: pre-wrap; font-family: inherit; margin: 0; color: inherit;">${content.explanation}</pre>
+            </div>
+            
+            <div class="content-section">
+                <h2>💻 代码示例</h2>
+                <div class="code-editor-container">
+                    <div class="editor-toolbar">
+                        <button class="run-btn" onclick="runCode()">
+                            ▶️ 运行代码
+                        </button>
+                        <span style="color: #B0B0B0; font-size: 14px;">点击运行查看结果</span>
+                    </div>
+                    <textarea id="code-editor" class="editor-textarea" placeholder="在这里输入代码...">${content.code}</textarea>
+                    <div id="code-output" class="output-area">// 输出结果将显示在这里</div>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <h2>💡 小贴士</h2>
+                ${tipsHtml}
+            </div>
+            
+            <div class="content-section">
+                <h2>⚠️ 常见错误</h2>
+                ${errorsHtml}
+            </div>
+            
+            <div class="content-section">
+                <h2>❓ 思考题</h2>
+                <div class="question-box">
+                    <h3>🤔 动动脑筋</h3>
+                    <p>${content.question}</p>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <h2>✏️ 自己试一试</h2>
+                <div class="code-editor-container">
+                    <div class="editor-toolbar">
+                        <button class="run-btn" onclick="runCode2()">
+                            ▶️ 运行代码
+                        </button>
+                    </div>
+                    <textarea id="code-editor-2" class="editor-textarea" placeholder="在这里输入你自己的代码..."># 写下你的代码，点击运行试试看！
+print("Hello, Python!")</textarea>
+                    <div id="code-output-2" class="output-area">// 输出结果将显示在这里</div>
+                </div>
+            </div>
+        `;
+    }
+
+    // 切换小节完成状态（详情页）
+    function toggleLessonComplete(courseId, lessonId) {
+        const lesson = coursesData[courseId].lessons[lessonId];
+        lesson.completed = !lesson.completed;
+        saveProgress();
+        renderLessonDetail(courseId, lessonId);
+    }
+
+    // 模拟运行代码
+    function runCode() {
+        const output = document.getElementById("code-output");
+        const code = document.getElementById("code-editor").value;
+        output.textContent = "⏳ 正在运行...";
+        
+        setTimeout(() => {
+            if (code.includes("print")) {
+                if (code.includes("Python版本")) {
+                    output.textContent = "Python版本: 3.9.7\n🎉 恭喜！Python环境已配置成功！";
+                } else if (code.includes("成绩等级")) {
+                    output.textContent = "🎂 你是成年人了！\n成绩等级: 良好\n📚 先学习吧~";
+                } else {
+                    output.textContent = "✅ 代码运行成功！\n(实际执行需要Python环境)";
+                }
+            } else {
+                output.textContent = "✅ 代码运行成功！";
+            }
+        }, 500);
+    }
+
+    function runCode2() {
+        const output = document.getElementById("code-output-2");
+        const code = document.getElementById("code-editor-2").value;
+        output.textContent = "⏳ 正在运行...";
+        
+        setTimeout(() => {
+            output.textContent = "✅ 代码运行成功！\n(完整功能需要后端支持)";
+        }, 500);
+    }
+
     // 初始化
     loadProgress();
-    renderCourses();
+    
+    // 处理hash路由
+    function handleHash() {
+        const hash = window.location.hash;
+        if (hash.startsWith("#lesson/")) {
+            const parts = hash.split("/");
+            const courseId = parseInt(parts[1]);
+            const lessonId = parseInt(parts[2]);
+            showLessonDetail(courseId, lessonId);
+        } else {
+            backToCourses();
+        }
+    }
+    
+    window.addEventListener("hashchange", handleHash);
+    handleHash();
 </script>
 </body>
 </html>
