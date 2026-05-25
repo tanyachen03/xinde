@@ -3,1614 +3,1495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="从0到1，搞定数据分析。10个真实项目，简历直接写，面试大胆说。零基础可学，浏览器在线运行。">
-    <title>从0到1，搞定数据分析 | 数析学院</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>数析学院 - Python数据分析学习平台</title>
     <style>
-        /* ============================================
-           基础样式重置与变量定义
-           ============================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         :root {
-            /* 高级配色方案 - 商务简约风 */
-            --primary: #1a1a2e;           /* 深邃藏青 */
-            --primary-light: #16213e;     /* 深蓝 */
-            --accent: #0f3460;            /* 靛蓝 */
-            --highlight: #e94560;         /* 珊瑚红点缀 */
-            --text-primary: #2d3436;      /* 主文字 */
-            --text-secondary: #636e72;    /* 次要文字 */
-            --text-muted: #b2bec3;        /* 辅助文字 */
-            --bg-primary: #ffffff;        /* 主背景 */
-            --bg-secondary: #f8f9fa;      /* 次要背景 */
-            --bg-card: #ffffff;           /* 卡片背景 */
-            --border: #e9ecef;            /* 边框色 */
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-page: #F5F7FA;
+            --bg-card: #FFFFFF;
+            --border-color: #E5E7EB;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --color-primary: #3B82F6;
+            --color-success: #10B981;
+            --color-warning: #F59E0B;
+            --color-danger: #EF4444;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            font-size: 16px;
-            line-height: 1.8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-page);
             color: var(--text-primary);
-            background-color: var(--bg-secondary);
+            line-height: 1.6;
+            min-height: 100vh;
         }
-
-        /* ============================================
-           顶部固定导航栏
-           ============================================ */
+        
+        /* 导航栏 */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .navbar-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
             padding: 0 24px;
-            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            height: 64px;
         }
-
-        .navbar-brand {
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .navbar-brand i {
-            color: var(--highlight);
-        }
-
-        .navbar-menu {
-            display: flex;
-            gap: 32px;
-        }
-
-        .navbar-link {
-            font-size: 0.9375rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 8px 0;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .navbar-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--highlight);
-            transition: var(--transition);
-        }
-
-        .navbar-link:hover,
-        .navbar-link.active {
-            color: var(--primary);
-        }
-
-        .navbar-link:hover::after,
-        .navbar-link.active::after {
-            width: 100%;
-        }
-
-        .navbar-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary);
+            gap: 8px;
             cursor: pointer;
         }
-
-        /* ============================================
-           主要内容区域
-           ============================================ */
-        .main-content {
-            padding-top: 64px;
-        }
-
-        /* ============================================
-           Hero 首屏区域
-           ============================================ */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 80px 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.5;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
+        
+        .nav-links {
+            display: flex;
             gap: 8px;
-            background: rgba(233, 69, 96, 0.2);
-            border: 1px solid rgba(233, 69, 96, 0.3);
+        }
+        
+        .nav-link {
             padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.875rem;
-            margin-bottom: 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
-
-        .hero-badge i {
-            color: var(--highlight);
+        
+        .nav-link:hover {
+            background: var(--bg-page);
+            color: var(--text-primary);
         }
-
-        .hero h1 {
-            font-size: 2.75rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 16px;
+        
+        .nav-link.active {
+            background: var(--color-primary);
+            color: white;
         }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-weight: 400;
-            opacity: 0.9;
+        
+        .login-btn {
+            background: var(--color-primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .login-btn:hover {
+            background: #2563EB;
+        }
+        
+        /* 主内容区 */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .page-title {
+            text-align: center;
             margin-bottom: 32px;
         }
-
-        .hero-features {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 40px;
+        
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
-
-        .hero-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 100px;
-            font-size: 0.9375rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-feature i {
-            color: #4ade80;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            color: var(--primary);
-            padding: 16px 32px;
-            border-radius: var(--radius-md);
-            font-size: 1.125rem;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-        }
-
-        .hero-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        }
-
-        /* ============================================
-           通用卡片样式
-           ============================================ */
-        .section {
-            padding: 80px 24px;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 48px;
-        }
-
-        .section-tag {
-            display: inline-block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--highlight);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .section-desc {
-            font-size: 1.125rem;
+        
+        .page-title p {
             color: var(--text-secondary);
+            font-size: 16px;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        /* 页面切换 */
+        .page {
+            display: none;
         }
-
-        /* ============================================
-           核心亮点卡片
-           ============================================ */
-        .highlights-section {
-            background: var(--bg-primary);
+        
+        .page.active {
+            display: block;
         }
-
-        .highlights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .highlight-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .highlight-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--highlight);
-        }
-
-        .highlight-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .highlight-icon i {
-            font-size: 1.75rem;
-            color: white;
-        }
-
-        .highlight-card h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .highlight-card p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           项目卡片
-           ============================================ */
-        .projects-section {
-            background: var(--bg-secondary);
-        }
-
-        .projects-grid {
+        
+        /* 课程卡片网格 */
+        .courses-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 24px;
         }
-
+        
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
+        }
+        
+        .course-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .course-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .course-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .difficulty {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .difficulty.beginner {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .difficulty.intermediate {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .difficulty.advanced {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .progress-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--color-success);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* 课程详情页 */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        
+        .detail-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-header h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        
+        .detail-meta {
+            display: flex;
+            gap: 24px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* 小节列表 */
+        .lessons-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .lesson-row {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .lesson-row:last-child {
+            border-bottom: none;
+        }
+        
+        .lesson-row:hover {
+            background: #F9FAFB;
+        }
+        
+        .lesson-status {
+            width: 32px;
+            font-size: 20px;
+            text-align: center;
+        }
+        
+        .lesson-info {
+            flex: 1;
+            margin-left: 12px;
+        }
+        
+        .lesson-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .lesson-duration {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .complete-btn {
+            background: var(--color-success);
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        
+        .complete-btn:hover {
+            background: #059669;
+        }
+        
+        .complete-btn.done {
+            background: #D1D5DB;
+            color: #6B7280;
+            cursor: default;
+        }
+        
+        /* 小节详情页 */
+        .content-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .content-section h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .content-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        
+        .code-block {
+            background: #1F2937;
+            color: #E5E7EB;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        
+        .tip-box {
+            background: #ECFDF5;
+            border-left: 4px solid var(--color-success);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .tip-box h4 {
+            color: #065F46;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .error-box {
+            background: #FEF2F2;
+            border-left: 4px solid var(--color-danger);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .error-box h4 {
+            color: #991B1B;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .question-box {
+            background: #EFF6FF;
+            border-left: 4px solid var(--color-primary);
+            padding: 16px;
+            border-radius: 8px;
+        }
+        
+        .question-box h4 {
+            color: #1E40AF;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        /* 代码编辑器 */
+        .code-editor {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .editor-toolbar {
+            background: #F9FAFB;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .run-btn {
+            background: var(--color-success);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .run-btn:hover {
+            background: #059669;
+        }
+        
+        .editor-textarea {
+            width: 100%;
+            min-height: 180px;
+            border: none;
+            padding: 16px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            background: #1F2937;
+            color: #E5E7EB;
+            resize: vertical;
+        }
+        
+        .output-area {
+            background: #111827;
+            color: #10B981;
+            padding: 16px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            min-height: 60px;
+            border-top: 1px solid #374151;
+        }
+        
+        /* 项目卡片 */
         .project-card {
             background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 28px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
         }
-
+        
         .project-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
         }
-
-        .project-card.beginner {
-            border-left: 4px solid var(--success-color);
-        }
-
-        .project-card.intermediate {
-            border-left: 4px solid var(--accent);
-        }
-
-        .project-card.advanced {
-            border-left: 4px solid var(--highlight);
-        }
-
+        
         .project-header {
             display: flex;
-            align-items: flex-start;
             justify-content: space-between;
-            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
         }
-
-        .project-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            color: white;
-            flex-shrink: 0;
+        
+        .project-emoji {
+            font-size: 40px;
         }
-
-        .project-card.beginner .project-icon {
-            background: linear-gradient(135deg, #10b981, #34d399);
-        }
-
-        .project-card.intermediate .project-icon {
-            background: linear-gradient(135deg, var(--accent), #3498db);
-        }
-
-        .project-card.advanced .project-icon {
-            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
-        }
-
+        
         .project-meta {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-        }
-
-        .difficulty-tag {
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 100px;
-        }
-
-        .project-card.beginner .difficulty-tag {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
-        }
-
-        .project-card.intermediate .difficulty-tag {
-            background: rgba(15, 52, 96, 0.1);
-            color: var(--accent);
-        }
-
-        .project-card.advanced .difficulty-tag {
-            background: rgba(233, 69, 96, 0.1);
-            color: var(--highlight);
-        }
-
-        .project-time {
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-        }
-
-        .project-content h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .project-content p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .project-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 24px;
-            border-radius: var(--radius-sm);
-            font-size: 0.9375rem;
-            font-weight: 500;
-            text-decoration: none;
-            margin-top: auto;
-            transition: var(--transition);
-        }
-
-        .project-btn:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* ============================================
-           适合人群
-           ============================================ */
-        .audience-section {
-            background: var(--bg-primary);
-        }
-
-        .audience-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .audience-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .audience-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .audience-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .audience-icon i {
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .audience-card h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .audience-card p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           技能清单
-           ============================================ */
-        .skills-section {
-            background: var(--bg-secondary);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
-        }
-
-        .skill-item {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 28px 20px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .skill-item:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent);
-        }
-
-        .skill-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-        }
-
-        .skill-icon i {
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .skill-item h4 {
-            font-size: 0.9375rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        /* ============================================
-           服务保障
-           ============================================ */
-        .service-section {
-            background: var(--bg-primary);
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .service-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .service-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--success-color);
-        }
-
-        .service-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .service-icon i {
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .service-card h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .service-card p {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* ============================================
-           FAQ
-           ============================================ */
-        .faq-section {
-            background: var(--bg-secondary);
-        }
-
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .faq-item {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 24px 28px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        .faq-item:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        .faq-item h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
             gap: 8px;
         }
-
-        .faq-item h4::before {
-            content: 'Q';
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background: var(--accent);
-            color: white;
-            font-size: 0.75rem;
+        
+        .project-title {
+            font-size: 18px;
             font-weight: 700;
-            border-radius: 50%;
-            flex-shrink: 0;
+            margin-bottom: 8px;
         }
-
-        .faq-item p {
-            font-size: 0.9375rem;
+        
+        .project-desc {
             color: var(--text-secondary);
-            line-height: 1.8;
-            padding-left: 32px;
-        }
-
-        /* ============================================
-           CTA 区域
-           ============================================ */
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 80px 24px;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 14px;
             margin-bottom: 16px;
+            line-height: 1.5;
         }
-
-        .cta-section p {
-            font-size: 1.125rem;
-            opacity: 0.9;
-            margin-bottom: 32px;
-            line-height: 1.7;
-        }
-
-        .cta-btn {
+        
+        .dataset-tag {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: white;
-            color: var(--primary);
-            padding: 16px 32px;
-            border-radius: var(--radius-md);
-            font-size: 1.125rem;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: var(--shadow-lg);
-            transition: var(--transition);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        }
-
-        /* ============================================
-           页脚
-           ============================================ */
-        .footer {
-            background: var(--primary);
-            color: white;
-            padding: 48px 24px 24px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-            margin-bottom: 32px;
-        }
-
-        .footer-section h4 {
-            font-size: 1rem;
-            font-weight: 600;
+            gap: 6px;
+            background: #F3F4F6;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
             margin-bottom: 16px;
-            color: white;
         }
-
-        .footer-section p,
-        .footer-section a {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.8;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 8px;
-            transition: var(--transition);
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .footer-bottom p {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 24px;
-        }
-
-        .footer-links a {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        /* ============================================
-           返回顶部按钮
-           ============================================ */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 48px;
-            height: 48px;
-            background: var(--primary);
+        
+        .start-btn {
+            width: 100%;
+            background: var(--color-primary);
             color: white;
             border: none;
-            border-radius: 50%;
-            font-size: 1.25rem;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: 500;
+            transition: all 0.2s;
         }
-
-        .back-to-top.visible {
+        
+        .start-btn:hover {
+            background: #2563EB;
+        }
+        
+        /* 成就卡片 */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .achievement-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .achievement-card.unlocked {
+            border-color: var(--color-warning);
+            background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%);
+        }
+        
+        .achievement-emoji {
+            font-size: 56px;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+        
+        .achievement-card.unlocked .achievement-emoji {
             opacity: 1;
-            visibility: visible;
         }
-
-        .back-to-top:hover {
-            background: var(--accent);
-            transform: translateY(-3px);
+        
+        .achievement-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
-
-        /* ============================================
-           响应式设计
-           ============================================ */
+        
+        .achievement-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .achievement-status {
+            margin-top: 12px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .achievement-card.unlocked .achievement-status {
+            background: var(--color-warning);
+            color: white;
+        }
+        
+        .achievement-card:not(.unlocked) .achievement-status {
+            background: #F3F4F6;
+            color: var(--text-secondary);
+        }
+        
+        /* 下载按钮 */
+        .download-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            background: #2563EB;
+        }
+        
         @media (max-width: 768px) {
-            /* 导航栏 */
-            .navbar-menu {
-                position: fixed;
-                top: 64px;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 16px 24px;
-                gap: 0;
-                border-bottom: 1px solid var(--border);
-                box-shadow: var(--shadow-lg);
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px);
-                transition: var(--transition);
-            }
-
-            .navbar-menu.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-            }
-
-            .navbar-link {
+            .navbar-inner {
+                flex-wrap: wrap;
+                height: auto;
                 padding: 12px 0;
-                border-bottom: 1px solid var(--border);
             }
-
-            .navbar-link:last-child {
-                border-bottom: none;
-            }
-
-            .navbar-toggle {
-                display: block;
-            }
-
-            /* Hero */
-            .hero {
-                padding: 60px 20px;
-            }
-
-            .hero h1 {
-                font-size: 1.75rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-
-            .hero-features {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .hero-feature {
+            
+            .nav-links {
+                order: 3;
                 width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-
-            /* 通用 */
-            .section {
-                padding: 60px 20px;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .section-desc {
-                font-size: 1rem;
-            }
-
-            /* 卡片网格 */
-            .highlights-grid,
-            .audience-grid,
-            .service-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            /* 项目卡片 */
-            .project-card {
-                padding: 20px;
-            }
-
-            /* FAQ */
-            .faq-item {
-                padding: 20px;
-            }
-
-            .faq-item p {
-                padding-left: 0;
                 margin-top: 12px;
-            }
-
-            /* CTA */
-            .cta-section h2 {
-                font-size: 1.5rem;
-            }
-
-            /* 页脚 */
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            /* 返回顶部 */
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 44px;
-                height: 44px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero-cta,
-            .cta-btn {
-                width: 100%;
                 justify-content: center;
             }
-        }
-
-        @media (min-width: 1400px) {
-            .projects-grid {
-                grid-template-columns: repeat(3, 1fr);
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-header {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 顶部固定导航栏 -->
     <nav class="navbar">
-        <div class="navbar-container">
-            <a href="#" class="navbar-brand">
-                <i class="fas fa-chart-line"></i>
-                <span>数析学院</span>
-            </a>
-            <div class="navbar-menu" id="navbarMenu">
-                <a href="#hero" class="navbar-link active">首页</a>
-                <a href="course-center.html" class="navbar-link">课程中心</a>
-                <a href="#projects" class="navbar-link">项目汇总</a>
-                <a href="#faq" class="navbar-link">常见问题</a>
+        <div class="navbar-inner">
+            <div class="logo" onclick="navigateTo('courses')">
+                📊 数析学院
             </div>
-            <button class="navbar-toggle" id="navbarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
+            <div class="nav-links">
+                <div class="nav-link active" data-page="courses" onclick="navigateTo('courses')">课程中心</div>
+                <div class="nav-link" data-page="projects" onclick="navigateTo('projects')">实战项目</div>
+                <div class="nav-link" data-page="achievements" onclick="navigateTo('achievements')">成就殿堂</div>
+            </div>
+            <button class="login-btn">登录</button>
         </div>
     </nav>
 
-    <!-- 主要内容区域 -->
-    <main class="main-content">
-        <!-- Hero 首屏 -->
-        <section class="hero" id="hero">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <i class="fas fa-fire"></i>
-                    <span>500+ 学员已加入学习</span>
-                </div>
-                <h1>从0到1，搞定数据分析</h1>
-                <p class="hero-subtitle">10个真实项目，简历直接写，面试大胆说</p>
-                <div class="hero-features">
-                    <div class="hero-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>零基础友好</span>
-                    </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>浏览器即学即用</span>
-                    </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>真实业务场景</span>
-                    </div>
-                    <div class="hero-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>可写进简历</span>
-                    </div>
-                </div>
-                <a href="#projects" class="hero-cta">
-                    <i class="fas fa-rocket"></i>
-                    立即开始学习
-                </a>
+    <main class="main-container">
+        <!-- 课程中心 - 列表页 -->
+        <div id="page-courses" class="page active">
+            <div class="page-title">
+                <h1>📚 课程中心</h1>
+                <p>系统学习Python数据分析，从入门到精通</p>
             </div>
-        </section>
+            <div id="courses-container"></div>
+        </div>
 
-        <!-- 核心亮点 -->
-        <section class="section highlights-section" id="highlights">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Why Choose Us</span>
-                    <h2 class="section-title">为什么选择这门课？</h2>
-                    <p class="section-desc">专为转行者和职场人打造的数据分析实战课</p>
-                </div>
-                <div class="highlights-grid">
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <h3>零基础友好</h3>
-                        <p>不需要编程基础，不需要数学背景，跟着做就能学会</p>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h3>浏览器即学即用</h3>
-                        <p>无需安装任何软件，打开网页就能跑代码</p>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3>真实业务项目</h3>
-                        <p>来自电商、零售、营销等真实场景，拒绝纸上谈兵</p>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <h3>可写进简历</h3>
-                        <p>每个项目都能写成简历上的实战经验，面试有话说</p>
-                    </div>
-                </div>
+        <!-- 课程中心 - 详情页 -->
+        <div id="page-course-detail" class="page">
+            <div id="course-detail-content"></div>
+        </div>
+
+        <!-- 课程中心 - 小节详情页 -->
+        <div id="page-lesson-detail" class="page">
+            <div id="lesson-detail-content"></div>
+        </div>
+
+        <!-- 实战项目 - 列表页 -->
+        <div id="page-projects" class="page">
+            <div class="page-title">
+                <h1>💼 实战项目</h1>
+                <p>通过真实项目练习，巩固所学知识</p>
             </div>
-        </section>
+            <div id="projects-container"></div>
+        </div>
 
-        <!-- 10个实战项目 -->
-        <section class="section projects-section" id="projects">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Projects</span>
-                    <h2 class="section-title">10个实战项目</h2>
-                    <p class="section-desc">涵盖电商、零售、用户、营销全场景</p>
-                </div>
-                <div class="projects-grid">
-                    <!-- 项目1 -->
-                    <div class="project-card beginner">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-broom"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">初级</span>
-                                <span class="project-time">30分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>销售数据清洗</h3>
-                            <p>处理缺失值与异常值，统一日期格式，使用Pandas进行数据清洗</p>
-                        </div>
-                        <a href="projects/project1.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
+        <!-- 实战项目 - 详情页 -->
+        <div id="page-project-detail" class="page">
+            <div id="project-detail-content"></div>
+        </div>
 
-                    <!-- 项目2 -->
-                    <div class="project-card beginner">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">初级</span>
-                                <span class="project-time">25分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>门店销售对比</h3>
-                            <p>计算各区域销售额，绘制柱状图进行可视化对比分析</p>
-                        </div>
-                        <a href="projects/project2.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目3 -->
-                    <div class="project-card intermediate">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">中级</span>
-                                <span class="project-time">35分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>用户复购率分析</h3>
-                            <p>计算用户购买次数分布，找出高价值复购用户群体</p>
-                        </div>
-                        <a href="projects/project3.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目4 -->
-                    <div class="project-card intermediate">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">中级</span>
-                                <span class="project-time">40分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>RFM用户分层</h3>
-                            <p>实现RFM打分模型，将用户分为8个等级进行精细化运营</p>
-                        </div>
-                        <a href="projects/project4.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目5 -->
-                    <div class="project-card intermediate">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-shopping-basket"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">中级</span>
-                                <span class="project-time">45分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>购物篮关联分析</h3>
-                            <p>找出频繁项集，计算支持度和置信度，发现商品关联规则</p>
-                        </div>
-                        <a href="projects/project5.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目6 -->
-                    <div class="project-card advanced">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">高级</span>
-                                <span class="project-time">50分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>客户生命周期价值预测</h3>
-                            <p>根据历史消费数据预测CLV，识别高价值客户</p>
-                        </div>
-                        <a href="projects/project6.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目7 -->
-                    <div class="project-card intermediate">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-boxes"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">中级</span>
-                                <span class="project-time">30分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>库存ABC分析</h3>
-                            <p>按销售额占比将商品分为A/B/C类，优化库存管理</p>
-                        </div>
-                        <a href="projects/project7.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目8 -->
-                    <div class="project-card intermediate">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-bullhorn"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">中级</span>
-                                <span class="project-time">35分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>广告投放ROI分析</h3>
-                            <p>计算各渠道投资回报率，绘制雷达图进行效果评估</p>
-                        </div>
-                        <a href="projects/project8.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目9 -->
-                    <div class="project-card advanced">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-comment-dots"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">高级</span>
-                                <span class="project-time">40分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>评论情感分析简版</h3>
-                            <p>基于关键词规则判断评论正负面，分析用户情感倾向</p>
-                        </div>
-                        <a href="projects/project9.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-
-                    <!-- 项目10 -->
-                    <div class="project-card advanced">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <i class="fas fa-chart-area"></i>
-                            </div>
-                            <div class="project-meta">
-                                <span class="difficulty-tag">高级</span>
-                                <span class="project-time">45分钟</span>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3>销售趋势预测</h3>
-                            <p>利用移动平均法预测下月销售额，掌握趋势分析方法</p>
-                        </div>
-                        <a href="projects/project10.html" class="project-btn">
-                            <i class="fas fa-play"></i> 开始学习
-                        </a>
-                    </div>
-                </div>
+        <!-- 成就殿堂 -->
+        <div id="page-achievements" class="page">
+            <div class="page-title">
+                <h1>🏆 成就殿堂</h1>
+                <p>记录你的学习足迹，解锁专属勋章</p>
             </div>
-        </section>
-
-        <!-- 适合人群 -->
-        <section class="section audience-section" id="audience">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Audience</span>
-                    <h2 class="section-title">适合人群</h2>
-                    <p class="section-desc">无论你是谁，都能在这里找到成长路径</p>
-                </div>
-                <div class="audience-grid">
-                    <div class="audience-card">
-                        <div class="audience-icon">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <h3>想转行数据分析的新人</h3>
-                        <p>不知道从哪里下手，没有项目经验，这门课带你从最基础的开始，用真实项目建立信心</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <h3>电商/零售/运营从业者</h3>
-                        <p>每天和数据打交道，想系统提升数据分析能力，用数据驱动业务决策</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>在校学生/求职者</h3>
-                        <p>缺少实战经验，想要充实简历，提升求职竞争力</p>
-                    </div>
-                    <div class="audience-card">
-                        <div class="audience-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3>产品经理/创业者</h3>
-                        <p>需要用数据验证想法，掌握基本数据分析方法不再被人忽悠</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6大核心技能 -->
-        <section class="section skills-section" id="skills">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Skills</span>
-                    <h2 class="section-title">6大核心学习技能</h2>
-                    <p class="section-desc">从入门到实战，系统掌握数据分析全流程</p>
-                </div>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fab fa-python"></i>
-                        </div>
-                        <h4>Python基础</h4>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-table"></i>
-                        </div>
-                        <h4>Pandas数据处理</h4>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-chart-area"></i>
-                        </div>
-                        <h4>数据可视化</h4>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <h4>统计分析方法</h4>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h4>业务分析思维</h4>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <h4>项目实战能力</h4>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 服务保障 -->
-        <section class="section service-section" id="service">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Service</span>
-                    <h2 class="section-title">学习服务保障</h2>
-                    <p class="section-desc">完善的学习支持，让你学习无忧</p>
-                </div>
-                <div class="service-grid">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-infinity"></i>
-                        </div>
-                        <h3>永久访问权限</h3>
-                        <p>一次购买，终身学习，项目永久保留，可反复练习</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <h3>配套练习数据</h3>
-                        <p>提供真实脱敏数据，边学边练，效果立竿见影</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <h3>成就徽章系统</h3>
-                        <p>完成每个项目解锁对应徽章，集齐全部徽章获得结业认证</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <h3>答疑支持</h3>
-                        <p>学习过程中遇到问题，有专属答疑渠道，不让你卡在原地</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 常见问题 -->
-        <section class="section faq-section" id="faq">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">FAQ</span>
-                    <h2 class="section-title">常见问题</h2>
-                    <p class="section-desc">解答你关心的问题</p>
-                </div>
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <h4>需要安装Python或其他软件吗？</h4>
-                        <p>不需要。我们采用浏览器在线编程环境，打开网页即可运行代码，无需任何安装配置。</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>我是纯小白，完全没有编程基础，能学会吗？</h4>
-                        <p>完全可以。课程设计专门面向零基础学员，从最简单的操作开始，每个项目都有详细步骤讲解，跟着做就能学会。</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>这些项目真的能写进简历吗？</h4>
-                        <p>当然可以。每个项目都是基于真实业务场景设计的，完成后可以详细描述项目背景、使用的技术、分析的结论，完全可以作为实战经验写进简历。</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>学完能找到数据分析工作吗？</h4>
-                        <p>这门课能帮你建立数据分析基础能力、积累项目经验、充实简历内容。但找到工作还需要看个人综合能力，这门课是你踏出第一步的最好选择。</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>课程有效期是多久？</h4>
-                        <p>一次购买永久有效。可以按照自己的节奏学习，随时复习，没有时间限制。</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>购买后不支持退款吗？</h4>
-                        <p>为保证课程质量及知识产权，虚拟商品一经购买不支持退款。请先观看免费预览内容，确认适合再购买。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA 区域 -->
-        <section class="cta-section">
-            <h2>现在开始你的数据分析第一课</h2>
-            <p>10个项目，涵盖电商、零售、用户、营销全场景<br>让数据能力成为你的职场竞争力</p>
-            <a href="#projects" class="cta-btn">
-                <i class="fas fa-rocket"></i>
-                免费开始学习
-            </a>
-        </section>
+            <div id="achievements-container"></div>
+        </div>
     </main>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>数析学院</h4>
-                <p>专注数据分析教育<br>从零基础到实战高手</p>
-            </div>
-            <div class="footer-section">
-                <h4>快速链接</h4>
-                <a href="#highlights">核心亮点</a>
-                <a href="#projects">项目汇总</a>
-                <a href="#audience">适合人群</a>
-                <a href="#skills">技能清单</a>
-            </div>
-            <div class="footer-section">
-                <h4>联系方式</h4>
-                <a href="mailto:contact@dataschool.com">📧 contact@dataschool.com</a>
-                <a href="tel:4008888888">📱 400-888-8888</a>
-            </div>
-            <div class="footer-section">
-                <h4>开源代码</h4>
-                <a href="https://github.com/tanyachen03/xinde" target="_blank">
-                    <i class="fab fa-github"></i> GitHub 仓库
-                </a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>最后更新：2025年1月 | © 2024 数析学院 版权所有</p>
-            <div class="footer-links">
-                <a href="#">隐私政策</a>
-                <a href="#">使用条款</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- 返回顶部按钮 -->
-    <button class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <!-- JavaScript -->
     <script>
-        // 移动端导航菜单切换
-        const navbarToggle = document.getElementById('navbarToggle');
-        const navbarMenu = document.getElementById('navbarMenu');
+        // ==================== 课程数据 ====================
+        const coursesData = [
+            {
+                id: 0, emoji: "🐍", title: "Python基础入门", difficulty: "beginner",
+                difficultyText: "入门", desc: "从零开始掌握Python编程基础",
+                lessons: [
+                    {name: "Python安装与环境配置", duration: "20分钟", completed: false, content: {explanation: "Python是一门简洁优雅的编程语言，在数据分析领域应用广泛。\n\n安装步骤：\n1. 访问Anaconda官网下载安装包\n2. 运行安装程序，选择默认安装路径\n3. 安装完成后，在终端输入 python --version 检查是否安装成功", code: "# 检查Python版本\nimport sys\nprint(f'Python版本: {sys.version}')\nprint('环境配置成功！')", tips: ["安装路径不要包含中文", "推荐使用Anaconda省去配置麻烦", "记住常用快捷键Ctrl+Enter运行"], errors: ["命令提示符找不到python - 检查环境变量", "安装失败 - 关闭杀毒软件重试"], question: "安装完成后，如何验证Python环境配置成功？"}},
+                    {name: "变量与数据类型", duration: "25分钟", completed: false, content: {explanation: "变量是存储数据的容器。\n\nPython主要数据类型：\n- 整数(int)：如1, 100, -5\n- 浮点数(float)：如3.14, 2.5\n- 字符串(str)：用引号包裹的文本\n- 布尔值(bool)：True和False", code: "# 变量定义\nname = '小明'\nage = 25\nheight = 1.75\nis_student = True\n\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'是否学生: {is_student}')", tips: ["变量名最好使用英文，见名知意", "多个单词可以用下划线连接", "变量赋值时，右边的表达式先计算"], errors: ["SyntaxError: invalid syntax - 检查引号、括号", "NameError: name 'xxx' is not defined - 变量未定义就使用"], question: "创建3个变量，分别存储你的姓名、生日年份和所在城市，然后打印出来。"}},
+                    {name: "条件判断", duration: "20分钟", completed: false, content: {explanation: "条件判断让程序根据不同情况执行不同代码。\n\nif条件：\n- if 条件: 满足时执行\n- elif 条件: 其他如果\n- else: 都不满足时执行", code: "# 条件判断示例\nscore = 85\n\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelif score >= 60:\n    grade = 'C'\nelse:\n    grade = 'D'\n\nprint(f'成绩等级: {grade}')", tips: ["条件后记得加冒号", "注意缩进4个空格", "条件判断中使用 ==，不是 ="], errors: ["IndentationError: expected an indented block - 缩进不正确", "SyntaxError: invalid syntax - 语法错误，检查冒号"], question: "写一个程序判断年龄是否成年（18岁及以上）。"}},
+                    {name: "循环语句", duration: "25分钟", completed: false, content: {explanation: "循环让计算机重复执行任务。\n\nfor循环：遍历已知次数\nwhile循环：条件满足时继续\n\nbreak：跳出循环\ncontinue：跳过本次", code: "# for循环遍历\nfor i in range(1, 6):\n    print(f'第 {i} 次循环')\n\n# while循环\ncount = 1\nwhile count <= 3:\n    print(f'计数: {count}')\n    count += 1", tips: ["range(5)生成0-4", "while要设置退出条件", "避免无限循环"], errors: ["无限循环 - while循环忘记增加计数器", "IndentationError - 缩进问题"], question: "用循环计算1+2+3+...+10的和。"}},
+                    {name: "列表基础", duration: "20分钟", completed: false, content: {explanation: "列表是存储多个数据的容器。\n\n特点：\n- 有序排列\n- 可以修改\n- 用方括号[]表示\n- 索引从0开始", code: "# 列表操作\nfruits = ['苹果', '香蕉', '橙子']\nprint(f'水果列表: {fruits}')\nprint(f'第一个: {fruits[0]}')\n\nfruits.append('葡萄')\nprint(f'添加后: {fruits}')", tips: ["索引从0不是1开始！", "append()添加到末尾", "len()获取长度"], errors: ["IndexError: list index out of range - 索引越界", "列表索引从0开始"], question: "创建一个包含5个数字的列表，添加一个数字，删除一个数字。"}},
+                    {name: "字典操作", duration: "25分钟", completed: false, content: {explanation: "字典是键值对的集合。\n\n特点：\n- 键唯一，值可重复\n- 用花括号{}表示\n- 查找速度快", code: "# 字典操作\nperson = {\n    'name': '小明',\n    'age': 25,\n    'city': '北京'\n}\n\nprint(f'姓名: {person[\"name\"]}')\nperson['email'] = 'test@example.com'\nprint(f'更新后: {person}')", tips: ["字典键不能重复，后面会覆盖前面的", "字典查找比列表快很多", "用 get() 方法访问键，不会报错"], errors: ["KeyError - 键不存在", "TypeError: unhashable type - 不能用可变类型作为键"], question: "创建一个字典，存储一个学生的课程和分数，添加一门课程，然后打印总分。"}},
+                    {name: "函数定义", duration: "30分钟", completed: false, content: {explanation: "函数是代码的封装，提高复用性。\n\n定义：\ndef 函数名(参数):\n    代码块\n    return 返回值", code: "# 函数示例\ndef greet(name):\n    return f'你好, {name}!'\n\ndef add(a, b):\n    return a + b\n\nprint(greet('小明'))\nprint(f'3 + 5 = {add(3, 5)}')", tips: ["函数名应该描述函数做什么", "写文档字符串是好的习惯", "函数参数不要太多，太多考虑拆分"], errors: ["SyntaxError - 定义函数忘记冒号", "IndentationError - 缩进错误", "TypeError - 参数数量不匹配"], question: "写一个函数，输入温度（摄氏度），返回华氏度。公式：F = C × 1.8 + 32"}},
+                    {name: "模块导入", duration: "20分钟", completed: false, content: {explanation: "模块是别人写好的代码库。\n\n常用导入方式：\n- import 模块名\n- from 模块 import 函数\n- import 模块 as 别名", code: "# 模块导入\nimport math\n\nprint(f'π的值: {math.pi}')\nprint(f'平方根: {math.sqrt(16)}')\nprint(f'绝对值: {abs(-5)}')", tips: ["导入语句放在文件顶部", "标准库很丰富，先看看有没有现成的", "避免循环导入"], errors: ["ModuleNotFoundError - 模块不存在或未安装", "ImportError - 导入失败"], question: "用random模块模拟掷骰子，生成1-6的随机数。"}},
+                    {name: "文件操作", duration: "25分钟", completed: false, content: {explanation: "Python可以读写各种文件。\n\n读写模式：\n- 'r' 读取\n- 'w' 写入\n- 'a' 追加", code: "# 文件写入\nwith open('test.txt', 'w', encoding='utf-8') as f:\n    f.write('Hello Python!\\n')\n    f.write('第二行内容')\n\n# 文件读取\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n    print(content)", tips: ["使用with自动关闭文件", "记得指定encoding", "文件路径要正确"], errors: ["FileNotFoundError - 文件不存在", "编码错误"], question: "创建一个CSV文件写入表头和数据。"}},
+                    {name: "异常处理", duration: "25分钟", completed: false, content: {explanation: "程序运行时可能出错，异常处理让程序更健壮。\n\n语法：\ntry:\n    可能出错的代码\nexcept 错误类型:\n    处理错误", code: "# 异常处理\ntry:\n    num = int(input('输入数字: '))\n    result = 10 / num\n    print(f'结果: {result}')\nexcept ValueError:\n    print('请输入有效数字')\nexcept ZeroDivisionError:\n    print('不能除以零')", tips: ["捕获具体异常类型", "异常要有处理方案", "不要滥用异常捕获"], errors: ["各种运行时错误", "除零错误"], question: "写一个程序处理用户输入年龄，可能输入非数字。"}},
+                    {name: "列表推导式", duration: "20分钟", completed: false, content: {explanation: "列表推导式是Python特有的简洁语法。\n\n语法：\n[表达式 for item in 可迭代对象]\n[表达式 for item in 可迭代对象 if 条件]", code: "# 列表推导式\n# 传统方式\nsquares = []\nfor i in range(1, 6):\n    squares.append(i ** 2)\n\n# 推导式\nsquares2 = [i ** 2 for i in range(1, 6)]\nprint(f'平方数: {squares2}')\n\n# 带条件\nevens = [i for i in range(1, 11) if i % 2 == 0]\nprint(f'偶数: {evens}')", tips: ["比传统循环更简洁", "适合简单转换", "复杂逻辑用普通循环"], errors: ["语法错误", "表达式过于复杂"], question: "用列表推导式生成1-20中3的倍数。"}},
+                    {name: "综合练习", duration: "30分钟", completed: false, content: {explanation: "综合运用所学知识，完成一个完整的小程序。\n\n本节我们将创建一个简单的学生成绩管理系统。", code: "# 学生成绩管理系统\nstudents = [\n    {'name': '小明', 'score': 85},\n    {'name': '小红', 'score': 92},\n    {'name': '小刚', 'score': 78}\n]\n\n# 计算平均分\ntotal = sum(s['score'] for s in students)\navg = total / len(students)\nprint(f'平均分: {avg:.2f}')\n\n# 找出最高分\nbest = max(students, key=lambda x: x['score'])\nprint(f'最高分: {best[\"name\"]} - {best[\"score\"]}分')", tips: ["巩固前面所学", "多动手练习", "不懂的多查文档"], errors: ["综合应用容易出错", "逻辑要清晰"], question: "修改上述代码，添加按成绩排序的功能。"}}
+                ]
+            },
+            {
+                id: 1, emoji: "📈", title: "Python进阶", difficulty: "beginner",
+                difficultyText: "入门", desc: "深入学习Python核心概念",
+                lessons: [
+                    {name: "面向对象基础", duration: "25分钟", completed: false, content: null},
+                    {name: "类与对象", duration: "30分钟", completed: false, content: null},
+                    {name: "继承与多态", duration: "30分钟", completed: false, content: null},
+                    {name: "装饰器", duration: "25分钟", completed: false, content: null},
+                    {name: "生成器", duration: "20分钟", completed: false, content: null},
+                    {name: "迭代器", duration: "20分钟", completed: false, content: null},
+                    {name: "上下文管理器", duration: "25分钟", completed: false, content: null},
+                    {name: "魔术方法", duration: "30分钟", completed: false, content: null},
+                    {name: "类型注解", duration: "20分钟", completed: false, content: null},
+                    {name: "异步编程", duration: "35分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 2, emoji: "🐼", title: "Pandas数据分析基础", difficulty: "beginner",
+                difficultyText: "入门", desc: "掌握数据分析核心工具Pandas",
+                lessons: [
+                    {name: "Pandas简介", duration: "15分钟", completed: false, content: {explanation: "Pandas是Python数据分析的核心库。\n\n核心数据结构：\n- Series：一维数组\n- DataFrame：二维表格\n\n安装：pip install pandas", code: "import pandas as pd\n\n# 创建Series\ns = pd.Series([1, 3, 5, 7])\nprint('Series:', s)\n\n# 创建DataFrame\ndf = pd.DataFrame({\n    '姓名': ['小明', '小红'],\n    '年龄': [25, 23]\n})\nprint('DataFrame:')\nprint(df)", tips: ["Pandas是数据分析必备", "DataFrame最常用", "官方文档很完善"], errors: ["ModuleNotFoundError - 需要安装", "导入失败"], question: "安装Pandas并验证版本。"}},
+                    {name: "数据读取与保存", duration: "25分钟", completed: false, content: {explanation: "Pandas支持读取多种格式数据。\n\n常用格式：\n- CSV：read_csv / to_csv\n- Excel：read_excel / to_excel\n- JSON：read_json", code: "import pandas as pd\n\n# 创建数据\ndf = pd.DataFrame({\n    '产品': ['A', 'B', 'C'],\n    '销量': [100, 200, 150]\n})\n\n# 保存为CSV\ndf.to_csv('sales.csv', index=False)\n\n# 读取CSV\ndf2 = pd.read_csv('sales.csv')\nprint(df2)", tips: ["index=False不保存索引", "注意编码格式", "大文件分块读取"], errors: ["FileNotFoundError", "编码错误"], question: "读取一个CSV文件并查看前5行。"}},
+                    {name: "数据选择", duration: "30分钟", completed: false, content: {explanation: "DataFrame数据选择方法：\n\n列选择：df['列名']\n行选择：df.loc[行索引]\n条件筛选：df[df['列']>值]", code: "import pandas as pd\n\ndf = pd.DataFrame({\n    '姓名': ['小明', '小红', '小刚'],\n    '年龄': [25, 23, 28],\n    '部门': ['销售', '技术', '销售']\n})\n\n# 列选择\nprint(df['姓名'])\n\n# 条件筛选\nprint(df[df['年龄'] > 24])\n\n# loc选择\nprint(df.loc[0])", tips: ["loc基于标签", "iloc基于位置", "条件筛选常用"], errors: ["KeyError - 列不存在", "索引越界"], question: "筛选出年龄大于25岁的员工。"}},
+                    {name: "数据清洗", duration: "30分钟", completed: false, content: null},
+                    {name: "数据转换", duration: "25分钟", completed: false, content: null},
+                    {name: "分组聚合", duration: "30分钟", completed: false, content: null},
+                    {name: "合并连接", duration: "30分钟", completed: false, content: null},
+                    {name: "透视表", duration: "25分钟", completed: false, content: null},
+                    {name: "时间序列", duration: "30分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 3, emoji: "🔢", title: "NumPy数值计算", difficulty: "beginner",
+                difficultyText: "入门", desc: "NumPy高性能数值计算",
+                lessons: [
+                    {name: "NumPy简介", duration: "15分钟", completed: false, content: {explanation: "NumPy是Python科学计算的基础库。\n\n特点：\n- 高性能多维数组\n- 向量化计算\n- 广播功能", code: "import numpy as np\n\n# 创建数组\na = np.array([1, 2, 3, 4, 5])\nprint('数组:', a)\nprint('类型:', type(a))\nprint('形状:', a.shape)", tips: ["NumPy是科学计算基础", "比Python列表快很多", "支持向量化操作"], errors: ["数组维度不匹配"], question: "创建一维和二维NumPy数组。"}},
+                    {name: "数组运算", duration: "25分钟", completed: false, content: null},
+                    {name: "索引切片", duration: "25分钟", completed: false, content: null},
+                    {name: "形状操作", duration: "20分钟", completed: false, content: null},
+                    {name: "广播机制", duration: "25分钟", completed: false, content: null},
+                    {name: "统计函数", duration: "20分钟", completed: false, content: null},
+                    {name: "矩阵运算", duration: "30分钟", completed: false, content: null},
+                    {name: "随机数", duration: "20分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 4, emoji: "🧹", title: "数据清洗实战", difficulty: "intermediate",
+                difficultyText: "进阶", desc: "脏数据到干净数据的转化",
+                lessons: [
+                    {name: "缺失值处理", duration: "30分钟", completed: false, content: null},
+                    {name: "重复值处理", duration: "20分钟", completed: false, content: null},
+                    {name: "异常值检测", duration: "30分钟", completed: false, content: null},
+                    {name: "数据类型转换", duration: "25分钟", completed: false, content: null},
+                    {name: "字符串处理", duration: "30分钟", completed: false, content: null},
+                    {name: "正则表达式", duration: "35分钟", completed: false, content: null},
+                    {name: "日期时间处理", duration: "30分钟", completed: false, content: null},
+                    {name: "数据标准化", duration: "25分钟", completed: false, content: null},
+                    {name: "数据归一化", duration: "25分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 5, emoji: "📊", title: "数据可视化", difficulty: "intermediate",
+                difficultyText: "进阶", desc: "Matplotlib与Seaborn图表制作",
+                lessons: [
+                    {name: "Matplotlib基础", duration: "25分钟", completed: false, content: null},
+                    {name: "折线图", duration: "20分钟", completed: false, content: null},
+                    {name: "柱状图", duration: "25分钟", completed: false, content: null},
+                    {name: "饼图", duration: "20分钟", completed: false, content: null},
+                    {name: "散点图", duration: "25分钟", completed: false, content: null},
+                    {name: "子图布局", duration: "30分钟", completed: false, content: null},
+                    {name: "Seaborn入门", duration: "30分钟", completed: false, content: null},
+                    {name: "统计图表", duration: "30分钟", completed: false, content: null},
+                    {name: "图表美化", duration: "25分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 6, emoji: "🔗", title: "分组聚合与透视表", difficulty: "intermediate",
+                difficultyText: "进阶", desc: "数据分析的核心操作",
+                lessons: [
+                    {name: "groupby基础", duration: "25分钟", completed: false, content: null},
+                    {name: "聚合函数", duration: "25分钟", completed: false, content: null},
+                    {name: "多级分组", duration: "30分钟", completed: false, content: null},
+                    {name: "透视表", duration: "30分钟", completed: false, content: null},
+                    {name: "交叉表", duration: "25分钟", completed: false, content: null},
+                    {name: "transform", duration: "25分钟", completed: false, content: null},
+                    {name: "apply高级用法", duration: "30分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 7, emoji: "⏰", title: "时间序列分析", difficulty: "intermediate",
+                difficultyText: "进阶", desc: "时序数据处理与预测",
+                lessons: [
+                    {name: "时间戳处理", duration: "25分钟", completed: false, content: null},
+                    {name: "日期范围", duration: "20分钟", completed: false, content: null},
+                    {name: "重采样", duration: "30分钟", completed: false, content: null},
+                    {name: "移动窗口", duration: "25分钟", completed: false, content: null},
+                    {name: "滚动统计", duration: "25分钟", completed: false, content: null},
+                    {name: "时区处理", duration: "30分钟", completed: false, content: null},
+                    {name: "时序可视化", duration: "25分钟", completed: false, content: null},
+                    {name: "基础预测", duration: "35分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 8, emoji: "🔄", title: "多表合并与连接", difficulty: "intermediate",
+                difficultyText: "进阶", desc: "表关联与数据整合",
+                lessons: [
+                    {name: "concat合并", duration: "25分钟", completed: false, content: null},
+                    {name: "merge连接", duration: "30分钟", completed: false, content: null},
+                    {name: "join连接", duration: "25分钟", completed: false, content: null},
+                    {name: "合并方向", duration: "20分钟", completed: false, content: null},
+                    {name: "索引合并", duration: "25分钟", completed: false, content: null},
+                    {name: "重复键处理", duration: "25分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "40分钟", completed: false, content: null},
+                    {name: "性能优化", duration: "30分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 9, emoji: "🤖", title: "机器学习入门", difficulty: "advanced",
+                difficultyText: "高级", desc: "scikit-learn机器学习基础",
+                lessons: [
+                    {name: "机器学习概述", duration: "30分钟", completed: false, content: null},
+                    {name: "数据预处理", duration: "35分钟", completed: false, content: null},
+                    {name: "线性回归", duration: "35分钟", completed: false, content: null},
+                    {name: "逻辑回归", duration: "35分钟", completed: false, content: null},
+                    {name: "决策树", duration: "35分钟", completed: false, content: null},
+                    {name: "随机森林", duration: "40分钟", completed: false, content: null},
+                    {name: "模型评估", duration: "35分钟", completed: false, content: null},
+                    {name: "交叉验证", duration: "30分钟", completed: false, content: null},
+                    {name: "超参数调优", duration: "35分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "50分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 10, emoji: "🕷️", title: "网络爬虫基础", difficulty: "advanced",
+                difficultyText: "高级", desc: "数据采集与网页解析",
+                lessons: [
+                    {name: "HTTP协议", duration: "25分钟", completed: false, content: null},
+                    {name: "requests库", duration: "30分钟", completed: false, content: null},
+                    {name: "BeautifulSoup", duration: "35分钟", completed: false, content: null},
+                    {name: "CSS选择器", duration: "30分钟", completed: false, content: null},
+                    {name: "XPath语法", duration: "30分钟", completed: false, content: null},
+                    {name: "反爬策略", duration: "35分钟", completed: false, content: null},
+                    {name: "数据存储", duration: "30分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
+                ]
+            },
+            {
+                id: 11, emoji: "🗄️", title: "SQL与Python集成", difficulty: "advanced",
+                difficultyText: "高级", desc: "数据库操作与数据分析",
+                lessons: [
+                    {name: "SQL基础", duration: "30分钟", completed: false, content: null},
+                    {name: "SELECT查询", duration: "30分钟", completed: false, content: null},
+                    {name: "聚合函数", duration: "25分钟", completed: false, content: null},
+                    {name: "多表连接", duration: "35分钟", completed: false, content: null},
+                    {name: "子查询", duration: "30分钟", completed: false, content: null},
+                    {name: "Python操作SQL", duration: "35分钟", completed: false, content: null},
+                    {name: "Pandas与SQL", duration: "30分钟", completed: false, content: null},
+                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
+                ]
+            }
+        ];
 
-        navbarToggle.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-        });
+        // ==================== 项目数据 ====================
+        const projectsData = [
+            {
+                id: 0, emoji: "🧹", title: "数据清洗实战", difficulty: "beginner", difficultyText: "入门",
+                duration: "30分钟", dataset: "retail_orders.csv", desc: "处理订单数据中的缺失值、异常值和重复数据。",
+                goals: ["识别并处理缺失值", "检测和处理异常值", "去除重复记录", "数据格式标准化"],
+                tips: ["先了解数据概况再清洗", "保留原始数据备份", "记录清洗过程"],
+                errors: ["直接删除缺失值可能丢失重要信息", "异常值不一定是错误数据"],
+                code: "import pandas as pd\n\n# 读取数据\ndf = pd.read_csv('retail_orders.csv')\n\n# 查看数据概况\nprint(df.info())\nprint(df.describe())\n\n# 处理缺失值\ndf = df.dropna(subset=['order_id'])\ndf['amount'] = df['amount'].fillna(0)\n\n# 去除重复\ndf = df.drop_duplicates()\n\nprint(f'清洗后数据量: {len(df)}')"
+            },
+            {
+                id: 1, emoji: "📊", title: "分组聚合分析", difficulty: "beginner", difficultyText: "入门",
+                duration: "30分钟", dataset: "retail_orders.csv", desc: "分析订单数据，计算各类统计指标。",
+                goals: ["按客户分组统计", "计算销售额", "找出高价值客户", "制作统计报表"],
+                tips: ["理解groupby的工作原理", "多尝试不同的聚合函数", "结果可视化更直观"],
+                errors: ["分组键选择错误", "聚合函数使用不当"],
+                code: "import pandas as pd\n\ndf = pd.read_csv('retail_orders.csv')\n\n# 按客户分组统计\ncustomer_stats = df.groupby('customer_id').agg({\n    'order_id': 'count',\n    'amount': 'sum'\n}).rename(columns={'order_id': 'order_count'})\n\n# 找出Top10客户\ntop_customers = customer_stats.nlargest(10, 'amount')\nprint(top_customers)"
+            },
+            {
+                id: 2, emoji: "🛒", title: "购物篮分析", difficulty: "intermediate", difficultyText: "进阶",
+                duration: "45分钟", dataset: "market_basket.csv", desc: "使用关联规则分析顾客购买行为。",
+                goals: ["构建交易矩阵", "计算支持度置信度", "挖掘关联规则", "可视化结果"],
+                tips: ["最小支持度设置要合理", "关注提升度高的规则", "结果要结合业务理解"],
+                errors: ["支持度过高导致无规则", "忽略业务场景"],
+                code: "import pandas as pd\nfrom mlxtend.frequent_patterns import apriori\nfrom mlxtend.preprocessing import TransactionEncoder\n\n# 读取数据\ndf = pd.read_csv('market_basket.csv')\nprint(df.head())"
+            },
+            {
+                id: 3, emoji: "👥", title: "客户聚类分析", difficulty: "intermediate", difficultyText: "进阶",
+                duration: "45分钟", dataset: "customer_features.csv", desc: "使用K-Means算法对客户进行分群。",
+                goals: ["特征工程", "数据标准化", "确定聚类数", "客户分群解读"],
+                tips: ["聚类前先标准化", "用肘部法则确定K值", "结合业务理解分群"],
+                errors: ["忽略特征重要性", "K值选择不当"],
+                code: "import pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\n\ndf = pd.read_csv('customer_features.csv')\nfeatures = df[['age', 'income', 'spending_score']]\n\n# 标准化\nscaler = StandardScaler()\nX = scaler.fit_transform(features)\n\n# 聚类\nkmeans = KMeans(n_clusters=4, random_state=42)\ndf['cluster'] = kmeans.fit_predict(X)\nprint(df['cluster'].value_counts())"
+            },
+            {
+                id: 4, emoji: "📈", title: "数据可视化实战", difficulty: "intermediate", difficultyText: "进阶",
+                duration: "45分钟", dataset: "sales_data.csv", desc: "制作专业的销售数据可视化报表。",
+                goals: ["多维度分析", "制作多种图表", " Dashboard设计", "结论提炼"],
+                tips: ["图表选择要合适", "配色要统一", "关键信息突出"],
+                errors: ["图表类型选择不当", "信息过载"],
+                code: "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv('sales_data.csv')\n\n# 销售趋势图\ndf['date'] = pd.to_datetime(df['date'])\nmonthly = df.groupby(df['date'].dt.month)['sales'].sum()\n\nplt.figure(figsize=(10, 6))\nmonthly.plot(kind='bar')\nplt.title('月度销售趋势')\nplt.xlabel('月份')\nplt.ylabel('销售额')\nplt.show()"
+            },
+            {
+                id: 5, emoji: "🧪", title: "A/B测试分析", difficulty: "intermediate", difficultyText: "进阶",
+                duration: "45分钟", dataset: "ab_test_results.csv", desc: "分析A/B测试结果，判断实验效果。",
+                goals: ["计算转化率", "统计显著性检验", "置信区间估计", "给出决策建议"],
+                tips: ["样本量要足够", "注意时间因素", "考虑多重检验问题"],
+                errors: ["忽略统计显著性", "只看表面数字"],
+                code: "import pandas as pd\nfrom scipy import stats\n\ndf = pd.read_csv('ab_test_results.csv')\n\n# 分组统计\na_group = df[df['group'] == 'A']['converted']\nb_group = df[df['group'] == 'B']['converted']\n\n# t检验\nt_stat, p_value = stats.ttest_ind(a_group, b_group)\nprint(f'A组转化率: {a_group.mean():.2%}')\nprint(f'B组转化率: {b_group.mean():.2%}')\nprint(f'p值: {p_value:.4f}')"
+            },
+            {
+                id: 6, emoji: "📉", title: "时间序列预测", difficulty: "advanced", difficultyText: "高级",
+                duration: "60分钟", dataset: "daily_sales.csv", desc: "使用ARIMA模型预测未来销售。",
+                goals: ["时序可视化", "平稳性检验", "模型拟合", "预测未来"],
+                tips: ["数据预处理要充分", "参数选择关键", "验证预测准确性"],
+                errors: ["忽略季节性", "过度拟合"],
+                code: "import pandas as pd\nimport numpy as np\nfrom statsmodels.tsa.arima.model import ARIMA\n\ndf = pd.read_csv('daily_sales.csv')\ndf['date'] = pd.to_datetime(df['date'])\ndf = df.set_index('date')\n\n# ARIMA模型\nmodel = ARIMA(df['sales'], order=(1, 1, 1))\nmodel_fit = model.fit()\n\n# 预测未来7天\nforecast = model_fit.forecast(steps=7)\nprint('未来7天预测:', forecast)"
+            },
+            {
+                id: 7, emoji: "💎", title: "客户价值分析RFM", difficulty: "intermediate", difficultyText: "进阶",
+                duration: "45分钟", dataset: "customer_data.csv", desc: "使用RFM模型评估客户价值。",
+                goals: ["计算RFM指标", "客户分层", "制定策略", "效果评估"],
+                tips: ["RFM窗口期要合理", "分层标准要结合业务", "针对性营销"],
+                errors: ["窗口期设置不当", "分层太细或太粗"],
+                code: "import pandas as pd\nfrom datetime import datetime\n\ndf = pd.read_csv('customer_data.csv')\ndf['order_date'] = pd.to_datetime(df['order_date'])\n\n# 计算RFM\nnow = df['order_date'].max()\nrfm = df.groupby('customer_id').agg({\n    'order_date': lambda x: (now - x.max()).days,\n    'order_id': 'count',\n    'amount': 'sum'\n}).rename(columns={\n    'order_date': 'recency',\n    'order_id': 'frequency',\n    'amount': 'monetary'\n})\nprint(rfm.head())"
+            },
+            {
+                id: 8, emoji: "💬", title: "情感分析入门", difficulty: "advanced", difficultyText: "高级",
+                duration: "60分钟", dataset: "reviews.csv", desc: "对评论文本进行情感分析。",
+                goals: ["文本预处理", "特征提取", "情感分类", "结果分析"],
+                tips: ["中文要分词处理", "注意文本清洗", "模型选择要合适"],
+                errors: ["忽视文本长度", "类别不平衡"],
+                code: "import pandas as pd\n\ndf = pd.read_csv('reviews.csv')\nprint('评论样例:', df['review'].iloc[0])\nprint('情感标签分布:', df['sentiment'].value_counts())"
+            },
+            {
+                id: 9, emoji: "📈", title: "股票数据基础分析", difficulty: "advanced", difficultyText: "高级",
+                duration: "60分钟", dataset: "stock_prices.csv", desc: "分析股票价格走势和收益率。",
+                goals: ["数据获取", "收益率计算", "风险分析", "相关性分析"],
+                tips: ["考虑复权因素", "注意时间范围", "风险收益要平衡"],
+                errors: ["忽略交易费用", "过度依赖历史数据"],
+                code: "import pandas as pd\nimport numpy as np\n\ndf = pd.read_csv('stock_prices.csv')\ndf['date'] = pd.to_datetime(df['date'])\ndf = df.sort_values('date')\n\n# 计算日收益率\ndf['return'] = df['close'].pct_change()\n\nprint('平均日收益率:', df['return'].mean())\nprint('波动率:', df['return'].std())"
+            }
+        ];
 
-        // 点击导航链接后关闭菜单
-        document.querySelectorAll('.navbar-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navbarMenu.classList.remove('active');
-            });
-        });
+        // ==================== 成就数据 ====================
+        const achievementsData = [
+            {id: 0, emoji: "🌱", name: "入门学徒", desc: "完成3个小节", condition: "lessons", value: 3},
+            {id: 1, emoji: "⭐", name: "代码新星", desc: "完成10个小节", condition: "lessons", value: 10},
+            {id: 2, emoji: "📚", name: "学习达人", desc: "完成20个小节", condition: "lessons", value: 20},
+            {id: 3, emoji: "🐍", name: "Python入门", desc: "完成Python基础入门课程", condition: "course", value: 0},
+            {id: 4, emoji: "🏆", name: "十项全能", desc: "完成5个项目", condition: "projects", value: 5},
+            {id: 5, emoji: "🔥", name: "学习狂人", desc: "完成50个小节", condition: "lessons", value: 50},
+            {id: 6, emoji: "🎯", name: "精准分析师", desc: "完成数据清洗实战", condition: "course", value: 4},
+            {id: 7, emoji: "📊", name: "可视化达人", desc: "完成数据可视化课程", condition: "course", value: 5}
+        ];
 
-        // 导航栏高亮当前区域
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.navbar-link');
-
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (scrollY >= sectionTop) {
-                    current = section.getAttribute('id');
+        // ==================== 进度管理 ====================
+        function loadProgress() {
+            const saved = localStorage.getItem('studyProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                // 恢复课程进度
+                if (progress.courses) {
+                    progress.courses.forEach((completed, idx) => {
+                        if (coursesData[idx]) {
+                            coursesData[idx].lessons.forEach((lesson, lIdx) => {
+                                lesson.completed = completed[lIdx] || false;
+                            });
+                        }
+                    });
                 }
-            });
+                // 恢复项目进度
+                if (progress.projects) {
+                    progress.projects.forEach((completed, idx) => {
+                        if (projectsData[idx]) {
+                            projectsData[idx].completed = completed;
+                        }
+                    });
+                }
+            }
+        }
 
-            navLinks.forEach(link => {
+        function saveProgress() {
+            const progress = {
+                courses: coursesData.map(c => c.lessons.map(l => l.completed)),
+                projects: projectsData.map(p => p.completed || false)
+            };
+            localStorage.setItem('studyProgress', JSON.stringify(progress));
+        }
+
+        // ==================== 导航系统 ====================
+        let currentPage = 'courses';
+        let currentCourse = null;
+        let currentLesson = null;
+        let currentProject = null;
+
+        function navigateTo(page) {
+            currentPage = page;
+            currentCourse = null;
+            currentLesson = null;
+            currentProject = null;
+            
+            // 更新导航高亮
+            document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
+                if (link.dataset.page === page) {
                     link.classList.add('active');
                 }
             });
-        });
 
-        // 返回顶部按钮显示/隐藏
-        const backToTop = document.getElementById('backToTop');
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        // 返回顶部
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // 显示目标页面
+            if (page === 'courses' || page === 'course-detail' || page === 'lesson-detail') {
+                document.getElementById('page-courses').classList.add('active');
+                if (page === 'course-detail') {
+                    document.getElementById('page-course-detail').classList.add('active');
+                } else if (page === 'lesson-detail') {
+                    document.getElementById('page-lesson-detail').classList.add('active');
                 }
+            } else if (page === 'projects' || page === 'project-detail') {
+                document.getElementById('page-projects').classList.add('active');
+                if (page === 'project-detail') {
+                    document.getElementById('page-project-detail').classList.add('active');
+                }
+            } else if (page === 'achievements') {
+                document.getElementById('page-achievements').classList.add('active');
+            }
+
+            renderCurrentPage();
+        }
+
+        function renderCurrentPage() {
+            if (currentPage === 'courses') {
+                renderCourses();
+            } else if (currentPage === 'course-detail') {
+                renderCourseDetail(currentCourse);
+            } else if (currentPage === 'lesson-detail') {
+                renderLessonDetail(currentCourse, currentLesson);
+            } else if (currentPage === 'projects') {
+                renderProjects();
+            } else if (currentPage === 'project-detail') {
+                renderProjectDetail(currentProject);
+            } else if (currentPage === 'achievements') {
+                renderAchievements();
+            }
+        }
+
+        // ==================== 渲染函数 ====================
+        function renderCourses() {
+            const container = document.getElementById('courses-container');
+            
+            // 按阶段分组
+            const beginner = coursesData.filter(c => c.difficulty === 'beginner');
+            const intermediate = coursesData.filter(c => c.difficulty === 'intermediate');
+            const advanced = coursesData.filter(c => c.difficulty === 'advanced');
+
+            let html = '';
+
+            // 入门课程
+            html += '<h2 style="margin: 24px 0 16px; font-size: 24px;">🌱 入门课程</h2><div class="courses-grid">';
+            beginner.forEach(course => {
+                const completed = course.lessons.filter(l => l.completed).length;
+                const total = course.lessons.length;
+                const percent = (completed / total) * 100;
+                html += `
+                    <div class="course-card" onclick="showCourse(${course.id})">
+                        <div class="course-emoji">${course.emoji}</div>
+                        <div class="course-title">${course.title}</div>
+                        <div class="course-desc">${course.desc}</div>
+                        <div class="course-meta">
+                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
+                            <span class="progress-text">${completed}/${total}小节</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
             });
+            html += '</div>';
+
+            // 进阶课程
+            html += '<h2 style="margin: 32px 0 16px; font-size: 24px;">📈 进阶课程</h2><div class="courses-grid">';
+            intermediate.forEach(course => {
+                const completed = course.lessons.filter(l => l.completed).length;
+                const total = course.lessons.length;
+                const percent = (completed / total) * 100;
+                html += `
+                    <div class="course-card" onclick="showCourse(${course.id})">
+                        <div class="course-emoji">${course.emoji}</div>
+                        <div class="course-title">${course.title}</div>
+                        <div class="course-desc">${course.desc}</div>
+                        <div class="course-meta">
+                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
+                            <span class="progress-text">${completed}/${total}小节</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            // 高级课程
+            html += '<h2 style="margin: 32px 0 16px; font-size: 24px;">🔥 高级课程</h2><div class="courses-grid">';
+            advanced.forEach(course => {
+                const completed = course.lessons.filter(l => l.completed).length;
+                const total = course.lessons.length;
+                const percent = (completed / total) * 100;
+                html += `
+                    <div class="course-card" onclick="showCourse(${course.id})">
+                        <div class="course-emoji">${course.emoji}</div>
+                        <div class="course-title">${course.title}</div>
+                        <div class="course-desc">${course.desc}</div>
+                        <div class="course-meta">
+                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
+                            <span class="progress-text">${completed}/${total}小节</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function showCourse(courseId) {
+            currentCourse = courseId;
+            navigateTo('course-detail');
+        }
+
+        function renderCourseDetail(courseId) {
+            const course = coursesData[courseId];
+            const container = document.getElementById('course-detail-content');
+            const completed = course.lessons.filter(l => l.completed).length;
+            const total = course.lessons.length;
+
+            let lessonsHtml = '';
+            course.lessons.forEach((lesson, idx) => {
+                const statusIcon = lesson.completed ? '✅' : '⭕';
+                lessonsHtml += `
+                    <div class="lesson-row">
+                        <div class="lesson-status">${statusIcon}</div>
+                        <div class="lesson-info" onclick="showLesson(${courseId}, ${idx})">
+                            <div class="lesson-name">${lesson.name}</div>
+                            <div class="lesson-duration">${lesson.duration}</div>
+                        </div>
+                        <button class="complete-btn ${lesson.completed ? 'done' : ''}" 
+                                onclick="toggleLessonComplete(${courseId}, ${idx})">
+                            ${lesson.completed ? '已完成' : '标记完成'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <button class="back-btn" onclick="navigateTo('courses')">
+                    ← 返回课程中心
+                </button>
+                <div class="detail-header">
+                    <h1>${course.emoji} ${course.title}</h1>
+                    <div class="detail-meta">
+                        <span>📚 ${total}个小节</span>
+                        <span>✅ 已完成 ${completed}个</span>
+                        <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
+                    </div>
+                </div>
+                <div class="lessons-list">
+                    ${lessonsHtml}
+                </div>
+            `;
+        }
+
+        function showLesson(courseId, lessonId) {
+            currentCourse = courseId;
+            currentLesson = lessonId;
+            navigateTo('lesson-detail');
+        }
+
+        function renderLessonDetail(courseId, lessonId) {
+            const course = coursesData[courseId];
+            const lesson = course.lessons[lessonId];
+            const container = document.getElementById('lesson-detail-content');
+
+            if (!lesson.content) {
+                container.innerHTML = `
+                    <button class="back-btn" onclick="navigateTo('course-detail')">
+                        ← 返回课程
+                    </button>
+                    <div class="detail-header">
+                        <h1>📖 ${lesson.name}</h1>
+                        <div class="detail-meta">
+                            <span>⏱️ ${lesson.duration}</span>
+                            <span>所属: ${course.title}</span>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <h2>🚧 内容开发中</h2>
+                        <p>这部分课程内容正在紧张开发中，敬请期待！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const content = lesson.content;
+            const tipsHtml = content.tips.map(t => `<div class="tip-box"><h4>💡 小贴士</h4><p>${t}</p></div>`).join('');
+            const errorsHtml = content.errors.map(e => `<div class="error-box"><h4>⚠️ 常见错误</h4><p>${e}</p></div>`).join('');
+
+            container.innerHTML = `
+                <button class="back-btn" onclick="navigateTo('course-detail')">
+                    ← 返回课程
+                </button>
+                <div class="detail-header">
+                    <h1>📖 ${lesson.name}</h1>
+                    <div class="detail-meta">
+                        <span>⏱️ ${lesson.duration}</span>
+                        <span>所属: ${course.title}</span>
+                        <button class="complete-btn ${lesson.completed ? 'done' : ''}" 
+                                onclick="toggleLessonComplete(${courseId}, ${lessonId})">
+                            ${lesson.completed ? '✅ 已完成' : '✓ 标记完成'}
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2>📝 知识讲解</h2>
+                    <p>${content.explanation.replace(/\n/g, '<br>')}</p>
+                </div>
+                
+                <div class="content-section">
+                    <h2>💻 代码示例</h2>
+                    <div class="code-block">${content.code}</div>
+                </div>
+                
+                <div class="content-section">
+                    <h2>💡 小贴士</h2>
+                    ${tipsHtml}
+                </div>
+                
+                <div class="content-section">
+                    <h2>⚠️ 常见错误</h2>
+                    ${errorsHtml}
+                </div>
+                
+                <div class="content-section">
+                    <h2>❓ 思考题</h2>
+                    <div class="question-box">
+                        <h4>🤔 动动脑筋</h4>
+                        <p>${content.question}</p>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2>✏️ 自己试一试</h2>
+                    <div class="code-editor">
+                        <div class="editor-toolbar">
+                            <button class="run-btn" onclick="runCode()">▶️ 运行代码</button>
+                        </div>
+                        <textarea id="code-input" class="editor-textarea" placeholder="在这里输入你的代码...">${content.code}</textarea>
+                        <div id="code-output" class="output-area">// 输出结果将显示在这里</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleLessonComplete(courseId, lessonId) {
+            const lesson = coursesData[courseId].lessons[lessonId];
+            lesson.completed = !lesson.completed;
+            saveProgress();
+            renderCurrentPage();
+        }
+
+        function runCode() {
+            const output = document.getElementById('code-output');
+            const code = document.getElementById('code-input').value;
+            output.textContent = '⏳ 正在运行...';
+            
+            // 模拟代码执行
+            setTimeout(() => {
+                const lines = code.split('\n');
+                const prints = lines.filter(l => l.includes('print'));
+                
+                if (prints.length > 0) {
+                    output.innerHTML = '✅ 运行成功！<br><br>';
+                    prints.forEach(p => {
+                        const match = p.match(/print\s*\(\s*['"]([^'"]*)['"]/);
+                        if (match) {
+                            output.innerHTML += match[1] + '<br>';
+                        }
+                    });
+                } else {
+                    output.textContent = '✅ 代码已执行（无print输出）';
+                }
+            }, 500);
+        }
+
+        // ==================== 项目渲染 ====================
+        function renderProjects() {
+            const container = document.getElementById('projects-container');
+            container.innerHTML = '<div class="courses-grid">' + 
+                projectsData.map(p => `
+                    <div class="project-card" onclick="showProject(${p.id})">
+                        <div class="project-header">
+                            <div class="project-emoji">${p.emoji}</div>
+                            <div class="project-meta">
+                                <span class="difficulty ${p.difficulty}">${p.difficultyText}</span>
+                            </div>
+                        </div>
+                        <div class="project-title">${p.title}</div>
+                        <div class="project-desc">${p.desc}</div>
+                        <div class="dataset-tag">📁 ${p.dataset}</div>
+                        <button class="start-btn" onclick="event.stopPropagation(); showProject(${p.id})">
+                            开始练习
+                        </button>
+                    </div>
+                `).join('') + '</div>';
+        }
+
+        function showProject(projectId) {
+            currentProject = projectId;
+            navigateTo('project-detail');
+        }
+
+        function renderProjectDetail(projectId) {
+            const project = projectsData[projectId];
+            const container = document.getElementById('project-detail-content');
+            
+            const tipsHtml = project.tips.map(t => `<div class="tip-box"><h4>💡 小提示</h4><p>${t}</p></div>`).join('');
+            const errorsHtml = project.errors.map(e => `<div class="error-box"><h4>⚠️ 常见错误</h4><p>${e}</p></div>`).join('');
+
+            // 生成CSV下载内容
+            const csvContent = generateSampleCSV(project.dataset);
+
+            container.innerHTML = `
+                <button class="back-btn" onclick="navigateTo('projects')">
+                    ← 返回实战项目
+                </button>
+                <div class="detail-header">
+                    <h1>${project.emoji} ${project.title}</h1>
+                    <div class="detail-meta">
+                        <span>⏱️ ${project.duration}</span>
+                        <span class="difficulty ${project.difficulty}">${project.difficultyText}</span>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2>📁 数据集</h2>
+                    <div class="dataset-tag" style="font-size: 14px; margin-bottom: 16px;">
+                        ${project.dataset}
+                    </div>
+                    <button class="download-btn" onclick="downloadDataset('${project.dataset}', '${csvContent}')">
+                        ⬇️ 下载数据集
+                    </button>
+                </div>
+                
+                <div class="content-section">
+                    <h2>🎯 项目目标</h2>
+                    <ul style="margin-left: 24px; color: var(--text-secondary);">
+                        ${project.goals.map(g => `<li style="margin-bottom: 8px;">${g}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="content-section">
+                    <h2>💡 小提示</h2>
+                    ${tipsHtml}
+                </div>
+                
+                <div class="content-section">
+                    <h2>⚠️ 常见错误</h2>
+                    ${errorsHtml}
+                </div>
+                
+                <div class="content-section">
+                    <h2>💻 代码示例</h2>
+                    <div class="code-block">${project.code}</div>
+                </div>
+                
+                <div class="content-section">
+                    <h2>✏️ 练习区</h2>
+                    <div class="code-editor">
+                        <div class="editor-toolbar">
+                            <button class="run-btn" onclick="runProjectCode()">▶️ 运行代码</button>
+                        </div>
+                        <textarea id="project-code-input" class="editor-textarea" placeholder="在这里编写你的代码...">${project.code}</textarea>
+                        <div id="project-code-output" class="output-area">// 输出结果将显示在这里</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateSampleCSV(filename) {
+            // 根据文件名生成示例数据
+            const sampleData = {
+                'retail_orders.csv': 'order_id,customer_id,order_date,amount,product\n1001,101,2024-01-15,299.00,产品A\n1002,102,2024-01-16,159.00,产品B\n1003,101,2024-01-18,89.00,产品C\n1004,103,2024-01-19,450.00,产品A\n1005,104,2024-01-20,299.00,产品B',
+                'market_basket.csv': 'transaction_id,items\n1,"牛奶,面包,鸡蛋"\n2,"面包,黄油"\n3,"牛奶,鸡蛋,面包"\n4,"黄油,鸡蛋"\n5,"牛奶,面包,黄油"',
+                'customer_features.csv': 'customer_id,age,income,spending_score\n101,35,80000,75\n102,28,55000,60\n103,42,120000,90\n104,25,45000,45\n105,38,95000,80',
+                'sales_data.csv': 'date,product,sales,region\n2024-01-01,产品A,1000,北京\n2024-01-02,产品A,1200,北京\n2024-01-03,产品B,800,上海\n2024-01-04,产品A,1500,北京\n2024-01-05,产品B,950,上海',
+                'ab_test_results.csv': 'user_id,group,converted\n1001,A,0\n1002,A,1\n1003,B,1\n1004,B,1\n1005,A,0',
+                'daily_sales.csv': 'date,sales\n2024-01-01,1200\n2024-01-02,1350\n2024-01-03,1100\n2024-01-04,1450\n2024-01-05,1600',
+                'customer_data.csv': 'customer_id,order_date,amount\n101,2024-01-15,500\n101,2024-01-20,300\n102,2024-01-18,800\n103,2024-01-22,1200\n104,2024-01-25,450',
+                'reviews.csv': 'review_id,review,sentiment\n1,"这个产品很好用",positive\n2,"质量一般",neutral\n3,"非常满意",positive\n4,"不推荐",negative\n5,"还行吧",neutral',
+                'stock_prices.csv': 'date,open,high,low,close,volume\n2024-01-01,100.0,105.0,99.0,104.0,1000000\n2024-01-02,104.0,108.0,103.0,107.0,1200000\n2024-01-03,107.0,110.0,106.0,109.0,950000\n2024-01-04,109.0,112.0,108.0,111.0,1100000\n2024-01-05,111.0,115.0,110.0,114.0,1300000'
+            };
+            return sampleData[filename] || 'col1,col2\n1,2\n3,4';
+        }
+
+        function downloadDataset(filename, content) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+
+        function runProjectCode() {
+            const output = document.getElementById('project-code-output');
+            output.textContent = '⏳ 正在运行...';
+            
+            setTimeout(() => {
+                output.textContent = '✅ 代码已执行\n\n提示：在实际环境中，此代码将访问CSV文件并输出结果。\n请确保已下载数据集并配置正确的文件路径。';
+            }, 500);
+        }
+
+        // ==================== 成就渲染 ====================
+        function renderAchievements() {
+            const container = document.getElementById('achievements-container');
+            
+            // 计算已解锁的成就
+            const totalLessons = coursesData.reduce((sum, c) => sum + c.lessons.filter(l => l.completed).length, 0);
+            const totalProjects = projectsData.filter(p => p.completed).length;
+            
+            const unlockedAchievements = [];
+            achievementsData.forEach(a => {
+                let unlocked = false;
+                if (a.condition === 'lessons' && totalLessons >= a.value) unlocked = true;
+                if (a.condition === 'course' && coursesData[a.value]?.lessons.every(l => l.completed)) unlocked = true;
+                if (a.condition === 'projects' && totalProjects >= a.value) unlocked = true;
+                unlockedAchievements.push({...a, unlocked});
+            });
+
+            container.innerHTML = `
+                <div style="margin-bottom: 24px; text-align: center;">
+                    <p style="color: var(--text-secondary);">已解锁 ${unlockedAchievements.filter(a => a.unlocked).length} / ${unlockedAchievements.length} 个成就</p>
+                </div>
+                <div class="achievements-grid">
+                    ${unlockedAchievements.map(a => `
+                        <div class="achievement-card ${a.unlocked ? 'unlocked' : ''}">
+                            <div class="achievement-emoji">${a.emoji}</div>
+                            <div class="achievement-name">${a.name}</div>
+                            <div class="achievement-desc">${a.desc}</div>
+                            <div class="achievement-status">${a.unlocked ? '已解锁' : '未解锁'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            renderCurrentPage();
         });
     </script>
 </body>
