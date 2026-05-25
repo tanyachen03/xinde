@@ -1202,23 +1202,25 @@ print("Hello, Python!")</textarea>
     }
 
     // 初始化
-    loadProgress();
-    
-    // 处理hash路由
-    function handleHash() {
-        const hash = window.location.hash;
-        if (hash.startsWith("#lesson/")) {
-            const parts = hash.split("/");
-            const courseId = parseInt(parts[1]);
-            const lessonId = parseInt(parts[2]);
-            showLessonDetail(courseId, lessonId);
-        } else {
-            backToCourses();
+    document.addEventListener("DOMContentLoaded", function() {
+        loadProgress();
+        
+        // 处理hash路由
+        function handleHash() {
+            const hash = window.location.hash;
+            if (hash.startsWith("#lesson/")) {
+                const parts = hash.split("/");
+                const courseId = parseInt(parts[1]);
+                const lessonId = parseInt(parts[2]);
+                showLessonDetail(courseId, lessonId);
+            } else {
+                backToCourses();
+            }
         }
-    }
-    
-    window.addEventListener("hashchange", handleHash);
-    handleHash();
+        
+        window.addEventListener("hashchange", handleHash);
+        handleHash();
+    });
 </script>
 </body>
 </html>
