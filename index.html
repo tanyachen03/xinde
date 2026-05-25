@@ -3,1496 +3,594 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数析学院 - Python数据分析学习平台</title>
+    <title>Python 数据分析学习平台</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --bg-page: #F5F7FA;
-            --bg-card: #FFFFFF;
-            --border-color: #E5E7EB;
+            --bg-color: #F5F7FA;
+            --card-bg: #FFFFFF;
             --text-primary: #1F2937;
             --text-secondary: #6B7280;
-            --color-primary: #3B82F6;
-            --color-success: #10B981;
-            --color-warning: #F59E0B;
-            --color-danger: #EF4444;
+            --primary: #3B82F6;
+            --primary-hover: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --border: #E5E7EB;
             --shadow: 0 1px 3px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
         }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-page);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-color);
             color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
         }
-        
-        /* 导航栏 */
         .navbar {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            padding: 0 24px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .navbar-inner {
-            max-width: 1400px;
-            margin: 0 auto;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 64px;
         }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--color-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
-        
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; }
         .nav-link {
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
             color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        .nav-link:hover {
-            background: var(--bg-page);
-            color: var(--text-primary);
-        }
-        
-        .nav-link.active {
-            background: var(--color-primary);
-            color: white;
-        }
-        
-        .login-btn {
-            background: var(--color-primary);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            border: none;
-        }
-        
-        .login-btn:hover {
-            background: #2563EB;
-        }
-        
-        /* 主内容区 */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 32px 24px;
-        }
-        
-        .page-title {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        
-        .page-title h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-        
-        .page-title p {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-        
-        /* 页面切换 */
-        .page {
-            display: none;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        /* 课程卡片网格 */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
-        }
-        
-        .course-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: var(--shadow);
-        }
-        
-        .course-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--color-primary);
-        }
-        
-        .course-emoji {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-        
-        .course-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-        
-        .course-desc {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .difficulty {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .difficulty.beginner {
-            background: #D1FAE5;
-            color: #065F46;
-        }
-        
-        .difficulty.intermediate {
-            background: #FEF3C7;
-            color: #92400E;
-        }
-        
-        .difficulty.advanced {
-            background: #FEE2E2;
-            color: #991B1B;
-        }
-        
-        .progress-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: #E5E7EB;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: var(--color-success);
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        /* 课程详情页 */
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.2s;
-        }
-        
-        .back-btn:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-        
-        .detail-header {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 24px;
-        }
-        
-        .detail-header h1 {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-        
-        .detail-meta {
-            display: flex;
-            gap: 24px;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        /* 小节列表 */
-        .lessons-list {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        
-        .lesson-row {
-            display: flex;
-            align-items: center;
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .lesson-row:last-child {
-            border-bottom: none;
-        }
-        
-        .lesson-row:hover {
-            background: #F9FAFB;
-        }
-        
-        .lesson-status {
-            width: 32px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        .lesson-info {
-            flex: 1;
-            margin-left: 12px;
-        }
-        
-        .lesson-name {
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        
-        .lesson-duration {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        .complete-btn {
-            background: var(--color-success);
-            color: white;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        
-        .complete-btn:hover {
-            background: #059669;
-        }
-        
-        .complete-btn.done {
-            background: #D1D5DB;
-            color: #6B7280;
-            cursor: default;
-        }
-        
-        /* 小节详情页 */
-        .content-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .content-section h2 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .content-section p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 12px;
-        }
-        
-        .code-block {
-            background: #1F2937;
-            color: #E5E7EB;
-            padding: 16px;
-            border-radius: 8px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            overflow-x: auto;
-            line-height: 1.6;
-        }
-        
-        .tip-box {
-            background: #ECFDF5;
-            border-left: 4px solid var(--color-success);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-        
-        .tip-box h4 {
-            color: #065F46;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .error-box {
-            background: #FEF2F2;
-            border-left: 4px solid var(--color-danger);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-        
-        .error-box h4 {
-            color: #991B1B;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .question-box {
-            background: #EFF6FF;
-            border-left: 4px solid var(--color-primary);
-            padding: 16px;
-            border-radius: 8px;
-        }
-        
-        .question-box h4 {
-            color: #1E40AF;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        /* 代码编辑器 */
-        .code-editor {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .editor-toolbar {
-            background: #F9FAFB;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .run-btn {
-            background: var(--color-success);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .run-btn:hover {
-            background: #059669;
-        }
-        
-        .editor-textarea {
-            width: 100%;
-            min-height: 180px;
-            border: none;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            background: #1F2937;
-            color: #E5E7EB;
-            resize: vertical;
-        }
-        
-        .output-area {
-            background: #111827;
-            color: #10B981;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
-            min-height: 60px;
-            border-top: 1px solid #374151;
-        }
-        
-        /* 项目卡片 */
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: var(--shadow);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--color-primary);
-        }
-        
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-        
-        .project-emoji {
-            font-size: 40px;
-        }
-        
-        .project-meta {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .project-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .project-desc {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        
-        .dataset-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #F3F4F6;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-        
-        .start-btn {
-            width: 100%;
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        
-        .start-btn:hover {
-            background: #2563EB;
-        }
-        
-        /* 成就卡片 */
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-        
-        .achievement-card {
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .achievement-card.unlocked {
-            border-color: var(--color-warning);
-            background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%);
-        }
-        
-        .achievement-emoji {
-            font-size: 56px;
-            margin-bottom: 12px;
-            opacity: 0.4;
-        }
-        
-        .achievement-card.unlocked .achievement-emoji {
-            opacity: 1;
-        }
-        
-        .achievement-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .achievement-desc {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        .achievement-status {
-            margin-top: 12px;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-block;
-        }
-        
-        .achievement-card.unlocked .achievement-status {
-            background: var(--color-warning);
-            color: white;
-        }
-        
-        .achievement-card:not(.unlocked) .achievement-status {
-            background: #F3F4F6;
-            color: var(--text-secondary);
-        }
-        
-        /* 下载按钮 */
-        .download-btn {
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
         }
-        
-        .download-btn:hover {
-            background: #2563EB;
+        .nav-link:hover, .nav-link.active { color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .main-content { margin-top: 80px; padding: 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .page-title { font-size: 2rem; margin-bottom: 0.5rem; }
+        .page-subtitle { color: var(--text-secondary); margin-bottom: 2rem; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
-        
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .card-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+        .card-icon { font-size: 2.5rem; line-height: 1; }
+        .card-info h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .card-meta { display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-secondary); }
+        .difficulty { padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; }
+        .difficulty.beginner { background: #D1FAE5; color: #065F46; }
+        .difficulty.intermediate { background: #FEF3C7; color: #92400E; }
+        .difficulty.advanced { background: #FEE2E2; color: #991B1B; }
+        .card-desc { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: 1rem; line-height: 1.5; }
+        .progress-section { margin-top: 1rem; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .progress-bar { height: 8px; background: var(--bg-color); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #60A5FA); border-radius: 4px; transition: width 0.5s; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--primary); background: none; border: none;
+            font-size: 1rem; cursor: pointer; margin-bottom: 1.5rem;
+            padding: 0.5rem; border-radius: 0.5rem; transition: background 0.2s;
+        }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.1); }
+        .course-header { background: var(--card-bg); border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+        .course-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .course-header p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .course-progress { background: var(--bg-color); padding: 1rem; border-radius: 0.75rem; }
+        .lesson-list { background: var(--card-bg); border-radius: 1rem; box-shadow: var(--shadow); overflow: hidden; }
+        .lesson-item { display: flex; align-items: center; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); transition: background 0.2s; }
+        .lesson-item:last-child { border-bottom: none; }
+        .lesson-item:hover { background: var(--bg-color); }
+        .lesson-number { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-color); display: flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 1rem; flex-shrink: 0; }
+        .lesson-number.completed { background: var(--success); color: white; }
+        .lesson-info { flex: 1; cursor: pointer; }
+        .lesson-info h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .lesson-info span { font-size: 0.875rem; color: var(--text-secondary); }
+        .lesson-status { display: flex; align-items: center; gap: 0.75rem; }
+        .btn { padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+        .lesson-content { background: var(--card-bg); border-radius: 1rem; padding: 2rem; box-shadow: var(--shadow); }
+        .lesson-content h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+        .lesson-meta { color: var(--text-secondary); margin-bottom: 2rem; }
+        .content-section { margin-bottom: 2rem; }
+        .content-section h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .content-section p { line-height: 1.8; color: var(--text-secondary); }
+        .code-block { background: #1E293B; color: #E2E8F0; padding: 1.5rem; border-radius: 0.75rem; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 0.9375rem; line-height: 1.6; margin: 1rem 0; }
+        .tip-box { background: #EFF6FF; border-left: 4px solid var(--primary); padding: 1rem 1.25rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1rem 0; }
+        .tip-box h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        .tip-box ul { margin-left: 1.25rem; color: var(--text-secondary); }
+        .tip-box li { margin: 0.5rem 0; }
+        .error-box { background: #FEF2F2; border-left: 4px solid var(--danger); padding: 1rem 1.25rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1rem 0; }
+        .error-box h4 { color: var(--danger); margin-bottom: 0.5rem; }
+        .error-example { background: #FEE2E2; padding: 0.75rem; border-radius: 0.375rem; margin: 0.5rem 0; font-family: monospace; font-size: 0.875rem; }
+        .correct-example { background: #D1FAE5; padding: 0.75rem; border-radius: 0.375rem; margin: 0.5rem 0; font-family: monospace; font-size: 0.875rem; }
+        .question-box { background: #FEF3C7; border-left: 4px solid var(--warning); padding: 1rem 1.25rem; border-radius: 0 0.5rem 0.5rem 0; margin: 1rem 0; }
+        .question-box h4 { color: #92400E; margin-bottom: 0.5rem; }
+        .practice-section { background: var(--bg-color); border-radius: 1rem; padding: 1.5rem; margin-top: 2rem; }
+        .practice-section h3 { margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .code-editor { width: 100%; min-height: 200px; padding: 1rem; border: 2px solid var(--border); border-radius: 0.5rem; font-family: 'Consolas', monospace; font-size: 0.9375rem; line-height: 1.6; resize: vertical; background: var(--card-bg); }
+        .code-editor:focus { outline: none; border-color: var(--primary); }
+        .run-btn { margin-top: 1rem; padding: 0.75rem 2rem; font-size: 1rem; }
+        .output-area { margin-top: 1rem; padding: 1rem; background: #1E293B; color: #4ADE80; border-radius: 0.5rem; font-family: monospace; min-height: 100px; white-space: pre-wrap; }
+        .project-card .dataset-info { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-secondary); margin: 0.75rem 0; padding: 0.5rem; background: var(--bg-color); border-radius: 0.375rem; }
+        .download-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; font-size: 0.875rem; cursor: pointer; }
+        .download-btn:hover { background: var(--primary-hover); }
+        .achievement-card { text-align: center; padding: 2rem; }
+        .achievement-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.3; transition: all 0.3s; }
+        .achievement-card.unlocked .achievement-icon { opacity: 1; }
+        .achievement-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .achievement-card.unlocked h3 { color: var(--text-primary); }
+        .achievement-card p { font-size: 0.875rem; color: var(--text-secondary); }
+        .achievement-badge { display: inline-block; padding: 0.25rem 0.75rem; background: var(--bg-color); border-radius: 1rem; font-size: 0.75rem; margin-top: 0.75rem; color: var(--text-secondary); }
+        .achievement-card.unlocked .achievement-badge { background: var(--success); color: white; }
+        .project-detail { background: var(--card-bg); border-radius: 1rem; padding: 2rem; box-shadow: var(--shadow); }
+        .project-detail h1 { font-size: 1.75rem; margin-bottom: 1rem; }
+        .project-meta { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+        .project-meta-item { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); }
+        .dataset-download-section { background: var(--bg-color); padding: 1.5rem; border-radius: 0.75rem; margin: 1.5rem 0; }
+        .dataset-download-section h4 { margin-bottom: 0.5rem; }
+        .complete-btn { margin-top: 2rem; padding: 1rem 2rem; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
         @media (max-width: 768px) {
-            .navbar-inner {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 12px 0;
-            }
-            
-            .nav-links {
-                order: 3;
-                width: 100%;
-                margin-top: 12px;
-                justify-content: center;
-            }
-            
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .detail-header {
-                padding: 20px;
-            }
+            .navbar { padding: 1rem; }
+            .nav-links { gap: 1rem; }
+            .main-content { padding: 1rem; }
+            .card-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-inner">
-            <div class="logo" onclick="navigateTo('courses')">
-                📊 数析学院
-            </div>
-            <div class="nav-links">
-                <div class="nav-link active" data-page="courses" onclick="navigateTo('courses')">课程中心</div>
-                <div class="nav-link" data-page="projects" onclick="navigateTo('projects')">实战项目</div>
-                <div class="nav-link" data-page="achievements" onclick="navigateTo('achievements')">成就殿堂</div>
-            </div>
-            <button class="login-btn">登录</button>
+        <div class="logo">🐍 Python数据分析</div>
+        <div class="nav-links">
+            <span class="nav-link active" onclick="showPage('courses')">课程中心</span>
+            <span class="nav-link" onclick="showPage('projects')">实战项目</span>
+            <span class="nav-link" onclick="showPage('achievements')">成就殿堂</span>
         </div>
     </nav>
-
-    <main class="main-container">
-        <!-- 课程中心 - 列表页 -->
+    <div class="main-content">
         <div id="page-courses" class="page active">
-            <div class="page-title">
-                <h1>📚 课程中心</h1>
-                <p>系统学习Python数据分析，从入门到精通</p>
-            </div>
-            <div id="courses-container"></div>
+            <h1 class="page-title">课程中心</h1>
+            <p class="page-subtitle">系统学习Python数据分析，从入门到精通</p>
+            <div id="courses-grid" class="card-grid"></div>
         </div>
-
-        <!-- 课程中心 - 详情页 -->
         <div id="page-course-detail" class="page">
+            <button class="back-btn" onclick="backToCourses()">← 返回课程中心</button>
             <div id="course-detail-content"></div>
         </div>
-
-        <!-- 课程中心 - 小节详情页 -->
         <div id="page-lesson-detail" class="page">
+            <button class="back-btn" onclick="backToCourseDetail()">← 返回课程</button>
             <div id="lesson-detail-content"></div>
         </div>
-
-        <!-- 实战项目 - 列表页 -->
         <div id="page-projects" class="page">
-            <div class="page-title">
-                <h1>💼 实战项目</h1>
-                <p>通过真实项目练习，巩固所学知识</p>
-            </div>
-            <div id="projects-container"></div>
+            <h1 class="page-title">实战项目</h1>
+            <p class="page-subtitle">通过真实数据集练习，巩固所学知识</p>
+            <div id="projects-grid" class="card-grid"></div>
         </div>
-
-        <!-- 实战项目 - 详情页 -->
         <div id="page-project-detail" class="page">
+            <button class="back-btn" onclick="backToProjects()">← 返回实战项目</button>
             <div id="project-detail-content"></div>
         </div>
-
-        <!-- 成就殿堂 -->
         <div id="page-achievements" class="page">
-            <div class="page-title">
-                <h1>🏆 成就殿堂</h1>
-                <p>记录你的学习足迹，解锁专属勋章</p>
-            </div>
-            <div id="achievements-container"></div>
+            <h1 class="page-title">成就殿堂</h1>
+            <p class="page-subtitle">记录你的学习足迹，解锁专属成就</p>
+            <div id="achievements-grid" class="card-grid"></div>
         </div>
-    </main>
-
+    </div>
     <script>
-        // ==================== 课程数据 ====================
-        const coursesData = [
-            {
-                id: 0, emoji: "🐍", title: "Python基础入门", difficulty: "beginner",
-                difficultyText: "入门", desc: "从零开始掌握Python编程基础",
-                lessons: [
-                    {name: "Python安装与环境配置", duration: "20分钟", completed: false, content: {explanation: "Python是一门简洁优雅的编程语言，在数据分析领域应用广泛。\n\n安装步骤：\n1. 访问Anaconda官网下载安装包\n2. 运行安装程序，选择默认安装路径\n3. 安装完成后，在终端输入 python --version 检查是否安装成功", code: "# 检查Python版本\nimport sys\nprint(f'Python版本: {sys.version}')\nprint('环境配置成功！')", tips: ["安装路径不要包含中文", "推荐使用Anaconda省去配置麻烦", "记住常用快捷键Ctrl+Enter运行"], errors: ["命令提示符找不到python - 检查环境变量", "安装失败 - 关闭杀毒软件重试"], question: "安装完成后，如何验证Python环境配置成功？"}},
-                    {name: "变量与数据类型", duration: "25分钟", completed: false, content: {explanation: "变量是存储数据的容器。\n\nPython主要数据类型：\n- 整数(int)：如1, 100, -5\n- 浮点数(float)：如3.14, 2.5\n- 字符串(str)：用引号包裹的文本\n- 布尔值(bool)：True和False", code: "# 变量定义\nname = '小明'\nage = 25\nheight = 1.75\nis_student = True\n\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'是否学生: {is_student}')", tips: ["变量名最好使用英文，见名知意", "多个单词可以用下划线连接", "变量赋值时，右边的表达式先计算"], errors: ["SyntaxError: invalid syntax - 检查引号、括号", "NameError: name 'xxx' is not defined - 变量未定义就使用"], question: "创建3个变量，分别存储你的姓名、生日年份和所在城市，然后打印出来。"}},
-                    {name: "条件判断", duration: "20分钟", completed: false, content: {explanation: "条件判断让程序根据不同情况执行不同代码。\n\nif条件：\n- if 条件: 满足时执行\n- elif 条件: 其他如果\n- else: 都不满足时执行", code: "# 条件判断示例\nscore = 85\n\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelif score >= 60:\n    grade = 'C'\nelse:\n    grade = 'D'\n\nprint(f'成绩等级: {grade}')", tips: ["条件后记得加冒号", "注意缩进4个空格", "条件判断中使用 ==，不是 ="], errors: ["IndentationError: expected an indented block - 缩进不正确", "SyntaxError: invalid syntax - 语法错误，检查冒号"], question: "写一个程序判断年龄是否成年（18岁及以上）。"}},
-                    {name: "循环语句", duration: "25分钟", completed: false, content: {explanation: "循环让计算机重复执行任务。\n\nfor循环：遍历已知次数\nwhile循环：条件满足时继续\n\nbreak：跳出循环\ncontinue：跳过本次", code: "# for循环遍历\nfor i in range(1, 6):\n    print(f'第 {i} 次循环')\n\n# while循环\ncount = 1\nwhile count <= 3:\n    print(f'计数: {count}')\n    count += 1", tips: ["range(5)生成0-4", "while要设置退出条件", "避免无限循环"], errors: ["无限循环 - while循环忘记增加计数器", "IndentationError - 缩进问题"], question: "用循环计算1+2+3+...+10的和。"}},
-                    {name: "列表基础", duration: "20分钟", completed: false, content: {explanation: "列表是存储多个数据的容器。\n\n特点：\n- 有序排列\n- 可以修改\n- 用方括号[]表示\n- 索引从0开始", code: "# 列表操作\nfruits = ['苹果', '香蕉', '橙子']\nprint(f'水果列表: {fruits}')\nprint(f'第一个: {fruits[0]}')\n\nfruits.append('葡萄')\nprint(f'添加后: {fruits}')", tips: ["索引从0不是1开始！", "append()添加到末尾", "len()获取长度"], errors: ["IndexError: list index out of range - 索引越界", "列表索引从0开始"], question: "创建一个包含5个数字的列表，添加一个数字，删除一个数字。"}},
-                    {name: "字典操作", duration: "25分钟", completed: false, content: {explanation: "字典是键值对的集合。\n\n特点：\n- 键唯一，值可重复\n- 用花括号{}表示\n- 查找速度快", code: "# 字典操作\nperson = {\n    'name': '小明',\n    'age': 25,\n    'city': '北京'\n}\n\nprint(f'姓名: {person[\"name\"]}')\nperson['email'] = 'test@example.com'\nprint(f'更新后: {person}')", tips: ["字典键不能重复，后面会覆盖前面的", "字典查找比列表快很多", "用 get() 方法访问键，不会报错"], errors: ["KeyError - 键不存在", "TypeError: unhashable type - 不能用可变类型作为键"], question: "创建一个字典，存储一个学生的课程和分数，添加一门课程，然后打印总分。"}},
-                    {name: "函数定义", duration: "30分钟", completed: false, content: {explanation: "函数是代码的封装，提高复用性。\n\n定义：\ndef 函数名(参数):\n    代码块\n    return 返回值", code: "# 函数示例\ndef greet(name):\n    return f'你好, {name}!'\n\ndef add(a, b):\n    return a + b\n\nprint(greet('小明'))\nprint(f'3 + 5 = {add(3, 5)}')", tips: ["函数名应该描述函数做什么", "写文档字符串是好的习惯", "函数参数不要太多，太多考虑拆分"], errors: ["SyntaxError - 定义函数忘记冒号", "IndentationError - 缩进错误", "TypeError - 参数数量不匹配"], question: "写一个函数，输入温度（摄氏度），返回华氏度。公式：F = C × 1.8 + 32"}},
-                    {name: "模块导入", duration: "20分钟", completed: false, content: {explanation: "模块是别人写好的代码库。\n\n常用导入方式：\n- import 模块名\n- from 模块 import 函数\n- import 模块 as 别名", code: "# 模块导入\nimport math\n\nprint(f'π的值: {math.pi}')\nprint(f'平方根: {math.sqrt(16)}')\nprint(f'绝对值: {abs(-5)}')", tips: ["导入语句放在文件顶部", "标准库很丰富，先看看有没有现成的", "避免循环导入"], errors: ["ModuleNotFoundError - 模块不存在或未安装", "ImportError - 导入失败"], question: "用random模块模拟掷骰子，生成1-6的随机数。"}},
-                    {name: "文件操作", duration: "25分钟", completed: false, content: {explanation: "Python可以读写各种文件。\n\n读写模式：\n- 'r' 读取\n- 'w' 写入\n- 'a' 追加", code: "# 文件写入\nwith open('test.txt', 'w', encoding='utf-8') as f:\n    f.write('Hello Python!\\n')\n    f.write('第二行内容')\n\n# 文件读取\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n    print(content)", tips: ["使用with自动关闭文件", "记得指定encoding", "文件路径要正确"], errors: ["FileNotFoundError - 文件不存在", "编码错误"], question: "创建一个CSV文件写入表头和数据。"}},
-                    {name: "异常处理", duration: "25分钟", completed: false, content: {explanation: "程序运行时可能出错，异常处理让程序更健壮。\n\n语法：\ntry:\n    可能出错的代码\nexcept 错误类型:\n    处理错误", code: "# 异常处理\ntry:\n    num = int(input('输入数字: '))\n    result = 10 / num\n    print(f'结果: {result}')\nexcept ValueError:\n    print('请输入有效数字')\nexcept ZeroDivisionError:\n    print('不能除以零')", tips: ["捕获具体异常类型", "异常要有处理方案", "不要滥用异常捕获"], errors: ["各种运行时错误", "除零错误"], question: "写一个程序处理用户输入年龄，可能输入非数字。"}},
-                    {name: "列表推导式", duration: "20分钟", completed: false, content: {explanation: "列表推导式是Python特有的简洁语法。\n\n语法：\n[表达式 for item in 可迭代对象]\n[表达式 for item in 可迭代对象 if 条件]", code: "# 列表推导式\n# 传统方式\nsquares = []\nfor i in range(1, 6):\n    squares.append(i ** 2)\n\n# 推导式\nsquares2 = [i ** 2 for i in range(1, 6)]\nprint(f'平方数: {squares2}')\n\n# 带条件\nevens = [i for i in range(1, 11) if i % 2 == 0]\nprint(f'偶数: {evens}')", tips: ["比传统循环更简洁", "适合简单转换", "复杂逻辑用普通循环"], errors: ["语法错误", "表达式过于复杂"], question: "用列表推导式生成1-20中3的倍数。"}},
-                    {name: "综合练习", duration: "30分钟", completed: false, content: {explanation: "综合运用所学知识，完成一个完整的小程序。\n\n本节我们将创建一个简单的学生成绩管理系统。", code: "# 学生成绩管理系统\nstudents = [\n    {'name': '小明', 'score': 85},\n    {'name': '小红', 'score': 92},\n    {'name': '小刚', 'score': 78}\n]\n\n# 计算平均分\ntotal = sum(s['score'] for s in students)\navg = total / len(students)\nprint(f'平均分: {avg:.2f}')\n\n# 找出最高分\nbest = max(students, key=lambda x: x['score'])\nprint(f'最高分: {best[\"name\"]} - {best[\"score\"]}分')", tips: ["巩固前面所学", "多动手练习", "不懂的多查文档"], errors: ["综合应用容易出错", "逻辑要清晰"], question: "修改上述代码，添加按成绩排序的功能。"}}
-                ]
-            },
-            {
-                id: 1, emoji: "📈", title: "Python进阶", difficulty: "beginner",
-                difficultyText: "入门", desc: "深入学习Python核心概念",
-                lessons: [
-                    {name: "面向对象基础", duration: "25分钟", completed: false, content: null},
-                    {name: "类与对象", duration: "30分钟", completed: false, content: null},
-                    {name: "继承与多态", duration: "30分钟", completed: false, content: null},
-                    {name: "装饰器", duration: "25分钟", completed: false, content: null},
-                    {name: "生成器", duration: "20分钟", completed: false, content: null},
-                    {name: "迭代器", duration: "20分钟", completed: false, content: null},
-                    {name: "上下文管理器", duration: "25分钟", completed: false, content: null},
-                    {name: "魔术方法", duration: "30分钟", completed: false, content: null},
-                    {name: "类型注解", duration: "20分钟", completed: false, content: null},
-                    {name: "异步编程", duration: "35分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 2, emoji: "🐼", title: "Pandas数据分析基础", difficulty: "beginner",
-                difficultyText: "入门", desc: "掌握数据分析核心工具Pandas",
-                lessons: [
-                    {name: "Pandas简介", duration: "15分钟", completed: false, content: {explanation: "Pandas是Python数据分析的核心库。\n\n核心数据结构：\n- Series：一维数组\n- DataFrame：二维表格\n\n安装：pip install pandas", code: "import pandas as pd\n\n# 创建Series\ns = pd.Series([1, 3, 5, 7])\nprint('Series:', s)\n\n# 创建DataFrame\ndf = pd.DataFrame({\n    '姓名': ['小明', '小红'],\n    '年龄': [25, 23]\n})\nprint('DataFrame:')\nprint(df)", tips: ["Pandas是数据分析必备", "DataFrame最常用", "官方文档很完善"], errors: ["ModuleNotFoundError - 需要安装", "导入失败"], question: "安装Pandas并验证版本。"}},
-                    {name: "数据读取与保存", duration: "25分钟", completed: false, content: {explanation: "Pandas支持读取多种格式数据。\n\n常用格式：\n- CSV：read_csv / to_csv\n- Excel：read_excel / to_excel\n- JSON：read_json", code: "import pandas as pd\n\n# 创建数据\ndf = pd.DataFrame({\n    '产品': ['A', 'B', 'C'],\n    '销量': [100, 200, 150]\n})\n\n# 保存为CSV\ndf.to_csv('sales.csv', index=False)\n\n# 读取CSV\ndf2 = pd.read_csv('sales.csv')\nprint(df2)", tips: ["index=False不保存索引", "注意编码格式", "大文件分块读取"], errors: ["FileNotFoundError", "编码错误"], question: "读取一个CSV文件并查看前5行。"}},
-                    {name: "数据选择", duration: "30分钟", completed: false, content: {explanation: "DataFrame数据选择方法：\n\n列选择：df['列名']\n行选择：df.loc[行索引]\n条件筛选：df[df['列']>值]", code: "import pandas as pd\n\ndf = pd.DataFrame({\n    '姓名': ['小明', '小红', '小刚'],\n    '年龄': [25, 23, 28],\n    '部门': ['销售', '技术', '销售']\n})\n\n# 列选择\nprint(df['姓名'])\n\n# 条件筛选\nprint(df[df['年龄'] > 24])\n\n# loc选择\nprint(df.loc[0])", tips: ["loc基于标签", "iloc基于位置", "条件筛选常用"], errors: ["KeyError - 列不存在", "索引越界"], question: "筛选出年龄大于25岁的员工。"}},
-                    {name: "数据清洗", duration: "30分钟", completed: false, content: null},
-                    {name: "数据转换", duration: "25分钟", completed: false, content: null},
-                    {name: "分组聚合", duration: "30分钟", completed: false, content: null},
-                    {name: "合并连接", duration: "30分钟", completed: false, content: null},
-                    {name: "透视表", duration: "25分钟", completed: false, content: null},
-                    {name: "时间序列", duration: "30分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 3, emoji: "🔢", title: "NumPy数值计算", difficulty: "beginner",
-                difficultyText: "入门", desc: "NumPy高性能数值计算",
-                lessons: [
-                    {name: "NumPy简介", duration: "15分钟", completed: false, content: {explanation: "NumPy是Python科学计算的基础库。\n\n特点：\n- 高性能多维数组\n- 向量化计算\n- 广播功能", code: "import numpy as np\n\n# 创建数组\na = np.array([1, 2, 3, 4, 5])\nprint('数组:', a)\nprint('类型:', type(a))\nprint('形状:', a.shape)", tips: ["NumPy是科学计算基础", "比Python列表快很多", "支持向量化操作"], errors: ["数组维度不匹配"], question: "创建一维和二维NumPy数组。"}},
-                    {name: "数组运算", duration: "25分钟", completed: false, content: null},
-                    {name: "索引切片", duration: "25分钟", completed: false, content: null},
-                    {name: "形状操作", duration: "20分钟", completed: false, content: null},
-                    {name: "广播机制", duration: "25分钟", completed: false, content: null},
-                    {name: "统计函数", duration: "20分钟", completed: false, content: null},
-                    {name: "矩阵运算", duration: "30分钟", completed: false, content: null},
-                    {name: "随机数", duration: "20分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 4, emoji: "🧹", title: "数据清洗实战", difficulty: "intermediate",
-                difficultyText: "进阶", desc: "脏数据到干净数据的转化",
-                lessons: [
-                    {name: "缺失值处理", duration: "30分钟", completed: false, content: null},
-                    {name: "重复值处理", duration: "20分钟", completed: false, content: null},
-                    {name: "异常值检测", duration: "30分钟", completed: false, content: null},
-                    {name: "数据类型转换", duration: "25分钟", completed: false, content: null},
-                    {name: "字符串处理", duration: "30分钟", completed: false, content: null},
-                    {name: "正则表达式", duration: "35分钟", completed: false, content: null},
-                    {name: "日期时间处理", duration: "30分钟", completed: false, content: null},
-                    {name: "数据标准化", duration: "25分钟", completed: false, content: null},
-                    {name: "数据归一化", duration: "25分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 5, emoji: "📊", title: "数据可视化", difficulty: "intermediate",
-                difficultyText: "进阶", desc: "Matplotlib与Seaborn图表制作",
-                lessons: [
-                    {name: "Matplotlib基础", duration: "25分钟", completed: false, content: null},
-                    {name: "折线图", duration: "20分钟", completed: false, content: null},
-                    {name: "柱状图", duration: "25分钟", completed: false, content: null},
-                    {name: "饼图", duration: "20分钟", completed: false, content: null},
-                    {name: "散点图", duration: "25分钟", completed: false, content: null},
-                    {name: "子图布局", duration: "30分钟", completed: false, content: null},
-                    {name: "Seaborn入门", duration: "30分钟", completed: false, content: null},
-                    {name: "统计图表", duration: "30分钟", completed: false, content: null},
-                    {name: "图表美化", duration: "25分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 6, emoji: "🔗", title: "分组聚合与透视表", difficulty: "intermediate",
-                difficultyText: "进阶", desc: "数据分析的核心操作",
-                lessons: [
-                    {name: "groupby基础", duration: "25分钟", completed: false, content: null},
-                    {name: "聚合函数", duration: "25分钟", completed: false, content: null},
-                    {name: "多级分组", duration: "30分钟", completed: false, content: null},
-                    {name: "透视表", duration: "30分钟", completed: false, content: null},
-                    {name: "交叉表", duration: "25分钟", completed: false, content: null},
-                    {name: "transform", duration: "25分钟", completed: false, content: null},
-                    {name: "apply高级用法", duration: "30分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "40分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 7, emoji: "⏰", title: "时间序列分析", difficulty: "intermediate",
-                difficultyText: "进阶", desc: "时序数据处理与预测",
-                lessons: [
-                    {name: "时间戳处理", duration: "25分钟", completed: false, content: null},
-                    {name: "日期范围", duration: "20分钟", completed: false, content: null},
-                    {name: "重采样", duration: "30分钟", completed: false, content: null},
-                    {name: "移动窗口", duration: "25分钟", completed: false, content: null},
-                    {name: "滚动统计", duration: "25分钟", completed: false, content: null},
-                    {name: "时区处理", duration: "30分钟", completed: false, content: null},
-                    {name: "时序可视化", duration: "25分钟", completed: false, content: null},
-                    {name: "基础预测", duration: "35分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 8, emoji: "🔄", title: "多表合并与连接", difficulty: "intermediate",
-                difficultyText: "进阶", desc: "表关联与数据整合",
-                lessons: [
-                    {name: "concat合并", duration: "25分钟", completed: false, content: null},
-                    {name: "merge连接", duration: "30分钟", completed: false, content: null},
-                    {name: "join连接", duration: "25分钟", completed: false, content: null},
-                    {name: "合并方向", duration: "20分钟", completed: false, content: null},
-                    {name: "索引合并", duration: "25分钟", completed: false, content: null},
-                    {name: "重复键处理", duration: "25分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "40分钟", completed: false, content: null},
-                    {name: "性能优化", duration: "30分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 9, emoji: "🤖", title: "机器学习入门", difficulty: "advanced",
-                difficultyText: "高级", desc: "scikit-learn机器学习基础",
-                lessons: [
-                    {name: "机器学习概述", duration: "30分钟", completed: false, content: null},
-                    {name: "数据预处理", duration: "35分钟", completed: false, content: null},
-                    {name: "线性回归", duration: "35分钟", completed: false, content: null},
-                    {name: "逻辑回归", duration: "35分钟", completed: false, content: null},
-                    {name: "决策树", duration: "35分钟", completed: false, content: null},
-                    {name: "随机森林", duration: "40分钟", completed: false, content: null},
-                    {name: "模型评估", duration: "35分钟", completed: false, content: null},
-                    {name: "交叉验证", duration: "30分钟", completed: false, content: null},
-                    {name: "超参数调优", duration: "35分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "50分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 10, emoji: "🕷️", title: "网络爬虫基础", difficulty: "advanced",
-                difficultyText: "高级", desc: "数据采集与网页解析",
-                lessons: [
-                    {name: "HTTP协议", duration: "25分钟", completed: false, content: null},
-                    {name: "requests库", duration: "30分钟", completed: false, content: null},
-                    {name: "BeautifulSoup", duration: "35分钟", completed: false, content: null},
-                    {name: "CSS选择器", duration: "30分钟", completed: false, content: null},
-                    {name: "XPath语法", duration: "30分钟", completed: false, content: null},
-                    {name: "反爬策略", duration: "35分钟", completed: false, content: null},
-                    {name: "数据存储", duration: "30分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
-                ]
-            },
-            {
-                id: 11, emoji: "🗄️", title: "SQL与Python集成", difficulty: "advanced",
-                difficultyText: "高级", desc: "数据库操作与数据分析",
-                lessons: [
-                    {name: "SQL基础", duration: "30分钟", completed: false, content: null},
-                    {name: "SELECT查询", duration: "30分钟", completed: false, content: null},
-                    {name: "聚合函数", duration: "25分钟", completed: false, content: null},
-                    {name: "多表连接", duration: "35分钟", completed: false, content: null},
-                    {name: "子查询", duration: "30分钟", completed: false, content: null},
-                    {name: "Python操作SQL", duration: "35分钟", completed: false, content: null},
-                    {name: "Pandas与SQL", duration: "30分钟", completed: false, content: null},
-                    {name: "综合实战", duration: "45分钟", completed: false, content: null}
-                ]
+const coursesData = [
+    {
+        id: 0, emoji: "🐍", title: "Python基础入门", difficulty: "beginner", difficultyText: "入门",
+        desc: "从零开始掌握Python编程基础",
+        lessons: [
+            { name: "Python安装与环境配置", duration: "20分钟", completed: false, content: { explanation: "Python是一门简洁优雅的编程语言。安装Python非常简单，从python.org下载安装包即可。对于数据分析，推荐使用Anaconda发行版。", code: "import sys\nprint(f'Python版本: {sys.version}')", tips: ["安装时勾选Add to PATH", "推荐使用Anaconda"], errors: [{error: "python命令找不到", solution: "检查PATH环境变量"}], question: "如何验证Python安装成功？", practiceCode: "print('Hello, Python!')\nprint('学习愉快！')" }},
+            { name: "变量与数据类型", duration: "25分钟", completed: false, content: { explanation: "变量是存储数据的容器。Python有多种数据类型：整数、浮点数、字符串、布尔值等。变量不需要声明类型，直接赋值即可。", code: "name = '张三'\nage = 25\nprint(f'姓名: {name}, 年龄: {age}')", tips: ["变量名要有意义", "使用下划线命名法"], errors: [{error: "变量名以数字开头", solution: "改为字母开头"}], question: "如何交换两个变量的值？", practiceCode: "a, b = 5, 10\nprint(f'a={a}, b={b}')" }},
+            { name: "基本运算符", duration: "20分钟", completed: false, content: { explanation: "运算符用于执行各种操作：算术运算符(+-*/)、比较运算符(==!=)、赋值运算符(+=等)。Python 3的除法/总是返回浮点数。", code: "a, b = 10, 3\nprint(f'a+b={a+b}, a/b={a/b}, a//b={a//b}')", tips: ["整除用//", "比较用==不是="], errors: [{error: "5/2得到2.5", solution: "用5//2"}], question: "如何计算余数？", practiceCode: "print(17 % 5)" }},
+            { name: "字符串操作", duration: "30分钟", completed: false, content: { explanation: "字符串是文本数据。可以用单引号或双引号创建。常用方法包括upper()、lower()、strip()、split()、replace()等。f-string是推荐的格式化方式。", code: "text = 'Hello Python'\nprint(text.upper())\nprint(text.replace('Python', 'World'))", tips: ["优先使用f-string", "strip()去除空白"], errors: [{error: "试图修改字符串", solution: "字符串不可变，创建新字符串"}], question: "如何从字符串中提取子串？", practiceCode: "s = 'abcdef'\nprint(s[1:4])" }},
+            { name: "列表基础", duration: "30分钟", completed: false, content: { explanation: "列表是Python最常用的数据结构，用方括号创建。列表是可变的，可以添加、删除、修改元素。常用方法包括append()、insert()、remove()、pop()、sort()等。", code: "fruits = ['apple', 'banana']\nfruits.append('cherry')\nprint(fruits)\nprint(fruits[0])", tips: ["索引从0开始", "负数索引从末尾计数"], errors: [{error: "索引越界", solution: "检查列表长度"}], question: "如何删除列表中的重复元素？", practiceCode: "lst = [1, 2, 2, 3, 3, 3]\nprint(list(set(lst)))" }},
+            { name: "条件判断", duration: "25分钟", completed: false, content: { explanation: "条件判断使用if、elif、else关键字。条件为True时执行相应代码块。Python使用缩进表示代码块。逻辑运算符包括and、or、not。", code: "score = 85\nif score >= 90:\n    print('优秀')\nelif score >= 60:\n    print('及格')\nelse:\n    print('不及格')", tips: ["避免过多嵌套", "使用括号增强可读性"], errors: [{error: "忘记冒号", solution: "if语句后加冒号"}], question: "如何判断闰年？", practiceCode: "year = 2024\nif year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):\n    print('闰年')\nelse:\n    print('平年')" }},
+            { name: "for循环", duration: "30分钟", completed: false, content: { explanation: "for循环遍历序列（列表、字符串、range等）。range()生成数字序列。enumerate()同时获取索引和值，zip()同时遍历多个序列。", code: "for i in range(5):\n    print(i, end=' ')\nprint()\nfor i, v in enumerate(['a', 'b', 'c']):\n    print(f'{i}: {v}')", tips: ["range()是惰性的", "break提前结束，continue跳过"], errors: [{error: "忘记缩进", solution: "循环体必须缩进"}], question: "如何计算1到100的和？", practiceCode: "total = 0\nfor i in range(1, 101):\n    total += i\nprint(f'总和: {total}')" }},
+            { name: "while循环", duration: "25分钟", completed: false, content: { explanation: "while循环在条件为True时重复执行。需要确保循环体内有改变条件的代码，否则会无限循环。while-else结构在循环正常结束时执行else。", code: "count = 0\nwhile count < 5:\n    print(count, end=' ')\n    count += 1\nprint()", tips: ["确保有退出条件", "while True配合break"], errors: [{error: "无限循环", solution: "确保计数器更新"}], question: "如何实现倒计时？", practiceCode: "i = 5\nwhile i > 0:\n    print(i, end=' ')\n    i -= 1\nprint('发射！')" }},
+            { name: "字典基础", duration: "35分钟", completed: false, content: { explanation: "字典存储键值对，用花括号创建。键必须是唯一的且不可变。常用操作包括访问(d[key])、添加、删除(del)、遍历(items())。字典推导式可以快速创建字典。", code: "student = {'name': '张三', 'age': 20}\nprint(student['name'])\nstudent['score'] = 95\nprint(student)", tips: ["用get()安全访问", "检查键是否存在用in"], errors: [{error: "访问不存在的键", solution: "用get()方法"}], question: "如何统计字符出现次数？", practiceCode: "text = 'hello'\ncounter = {}\nfor char in text:\n    counter[char] = counter.get(char, 0) + 1\nprint(counter)" }},
+            { name: "函数基础", duration: "35分钟", completed: false, content: { explanation: "函数使用def定义，可以有参数和返回值。*args接收可变位置参数，**kwargs接收可变关键字参数。return返回结果，没有return默认返回None。", code: "def greet(name):\n    return f'你好, {name}!'\n\nprint(greet('张三'))", tips: ["函数名用snake_case", "添加文档字符串"], errors: [{error: "忘记return", solution: "需要返回值时加return"}], question: "如何定义可选参数？", practiceCode: "def power(base, exp=2):\n    return base ** exp\n\nprint(power(3))\nprint(power(2, 3))" }},
+            { name: "文件操作", duration: "30分钟", completed: false, content: { explanation: "使用open()打开文件，模式包括'r'(读)、'w'(写)、'a'(追加)。推荐使用with语句自动关闭文件。encoding='utf-8'避免中文乱码。", code: "with open('test.txt', 'w', encoding='utf-8') as f:\n    f.write('Hello')\n    \nwith open('test.txt', 'r', encoding='utf-8') as f:\n    print(f.read())", tips: ["始终用with语句", "指定encoding"], errors: [{error: "文件不存在", solution: "先检查或用'w'模式创建"}], question: "如何逐行读取文件？", practiceCode: "with open('test.txt', 'r') as f:\n    for line in f:\n        print(line.strip())" }},
+            { name: "异常处理", duration: "25分钟", completed: false, content: { explanation: "异常处理使用try-except。except捕获特定异常，else在没有异常时执行，finally无论如何都执行。可以用raise主动抛出异常。", code: "try:\n    result = 10 / 0\nexcept ZeroDivisionError:\n    print('不能除以零')\nelse:\n    print('计算成功')\nfinally:\n    print('执行完毕')", tips: ["捕获具体异常", "finally释放资源"], errors: [{error: "空的except", solution: "指定异常类型"}], question: "如何自定义异常？", practiceCode: "class MyError(Exception):\n    pass\n\ntry:\n    raise MyError('出错了')\nexcept MyError as e:\n    print(e)" }}
+        ]
+    },
+    { id: 1, emoji: "📈", title: "Python进阶", difficulty: "beginner", difficultyText: "入门", desc: "深入学习Python高级特性",
+        lessons: [
+            { name: "列表推导式进阶", duration: "25分钟", completed: false, content: { explanation: "列表推导式用一行代码创建列表。语法:[表达式 for 变量 in 可迭代对象 if 条件]。支持嵌套循环和复杂条件。还有字典推导式、集合推导式、生成器表达式。", code: "squares = [x**2 for x in range(1, 6)]\nprint(squares)\nmatrix = [[1,2],[3,4]]\nflat = [n for row in matrix for n in row]\nprint(flat)", tips: ["保持代码可读性", "生成器节省内存"], errors: [{error: "逻辑过于复杂", solution: "拆分成多行"}], question: "如何用列表推导式筛选偶数？", practiceCode: "nums = range(1, 11)\nevens = [x for x in nums if x % 2 == 0]\nprint(evens)" }},
+            { name: "生成器与迭代器", duration: "30分钟", completed: false, content: { explanation: "迭代器实现了__iter__和__next__方法。生成器是特殊的迭代器，用yield返回值，每次只生成一个值，节省内存。生成器表达式语法类似列表推导式，但用圆括号。", code: "def count_up_to(n):\n    i = 1\n    while i <= n:\n        yield i\n        i += 1\n\nfor num in count_up_to(5):\n    print(num, end=' ')", tips: ["yield返回生成器", "省内存适合大数据"], errors: [{error: "忘记yield", solution: "函数中需要yield"}], question: "生成器和列表有什么区别？", practiceCode: "gen = (x**2 for x in range(5))\nfor val in gen:\n    print(val, end=' ')" }},
+            { name: "装饰器基础", duration: "30分钟", completed: false, content: { explanation: "装饰器是不修改原函数的情况下添加额外功能。语法@decorator。装饰器返回wrapper函数。可以用*args和**kwargs处理任意参数。functools.wraps保留原函数元数据。", code: "def timer(func):\n    def wrapper(*args, **kwargs):\n        import time\n        start = time.time()\n        result = func(*args, **kwargs)\n        print(f'耗时: {time.time()-start:.2f}秒')\n        return result\n    return wrapper\n\n@timer\ndef slow_func():\n    import time\n    time.sleep(0.1)\n    return '完成'\n\nprint(slow_func())", tips: ["用functools.wraps", "装饰器从下到上执行"], errors: [{error: "wrapper没有返回", solution: "必须返回wrapper()"}], question: "如何编写带参数的装饰器？", practiceCode: "def repeat(times):\n    def decorator(func):\n        def wrapper(*args):\n            for _ in range(times):\n                func(*args)\n        return wrapper\n    return decorator\n\n@repeat(3)\ndef say():\n    print('Hello')\n\nsay()" }}
+        ]},
+    { id: 2, emoji: "📊", title: "Pandas数据分析基础", difficulty: "beginner", difficultyText: "入门", desc: "学习使用Pandas进行数据分析",
+        lessons: [
+            { name: "Pandas简介与安装", duration: "20分钟", completed: false, content: { explanation: "Pandas是Python数据分析的核心库。核心数据结构是Series(一维)和DataFrame(二维)。安装:pip install pandas。导入惯例:import pandas as pd。", code: "import pandas as pd\nimport numpy as np\ns = pd.Series([1, 3, 5])\ndf = pd.DataFrame({'name': ['A', 'B'], 'score': [90, 85]})\nprint(df)", tips: ["df.head()查看数据", "df.info()查看信息"], errors: [{error: "忘记pd别名", solution: "使用as pd别名"}], question: "如何读取CSV文件？", practiceCode: "import pandas as pd\nprint('读取CSV数据')" }},
+            { name: "Series数据结构", duration: "25分钟", completed: false, content: { explanation: "Series是带索引的一维数组。自动创建整数索引，也可自定义。支持向量化操作，比Python列表更高效。可以用字典创建Series，字典的键成为索引。", code: "s = pd.Series([10, 20, 30], index=['a', 'b', 'c'])\nprint(s['b'])\nprint(s[s > 15])", tips: ["Series有name属性", "支持布尔索引"], errors: [{error: "索引不存在", solution: "用get()方法"}], question: "如何创建日期索引的Series？", practiceCode: "import pandas as pd\ndates = pd.date_range('2024-01-01', periods=5)\ns = pd.Series([100, 120, 110, 130, 115], index=dates)\nprint(s)" }},
+            { name: "DataFrame基础", duration: "30分钟", completed: false, content: { explanation: "DataFrame是二维表格数据，有行索引和列名。可以从字典、CSV、数据库等创建。常用操作:选择列(df['col'])、筛选行(df[df['col']>value])、添加列、删除列(df.drop())。", code: "df = pd.DataFrame({\n    'name': ['张三', '李四'],\n    'score': [90, 85]\n})\nprint(df['name'])\nprint(df[df['score'] >= 85])", tips: ["df.loc按标签", "df.iloc按位置"], errors: [{error: "列名不存在", solution: "检查df.columns"}], question: "如何添加新列？", practiceCode: "df = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})\ndf['C'] = df['A'] + df['B']\nprint(df)" }}
+        ]},
+    { id: 3, emoji: "🔢", title: "NumPy数值计算", difficulty: "beginner", difficultyText: "入门", desc: "掌握NumPy数组操作",
+        lessons: [
+            { name: "NumPy简介与安装", duration: "15分钟", completed: false, content: { explanation: "NumPy是Python科学计算的基础。核心是ndarray(多维数组)，比Python列表更高效，支持向量化运算。安装:pip install numpy。导入:import numpy as np。", code: "import numpy as np\na = np.array([1, 2, 3])\nprint(a * 2)\nprint(np.mean(a))", tips: ["NumPy支持向量化", "比列表更高效"], errors: [{error: "数组形状不匹配", solution: "检查shape"}], question: "如何创建全0数组？", practiceCode: "import numpy as np\nzeros = np.zeros((3, 4))\nprint(zeros)" }},
+            { name: "数组创建方法", duration: "25分钟", completed: false, content: { explanation: "创建数组的方法:array()从列表创建,zeros/ones()创建指定形状,eye()单位矩阵,arange()类似range,linspace()等差数列,random()随机数组。", code: "import numpy as np\nprint(np.arange(0, 10, 2))\nprint(np.linspace(0, 1, 5))\nprint(np.random.rand(2, 3))", tips: ["arange左闭右开", "randn生成正态分布"], errors: [{error: "randint范围错误", solution: "左闭右开"}], question: "如何创建3x3单位矩阵？", practiceCode: "import numpy as np\nI = np.eye(3)\nprint(I)" }},
+            { name: "数组索引与切片", duration: "25分钟", completed: false, content: { explanation: "数组索引从0开始，支持负数索引。切片语法[start:stop:step]。二维数组用逗号分隔行列索引。布尔索引用于条件筛选。", code: "import numpy as np\na = np.array([[1,2,3], [4,5,6]])\nprint(a[0, 1])\nprint(a[:, ::2])", tips: ["切片返回视图", "布尔索引很强大"], errors: [{error: "切片越界", solution: "NumPy不会报错但要检查"}], question: "如何获取数组的对角线？", practiceCode: "import numpy as np\na = np.array([[1,2,3], [4,5,6], [7,8,9]])\nprint(np.diag(a))" }}
+        ]},
+    { id: 4, emoji: "🧹", title: "数据清洗实战", difficulty: "intermediate", difficultyText: "进阶", desc: "学习处理缺失值、重复数据、异常值",
+        lessons: [
+            { name: "数据质量评估", duration: "25分钟", completed: false, content: { explanation: "数据质量评估是清洗的第一步。检查内容:数据形状(df.shape)、列名(df.columns)、数据类型(df.dtypes)、缺失值(isnull().sum())、重复行(duplicated())、统计描述(describe())。", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'A': [1, np.nan, 3], 'B': [4, 5, 6]})\nprint(df.isnull().sum())\nprint(df.duplicated().sum())", tips: ["df.info()快速概览", "df.describe()统计摘要"], errors: [{error: "忽略缺失值", solution: "先检查缺失情况"}], question: "如何查看数据基本信息？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({'X': [1, 2, 3], 'Y': [4, 5, 6]})\nprint(df.info())\nprint(df.describe())" }},
+            { name: "缺失值处理", duration: "30分钟", completed: false, content: { explanation: "处理缺失值三种方法:删除(dropna)、填充(fillna)、插补(interpolate)。fillna可以填固定值、均值、中位数、前向/后向填充。选择方法取决于缺失原因和数据分布。", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'A': [1, np.nan, 3], 'B': [4, 5, np.nan]})\nprint(df.fillna(0))\nprint(df['A'].fillna(df['A'].mean()))", tips: ["分析缺失原因", "删除前评估影响"], errors: [{error: "用均值填含有极端值的数据", solution: "用中位数更稳健"}], question: "如何用前值填充缺失值？", practiceCode: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'A': [1, np.nan, np.nan, 4]})\nprint(df.fillna(method='ffill'))" }},
+            { name: "重复数据处理", duration: "20分钟", completed: false, content: { explanation: "duplicated()检测重复行，返回布尔Series。drop_duplicates()删除重复行。可指定subset检查特定列，keep参数决定保留哪条记录。", code: "import pandas as pd\ndf = pd.DataFrame({'A': [1, 1, 2], 'B': [3, 3, 4]})\nprint(df.duplicated())\nprint(df.drop_duplicates())", tips: ["先分析重复原因", "按时间保留最新记录"], errors: [{error: "直接删除所有重复", solution: "确认是否合理"}], question: "如何删除指定列的重复？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({'A': [1, 1, 2], 'B': [3, 3, 4]})\nprint(df.drop_duplicates(subset=['A']))" }}
+        ]},
+    { id: 5, emoji: "📉", title: "数据可视化", difficulty: "intermediate", difficultyText: "进阶", desc: "使用Matplotlib和Seaborn创建图表",
+        lessons: [
+            { name: "Matplotlib基础", duration: "25分钟", completed: false, content: { explanation: "Matplotlib是Python可视化基础库。核心概念Figure(画布)和Axes(坐标轴)。plt.subplots()创建子图。常用图表:plot()(线图)、bar()(柱状图)、scatter()(散点图)、hist()(直方图)。", code: "import matplotlib.pyplot as plt\nimport numpy as np\nx = np.linspace(0, 10, 100)\nplt.plot(x, np.sin(x))\nplt.title('正弦函数')\nplt.xlabel('X')\nplt.ylabel('Y')\nplt.show()", tips: ["plt.savefig保存图片", "plt.rcParams设置样式"], errors: [{error: "中文显示乱码", solution: "设置正确字体"}], question: "如何创建多子图？", practiceCode: "import matplotlib.pyplot as plt\nfig, (ax1, ax2) = plt.subplots(1, 2)\nax1.plot([1,2,3], [4,5,6])\nax2.bar(['A','B'], [3, 5])\nplt.show()" }},
+            { name: "折线图与散点图", duration: "25分钟", completed: false, content: { explanation: "折线图展示趋势变化。plot()默认连线，可设颜色(linewidth)、样式(linestyle)、标记(marker)。散点图scatter()展示两个变量关系，可用c设颜色、s设大小、alpha设透明度。", code: "import matplotlib.pyplot as plt\nimport numpy as np\nmonths = range(1, 13)\ntemp = np.random.randint(0, 30, 12)\nplt.plot(months, temp, 'o-', color='red')\nplt.scatter(months, temp, c='blue', s=50)\nplt.show()", tips: ["双Y轴展示不同量级", "颜色映射编码信息"], errors: [{error: "数据重叠看不清", solution: "调透明度alpha"}], question: "如何绑制双Y轴图表？", practiceCode: "import matplotlib.pyplot as plt\nx = [1, 2, 3]\ny1 = [10, 20, 30]\ny2 = [100, 200, 300]\nfig, ax1 = plt.subplots()\nax2 = ax1.twinx()\nax1.plot(x, y1, 'b')\nax2.plot(x, y2, 'r')\nplt.show()" }},
+            { name: "柱状图与条形图", duration: "25分钟", completed: false, content: { explanation: "柱状图用于比较分类数据。bar()垂直柱状图，barh()水平条形图。分组柱状图并排显示多组数据。堆叠柱状图上下叠加显示组成。", code: "import matplotlib.pyplot as plt\ncategories = ['A', 'B', 'C', 'D']\nvalues = [15, 30, 25, 20]\nplt.bar(categories, values, color='steelblue')\nfor i, v in enumerate(values):\n    plt.text(i, v+1, str(v), ha='center')\nplt.show()", tips: ["数值标签增强可读性", "调整柱子宽度width"], errors: [{error: "标签重叠", solution: "rotation旋转标签"}], question: "如何创建分组柱状图？", practiceCode: "import matplotlib.pyplot as plt\nimport numpy as np\nx = np.arange(3)\nw = 0.35\nplt.bar(x - w/2, [10, 20, 15], w, label='2023')\nplt.bar(x + w/2, [12, 22, 18], w, label='2024')\nplt.xticks(x, ['A', 'B', 'C'])\nplt.legend()\nplt.show()" }}
+        ]},
+    { id: 6, emoji: "🔄", title: "分组聚合与透视表", difficulty: "intermediate", difficultyText: "进阶", desc: "掌握数据分组、聚合统计和透视表",
+        lessons: [
+            { name: "GroupBy机制", duration: "25分钟", completed: false, content: { explanation: "GroupBy类似SQL的GROUP BY。split-apply-combine流程:先按列分组，再对每组应用函数，最后合并结果。分组后可用agg()应用多个聚合函数。", code: "import pandas as pd\ndf = pd.DataFrame({'Category': ['A','A','B','B'], 'Value': [10, 20, 30, 40]})\nprint(df.groupby('Category').sum())\nprint(df.groupby('Category').agg({'Value': ['sum', 'mean']}))", tips: ["agg可指定多列多函数", "as_index=False结果更清晰"], errors: [{error: "忘记指定聚合列", solution: "明确对哪列操作"}], question: "如何按多列分组？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({\n    'A': [1,1,2,2], 'B': ['X','Y','X','Y'],\n    'C': [10,20,30,40]\n})\nprint(df.groupby(['A', 'B']).sum())" }},
+            { name: "聚合函数应用", duration: "25分钟", completed: false, content: { explanation: "常用聚合函数:sum、mean、count、min、max、std、var。agg()可以同时应用多个函数，或对不同列应用不同函数。transform()返回与原数据等长的结果。", code: "import pandas as pd\ndf = pd.DataFrame({'A': [1,2,3,4], 'B': [10,20,30,40]})\nprint(df.agg(['sum', 'mean']))\nprint(df.agg({'A': 'sum', 'B': ['mean', 'max']}))", tips: ["多函数用列表", "transform返回对齐结果"], errors: [{error: "函数拼写错误", solution: "检查函数名"}], question: "如何计算分组后的占比？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({'Category': ['A','A','B','B'], 'Value': [10,20,30,40]})\ndf['Pct'] = df['Value'] / df.groupby('Category')['Value'].transform('sum')\nprint(df)" }},
+            { name: "多列分组", duration: "20分钟", completed: false, content: { explanation: "多列分组创建多层索引。使用as_index=False将分组键转为普通列。groupby返回的Series可以用unstack()转为DataFrame格式。", code: "import pandas as pd\ndf = pd.DataFrame({\n    'Year': [2023,2023,2024,2024],\n    'Q': ['Q1','Q2','Q1','Q2'],\n    'Sales': [100,150,120,180]\n})\nprint(df.groupby(['Year', 'Q'], as_index=False)['Sales'].sum())", tips: ["as_index=False更直观", "unstack转换格式"], errors: [{error: "分组键顺序混淆", solution: "注意顺序影响结果"}], question: "如何用pivot_table创建透视表？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({\n    'A': ['X','X','Y','Y'], 'B': ['P','Q','P','Q'],\n    'C': [10,20,30,40]\n})\nprint(df.pivot_table(values='C', index='A', columns='B', aggfunc='sum'))" }}
+        ]},
+    { id: 7, emoji: "📅", title: "时间序列分析", difficulty: "intermediate", difficultyText: "进阶", desc: "学习处理时间序列数据",
+        lessons: [
+            { name: "时间戳与时间段", duration: "25分钟", completed: false, content: { explanation: "Timestamp表示具体时间点，Period表示时间段。pd.date_range()创建日期序列，freq参数指定频率(D日、W周、M月、Y年、H小时、T分钟、S秒)。", code: "import pandas as pd\nprint(pd.Timestamp('2024-01-15'))\nprint(pd.date_range('2024-01-01', periods=7, freq='D'))\nprint(pd.Period('2024-01', freq='M'))", tips: ["to_datetime转换日期", "设置tz处理时区"], errors: [{error: "日期格式不识别", solution: "指定format参数"}], question: "如何创建月度日期序列？", practiceCode: "import pandas as pd\ndates = pd.date_range('2024-01-01', periods=12, freq='M')\nprint(dates)" }},
+            { name: "时间索引操作", duration: "25分钟", completed: false, content: { explanation: "DatetimeIndex作为DataFrame索引，可用字符串快捷访问特定时间。loc可以用'2024'访问全年，'2024-01'访问某月。字符串切片很方便。", code: "import pandas as pd\nimport numpy as np\ndates = pd.date_range('2024-01-01', periods=30)\ndf = pd.DataFrame({'value': np.random.randn(30)}, index=dates)\nprint(df.loc['2024-01-15'])\nprint(df.loc['2024-01-01':'2024-01-10'])", tips: ["字符串快捷访问", "排序后操作更快"], errors: [{error: "索引不是DatetimeIndex", solution: "pd.to_datetime转换"}], question: "如何筛选某个月的数据？", practiceCode: "import pandas as pd\nimport numpy as np\ndates = pd.date_range('2024-01-01', periods=60)\ndf = pd.DataFrame({'v': np.random.randn(60)}, index=dates)\nprint(df.loc['2024-02'])" }},
+            { name: "时间重采样", duration: "25分钟", completed: false, content: { explanation: "重采样转换数据频率。resample('D')日频、'W'周、'M'月末、'Q'季末、'Y'年末。下采样需聚合(agg)，上采样需填充(ffill/bfill)。", code: "import pandas as pd\nimport numpy as np\ndates = pd.date_range('2024-01-01', periods=7)\ndf = pd.DataFrame({'sales': [100,120,115,130,140,135,150]}, index=dates)\nprint(df.resample('W').sum())\nprint(df.resample('D').ffill())", tips: ["下采样用聚合", "上采样用填充"], errors: [{error: "重采样结果不对", solution: "检查closed参数"}], question: "如何计算月度均值？", practiceCode: "import pandas as pd\nimport numpy as np\ndates = pd.date_range('2024-01-01', periods=30)\ndf = pd.DataFrame({'v': np.random.randint(100,200,30)}, index=dates)\nprint(df.resample('M').mean())" }}
+        ]},
+    { id: 8, emoji: "🔗", title: "多表合并与连接", difficulty: "intermediate", difficultyText: "进阶", desc: "掌握数据表的合并、连接操作",
+        lessons: [
+            { name: "Concat合并数据", duration: "25分钟", completed: false, content: { explanation: "concat沿轴合并数据。默认纵向(增加行)，axis=1横向(增加列)。ignore_index=True重置索引。自动对齐列名，缺失的列填充NaN。", code: "import pandas as pd\ndf1 = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})\ndf2 = pd.DataFrame({'A': [5, 6], 'B': [7, 8]})\nprint(pd.concat([df1, df2], ignore_index=True))", tips: ["axis=0纵向", "axis=1横向"], errors: [{error: "列不对齐", solution: "检查列名"}], question: "如何横向合并两个DataFrame？", practiceCode: "import pandas as pd\ndf1 = pd.DataFrame({'A': [1, 2]})\ndf2 = pd.DataFrame({'B': [3, 4]})\nprint(pd.concat([df1, df2], axis=1))" }},
+            { name: "Merge连接基础", duration: "25分钟", completed: false, content: { explanation: "merge类似SQL JOIN，按共同列合并。参数how指定连接类型:inner(交集)、outer(并集)、left(左)、right(右)。on指定连接键。", code: "import pandas as pd\norders = pd.DataFrame({'id': [1, 2], 'name': ['A', 'B']})\nscores = pd.DataFrame({'id': [1, 3], 'score': [90, 85]})\nprint(pd.merge(orders, scores, on='id', how='left'))", tips: ["默认inner连接", "用suffixes区分重复列"], errors: [{error: "没有共同列", solution: "用left_on和right_on"}], question: "内连接和外连接有什么区别？", practiceCode: "import pandas as pd\ndf1 = pd.DataFrame({'A': [1, 2]})\ndf2 = pd.DataFrame({'A': [2, 3]})\nprint('Inner:', pd.merge(df1, df2, on='A', how='inner'))\nprint('Outer:', pd.merge(df1, df2, on='A', how='outer'))" }},
+            { name: "连接类型详解", duration: "25分钟", completed: false, content: { explanation: "四种连接类型:left保留左表所有记录，right保留右表，inner只保留两边都有，outer保留所有。key列的值决定结果行数。", code: "import pandas as pd\ndf1 = pd.DataFrame({'key': ['A','B','C'], 'v1': [1, 2, 3]})\ndf2 = pd.DataFrame({'key': ['B','C','D'], 'v2': [20, 30, 40]})\nprint(pd.merge(df1, df2, on='key', how='outer'))", tips: ["先分析两边数据覆盖", "一对多会膨胀结果"], errors: [{error: "结果行数异常多", solution: "检查是否一对多关系"}], question: "何时用外连接不用左连接？", practiceCode: "import pandas as pd\nemp = pd.DataFrame({'dept_id': ['D1','D2','D3'], 'name': ['A','B','C']})\ndept = pd.DataFrame({'dept_id': ['D1','D2','D4'], 'dept_name': ['销售','技术','运营']})\nprint(pd.merge(emp, dept, on='dept_id', how='left'))" }}
+        ]},
+    { id: 9, emoji: "🤖", title: "机器学习入门", difficulty: "advanced", difficultyText: "高阶", desc: "了解机器学习基础概念",
+        lessons: [
+            { name: "机器学习概述", duration: "25分钟", completed: false, content: { explanation: "机器学习分为监督学习(分类、回归)、无监督学习(聚类、降维)、强化学习。sklearn是Python机器学习标准库。典型流程:数据准备→模型训练→预测评估。", code: "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.tree import DecisionTreeClassifier\niris = load_iris()\nX_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.2)\nclf = DecisionTreeClassifier()\nclf.fit(X_train, y_train)\nprint(f'准确率: {clf.score(X_test, y_test):.2f}')", tips: ["分层抽样stratify", "设置random_state可复现"], errors: [{error: "测试集泄露", solution: "先划分再训练"}], question: "sklearn的基本流程是什么？", practiceCode: "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)\nrf = RandomForestClassifier(n_estimators=10)\nrf.fit(X_train, y_train)\nprint(f'准确率: {rf.score(X_test, y_test):.2f}')" }},
+            { name: "数据预处理", duration: "30分钟", completed: false, content: { explanation: "预处理包括:缺失值填充、异常值处理、特征缩放、编码分类变量。StandardScaler标准化(均值0标准差1)，MinMaxScaler归一化(0-1范围)。LabelEncoder编码标签，OneHotEncoder独热编码。", code: "from sklearn.preprocessing import StandardScaler, LabelEncoder\nimport numpy as np\nscaler = StandardScaler()\nX = np.array([[1, 2], [3, 4], [5, 6]])\nprint(scaler.fit_transform(X))\nle = LabelEncoder()\ny = le.fit_transform(['A', 'B', 'A'])\nprint(y)", tips: ["训练集fit测试集transform", "树模型不需要缩放"], errors: [{error: "测试集用新scaler", solution: "保存训练集参数"}], question: "何时用标准化何时用归一化？", practiceCode: "from sklearn.preprocessing import MinMaxScaler\nimport numpy as np\nscaler = MinMaxScaler()\nX = np.array([[1, 2], [3, 4], [5, 6]])\nprint(scaler.fit_transform(X))" }},
+            { name: "特征工程基础", duration: "30分钟", completed: false, content: { explanation: "特征工程创造新特征提升模型效果。方法:派生特征(从现有特征计算)、交互特征(特征相乘)、多项式特征、时间特征提取。特征选择用方差阈值、相关系数、模型重要性。", code: "import pandas as pd\nimport numpy as np\ndf = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})\ndf['sum'] = df['a'] + df['b']\ndf['product'] = df['a'] * df['b']\nprint(df)\nfrom sklearn.preprocessing import PolynomialFeatures\npoly = PolynomialFeatures(degree=2, include_bias=False)\nprint(poly.fit_transform(df[['a', 'b']]))", tips: ["结合业务理解", "避免特征泄露"], errors: [{error: "特征与目标无关", solution: "先做探索性分析"}], question: "如何创建交互特征？", practiceCode: "import pandas as pd\ndf = pd.DataFrame({'x': [1, 2, 3], 'y': [4, 5, 6]})\ndf['x_y'] = df['x'] * df['y']\nprint(df)" }}
+        ]},
+    { id: 10, emoji: "🕷️", title: "网络爬虫基础", difficulty: "advanced", difficultyText: "高阶", desc: "学习网页数据采集",
+        lessons: [
+            { name: "HTTP协议基础", duration: "25分钟", completed: false, content: { explanation: "HTTP是客户端-服务器协议。GET获取资源(参数在URL)，POST提交数据(参数在body)。状态码200成功、404未找到、500服务器错误。requests库简化HTTP操作。", code: "import requests\nr = requests.get('https://httpbin.org/get')\nprint(f'状态码: {r.status_code}')\nprint(f'响应头: {dict(list(r.headers.items())[:2])}')\nparams = {'key': 'value'}\nr = requests.get('https://httpbin.org/get', params=params)\nprint(f'URL: {r.url}')", tips: ["设置timeout避免等待", "处理异常用try-except"], errors: [{error: "超时没处理", solution: "设置timeout参数"}], question: "GET和POST有什么区别？", practiceCode: "import requests\nr = requests.get('https://httpbin.org/ip')\nprint(r.json())\nr = requests.post('https://httpbin.org/post', data={'k': 'v'})\nprint(r.json())" }},
+            { name: "Requests库使用", duration: "25分钟", completed: false, content: { explanation: "Session保持Cookie和请求头。常用方法:get、post、put、delete。处理JSON用r.json()，二进制用r.content。设置代理、超时、重试增强健壮性。", code: "import requests\ns = requests.Session()\ns.headers.update({'User-Agent': 'MyBot/1.0'})\nr = s.get('https://httpbin.org/headers')\nprint(r.json())\nr = s.post('https://httpbin.org/post', json={'data': 'value'})\nprint(r.json().get('json'))", tips: ["Session保持状态", "json参数自动编码"], errors: [{error: "编码问题乱码", solution: "设置正确的encoding"}], question: "如何使用Session保持登录状态？", practiceCode: "import requests\nsession = requests.Session()\nsession.headers.update({'Authorization': 'Bearer token123'})\nr = session.get('https://httpbin.org/headers')\nprint(r.json())" }},
+            { name: "BeautifulSoup解析", duration: "30分钟", completed: false, content: { explanation: "BeautifulSoup解析HTML/XML。常用解析器:html.parser、lxml、html5lib。find()查找第一个，find_all()查找所有，select()用CSS选择器。获取文本用.get_text()，属性用['attr']。", code: "from bs4 import BeautifulSoup\nhtml = '<div class=\"item\"><h2>Title</h2><p>Description</p></div>'\nsoup = BeautifulSoup(html, 'html.parser')\nitem = soup.find('div', class_='item')\nprint(item.find('h2').text)\nprint(item.select('p')[0].text)", tips: ["优先用select", "检查选择器语法"], errors: [{error: "选择器返回空", solution: "查看原始HTML结构"}], question: "如何提取所有链接？", practiceCode: "from bs4 import BeautifulSoup\nhtml = '<a href=\"/page1\">链接1</a><a href=\"/page2\">链接2</a>'\nsoup = BeautifulSoup(html, 'html.parser')\nlinks = soup.select('a')\nfor link in links:\n    print(link['href'], link.text)" }}
+        ]},
+    { id: 11, emoji: "🗄️", title: "SQL与Python集成", difficulty: "advanced", difficultyText: "高阶", desc: "学习使用SQLAlchemy操作数据库",
+        lessons: [
+            { name: "SQL基础回顾", duration: "25分钟", completed: false, content: { explanation: "SQL核心语句:SELECT查询、INSERT插入、UPDATE更新、DELETE删除。子句:WHERE筛选、GROUP BY分组、HAVING分组筛选、ORDER BY排序、LIMIT限制行数、JOIN连接表。", code: "-- SELECT * FROM users WHERE age > 18 ORDER BY name;\n-- SELECT dept, COUNT(*) FROM emp GROUP BY dept;\nprint('SELECT: 查询数据')\nprint('INSERT: 插入数据')\nprint('UPDATE: 更新数据')\nprint('DELETE: 删除数据')", tips: ["SQL关键字大写", "WHERE防止全表操作"], errors: [{error: "WHERE遗漏", solution: "UPDATE前先SELECT确认"}], question: "如何用Python列表模拟SQL查询？", practiceCode: "data = [{'name': 'A', 'score': 90}, {'name': 'B', 'score': 85}]\nresult = [d for d in data if d['score'] > 80]\nprint(result)" }},
+            { name: "SQLite操作", duration: "25分钟", completed: false, content: { explanation: "SQLite是Python内置轻量级数据库。步骤:connect()连接、cursor()创建游标、execute()执行SQL、commit()提交、close()关闭。executemany()批量操作。", code: "import sqlite3\nconn = sqlite3.connect('test.db')\nc = conn.cursor()\nc.execute('CREATE TABLE IF NOT EXISTS t (id INT, name TEXT)')\nc.execute('INSERT INTO t VALUES (1, \"A\")')\nconn.commit()\nc.execute('SELECT * FROM t')\nprint(c.fetchall())\nconn.close()", tips: ["修改后commit", "用?占位符防注入"], errors: [{error: "忘记commit", solution: "insert/update后commit"}], question: "如何批量插入数据？", practiceCode: "import sqlite3\nconn = sqlite3.connect('test.db')\nc = conn.cursor()\nc.executemany('INSERT INTO t VALUES (?, ?)', [(2, 'B'), (3, 'C')])\nconn.commit()\nc.execute('SELECT * FROM t')\nprint(c.fetchall())\nconn.close()" }},
+            { name: "SQLAlchemy入门", duration: "30分钟", completed: false, content: { explanation: "SQLAlchemy是ORM库，将数据库表映射为Python对象。核心概念:Engine引擎、Table表定义、Column列定义、Session会话。查询用session.query(Model).filter()等方法。", code: "from sqlalchemy import create_engine, Column, Integer, String\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker\nBase = declarative_base()\nclass User(Base):\n    __tablename__ = 'users'\n    id = Column(Integer, primary_key=True)\n    name = Column(String(50))\nengine = create_engine('sqlite:///test.db')\nBase.metadata.create_all(engine)\nSession = sessionmaker(bind=engine)\nsession = Session()\nuser = User(name='张三')\nsession.add(user)\nsession.commit()", tips: ["echo=True查看SQL", "sessionmaker创建会话"], errors: [{error: "忘记commit", solution: "操作后commit"}], question: "如何用ORM查询数据？", practiceCode: "from sqlalchemy import create_engine\nfrom sqlalchemy.orm import sessionmaker\nengine = create_engine('sqlite:///test.db')\nSession = sessionmaker(bind=engine)\nsession = Session()\nresult = session.execute('SELECT * FROM users')\nfor row in result:\n    print(row)" }}
+        ]}
+];
+
+const projectsData = [
+    { id: 0, emoji: "🧹", name: "数据清洗实战", difficulty: "beginner", difficultyText: "入门", duration: "30分钟", desc: "处理零售订单数据中的缺失值、重复数据和格式问题", dataset: "retail_orders.csv", tips: ["df.isnull().sum()查看缺失", "drop_duplicates()删除重复"], errors: [{error: "直接删除缺失值", solution: "先分析缺失模式"}], goal: "掌握数据质量评估和清洗技能", practiceCode: "# 数据清洗示例代码\nimport pandas as pd\n\n# 示例数据\ndata = {\n    'order_id': [1001, 1002, 1003, 1004, 1005],\n    'customer': ['张三', '李四', '王五', '张三', '赵六'],\n    'amount': [150.5, None, 89.99, 150.5, 200.00],\n    'category': ['电子产品', '服装', '食品', '电子产品', '家居']\n}\ndf = pd.DataFrame(data)\n\nprint('原始数据:')\nprint(df)\nprint('\\n缺失值统计:')\nprint(df.isnull().sum())\nprint('\\n重复行统计:')\nprint(df.duplicated().sum())" },
+    { id: 1, emoji: "📊", name: "分组聚合分析", difficulty: "beginner", difficultyText: "入门", duration: "30分钟", desc: "统计各产品类别的销售额和订单量", dataset: "retail_orders.csv", tips: ["groupby().agg()多函数聚合", "pivot_table创建透视表"], errors: [{error: "忘记指定聚合列", solution: "明确列名"}], goal: "掌握groupby分组聚合", practiceCode: "# 分组聚合示例\nimport pandas as pd\n\ndata = {\n    'category': ['电子产品', '服装', '食品', '电子产品', '服装'],\n    'amount': [150.50, 230.00, 89.99, 450.00, 120.00]\n}\ndf = pd.DataFrame(data)\n\nprint('数据:')\nprint(df)\nprint('\\n分组聚合结果:')\nresult = df.groupby('category').agg({\n    'amount': ['sum', 'mean', 'count']\n})\nprint(result)" },
+    { id: 2, emoji: "🛒", name: "购物篮分析", difficulty: "intermediate", difficultyText: "进阶", duration: "45分钟", desc: "发现商品关联规则和购买模式", dataset: "market_basket.csv", tips: ["统计商品频次", "计算支持度"], errors: [{error: "直接用原始数据", solution: "转换为one-hot格式"}], goal: "理解关联分析原理", practiceCode: "# 购物篮分析示例\nfrom collections import Counter\n\ntransactions = [\n    ['牛奶', '面包'],\n    ['牛奶', '尿布', '啤酒'],\n    ['面包', '黄油'],\n    ['牛奶', '面包', '黄油']\n]\n\nall_items = [item for t in transactions for item in t]\ncounts = Counter(all_items)\n\nprint('商品购买频次:')\nfor item, cnt in counts.most_common():\n    print(f'{item}: {cnt}')\n\nprint('\\n各商品支持度:')\nfor item, cnt in counts.items():\n    print(f'{item}: {cnt/len(transactions):.2f}')" },
+    { id: 3, emoji: "👥", name: "客户聚类分析", difficulty: "intermediate", difficultyText: "进阶", duration: "45分钟", desc: "使用K-Means对客户分群", dataset: "customer_features.csv", tips: ["标准化特征", "用肘部法则确定K"], errors: [{error: "未标准化", solution: "用StandardScaler"}], goal: "掌握K-Means聚类", practiceCode: "# K-Means聚类示例\nfrom sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nimport pandas as pd\n\ndata = {\n    'customer': ['C001', 'C002', 'C003', 'C004', 'C005'],\n    'age': [25, 45, 35, 28, 52],\n    'income': [35000, 80000, 55000, 42000, 95000],\n    'spending': [150, 300, 200, 180, 450]\n}\ndf = pd.DataFrame(data)\nX = df[['age', 'income', 'spending']]\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\nkmeans = KMeans(n_clusters=2, random_state=42, n_init=10)\ndf['cluster'] = kmeans.fit_predict(X_scaled)\nprint(df[['customer', 'cluster']])" },
+    { id: 4, emoji: "📈", name: "数据可视化实战", difficulty: "intermediate", difficultyText: "进阶", duration: "45分钟", desc: "创建多维度销售数据可视化", dataset: "sales_data.csv", tips: ["选择合适的图表类型", "一图一主题"], errors: [{error: "信息过载", solution: "拆分多子图"}], goal: "掌握多图表组合", practiceCode: "# 数据可视化示例\nimport pandas as pd\n\ndata = {\n    'month': ['1月', '2月', '3月', '4月', '5月'],\n    'sales_A': [120, 135, 150, 145, 160],\n    'sales_B': [150, 165, 180, 175, 190],\n    'total': [270, 300, 330, 320, 350]\n}\ndf = pd.DataFrame(data)\n\nprint('月度销售数据:')\nprint(df)\nprint('\\n可视化已准备好 (需要matplotlib支持)')" },
+    { id: 5, emoji: "🧪", name: "A/B测试分析", difficulty: "intermediate", difficultyText: "进阶", duration: "45分钟", desc: "分析A/B测试结果的统计显著性", dataset: "ab_test_results.csv", tips: ["计算转化率", "卡方检验"], errors: [{error: "忽略统计显著性", solution: "计算p值"}], goal: "掌握假设检验", practiceCode: "# A/B测试分析示例\nimport pandas as pd\nimport numpy as np\n\ndata = {\n    'group': ['A', 'A', 'A', 'A', 'B', 'B', 'B', 'B'],\n    'converted': [0, 1, 0, 1, 1, 1, 1, 0]\n}\ndf = pd.DataFrame(data)\n\nprint('A/B测试结果:')\nconv = df.groupby('group')['converted'].agg(['sum', 'count', 'mean'])\nconv.columns = ['转化数', '样本数', '转化率']\nprint(conv)\n\nprint('\\n95%置信区间:')\nfor g in ['A', 'B']:\n    n = len(df[df['group'] == g])\n    p = df[df['group'] == g]['converted'].mean()\n    se = np.sqrt(p * (1 - p) / n)\n    print(f'组{g}: {p:.2%} [{(p-1.96*se):.2%}, {(p+1.96*se):.2%}]')" },
+    { id: 6, emoji: "🔮", name: "时间序列预测", difficulty: "advanced", difficultyText: "高级", duration: "60分钟", desc: "使用ARIMA模型进行销售预测", dataset: "daily_sales.csv", tips: ["检验平稳性", "移动平均平滑"], errors: [{error: "未检验平稳性", solution: "用adfuller检验"}], goal: "理解时间序列分析", practiceCode: "# 时间序列预测示例\nimport pandas as pd\n\ndata = {\n    'date': ['2024-01-01', '2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05', '2024-01-06', '2024-01-07'],\n    'sales': [1500, 1650, 1420, 1580, 1720, 1890, 2100]\n}\ndf = pd.DataFrame(data)\ndf['date'] = pd.to_datetime(df['date'])\ndf.set_index('date', inplace=True)\n\nprint('销售数据:')\nprint(df)\n\ndf['ma3'] = df['sales'].rolling(window=3).mean()\nprint('\\n3日移动平均:')\nprint(df)\n\nlast_3_avg = df['sales'].tail(3).mean()\nprint(f'\\n预测下一日销量: {last_3_avg:.0f}')" },
+    { id: 7, emoji: "💎", name: "客户价值分析RFM", difficulty: "intermediate", difficultyText: "进阶", duration: "45分钟", desc: "使用RFM模型识别高价值客户", dataset: "customer_data.csv", tips: ["RFM分别评分", "客户分层管理"], errors: [{error: "未标准化RFM值", solution: "用qcut分位数评分"}], goal: "掌握RFM分析方法", practiceCode: "# RFM分析示例\nimport pandas as pd\n\ndata = {\n    'customer': ['C001', 'C002', 'C003', 'C004', 'C005'],\n    'recency': [5, 25, 1, 40, 7],\n    'frequency': [15, 8, 22, 5, 18],\n    'monetary': [2500, 1200, 3800, 800, 3200]\n}\ndf = pd.DataFrame(data)\n\nprint('客户数据:')\nprint(df)\n\ndf['R_score'] = pd.qcut(df['recency'], 5, labels=[5, 4, 3, 2, 1])\ndf['F_score'] = pd.qcut(df['frequency'], 5, labels=[1, 2, 3, 4, 5])\ndf['M_score'] = pd.qcut(df['monetary'], 5, labels=[1, 2, 3, 4, 5])\ndf['RFM'] = df['R_score'].astype(str) + df['F_score'].astype(str) + df['M_score'].astype(str)\n\nprint('\\nRFM评分:')\nprint(df[['customer', 'RFM']])" },
+    { id: 8, emoji: "😊", name: "情感分析入门", difficulty: "advanced", difficultyText: "高级", duration: "60分钟", desc: "对商品评论进行情感倾向分析", dataset: "reviews.csv", tips: ["构建情感词典", "处理否定词"], errors: [{error: "未去除停用词", solution: "预处理文本"}], goal: "了解NLP基础", practiceCode: "# 情感分析示例\nimport pandas as pd\n\ndata = {\n    'id': [1, 2, 3, 4, 5],\n    'content': ['产品质量很好很满意', '一般般不太好', '太差了不值', '性价比高推荐', '包装破损'],\n    'rating': [5, 3, 1, 5, 3]\n}\ndf = pd.DataFrame(data)\n\npos_words = ['好', '满意', '高', '推荐']\nneg_words = ['差', '不好', '不值', '破损']\n\ndef sentiment(text):\n    pos = sum(1 for w in pos_words if w in text)\n    neg = sum(1 for w in neg_words if w in text)\n    return '正面' if pos > neg else '负面' if neg > pos else '中性'\n\ndf['pred'] = df['content'].apply(sentiment)\nprint('情感分析结果:')\nprint(df[['content', 'rating', 'pred']])" },
+    { id: 9, emoji: "📉", name: "股票数据基础分析", difficulty: "advanced", difficultyText: "高级", duration: "60分钟", desc: "计算股票技术指标", dataset: "stock_prices.csv", tips: ["计算移动平均", "生成交易信号"], errors: [{error: "忽略除权处理", solution: "使用复权价格"}], goal: "掌握金融数据分析", practiceCode: "# 股票技术指标示例\nimport pandas as pd\nimport numpy as np\n\ndata = {\n    'date': ['2024-01-01', '2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05', '2024-01-06'],\n    'close': [101.2, 102.8, 103.5, 104.8, 106.2, 107.5],\n    'volume': [1500000, 1800000, 1650000, 2000000, 2200000, 2500000]\n}\ndf = pd.DataFrame(data)\ndf['date'] = pd.to_datetime(df['date'])\ndf.set_index('date', inplace=True)\n\ndf['ma5'] = df['close'].rolling(window=5).mean()\ndf['return'] = df['close'].pct_change()\ndf['vol'] = df['return'].rolling(window=5).std()\ndf['signal'] = np.where(df['close'] > df['ma5'], '买入', '卖出')\n\nprint('股票技术指标:')\nprint(df)" }
+];
+
+const achievementsData = [
+    { id: "starter", icon: "🌱", name: "入门学徒", desc: "完成3个小节的学习", requirement: 3, type: "lessons" },
+    { id: "coder", icon: "⭐", name: "代码新星", desc: "完成10个小节的学习", requirement: 10, type: "lessons" },
+    { id: "master", icon: "🏆", name: "学习达人", desc: "完成20个小节的学习", requirement: 20, type: "lessons" },
+    { id: "python_basic", icon: "🐍", name: "Python入门", desc: "完成Python基础入门课程", requirement: 12, type: "course_0" },
+    { id: "all_rounder", icon: "🎯", name: "十项全能", desc: "完成5个实战项目", requirement: 5, type: "projects" }
+];
+
+let currentCourse = null, currentLesson = null, currentProject = null;
+
+function loadProgress() {
+    const saved = localStorage.getItem('pythonLearningProgress');
+    if (saved) {
+        const progress = JSON.parse(saved);
+        coursesData.forEach(course => {
+            if (progress[course.id]) {
+                course.lessons.forEach((lesson, idx) => {
+                    if (progress[course.id][idx] !== undefined) {
+                        lesson.completed = progress[course.id][idx];
+                    }
+                });
             }
-        ];
-
-        // ==================== 项目数据 ====================
-        const projectsData = [
-            {
-                id: 0, emoji: "🧹", title: "数据清洗实战", difficulty: "beginner", difficultyText: "入门",
-                duration: "30分钟", dataset: "retail_orders.csv", desc: "处理订单数据中的缺失值、异常值和重复数据。",
-                goals: ["识别并处理缺失值", "检测和处理异常值", "去除重复记录", "数据格式标准化"],
-                tips: ["先了解数据概况再清洗", "保留原始数据备份", "记录清洗过程"],
-                errors: ["直接删除缺失值可能丢失重要信息", "异常值不一定是错误数据"],
-                code: "import pandas as pd\n\n# 读取数据\ndf = pd.read_csv('retail_orders.csv')\n\n# 查看数据概况\nprint(df.info())\nprint(df.describe())\n\n# 处理缺失值\ndf = df.dropna(subset=['order_id'])\ndf['amount'] = df['amount'].fillna(0)\n\n# 去除重复\ndf = df.drop_duplicates()\n\nprint(f'清洗后数据量: {len(df)}')"
-            },
-            {
-                id: 1, emoji: "📊", title: "分组聚合分析", difficulty: "beginner", difficultyText: "入门",
-                duration: "30分钟", dataset: "retail_orders.csv", desc: "分析订单数据，计算各类统计指标。",
-                goals: ["按客户分组统计", "计算销售额", "找出高价值客户", "制作统计报表"],
-                tips: ["理解groupby的工作原理", "多尝试不同的聚合函数", "结果可视化更直观"],
-                errors: ["分组键选择错误", "聚合函数使用不当"],
-                code: "import pandas as pd\n\ndf = pd.read_csv('retail_orders.csv')\n\n# 按客户分组统计\ncustomer_stats = df.groupby('customer_id').agg({\n    'order_id': 'count',\n    'amount': 'sum'\n}).rename(columns={'order_id': 'order_count'})\n\n# 找出Top10客户\ntop_customers = customer_stats.nlargest(10, 'amount')\nprint(top_customers)"
-            },
-            {
-                id: 2, emoji: "🛒", title: "购物篮分析", difficulty: "intermediate", difficultyText: "进阶",
-                duration: "45分钟", dataset: "market_basket.csv", desc: "使用关联规则分析顾客购买行为。",
-                goals: ["构建交易矩阵", "计算支持度置信度", "挖掘关联规则", "可视化结果"],
-                tips: ["最小支持度设置要合理", "关注提升度高的规则", "结果要结合业务理解"],
-                errors: ["支持度过高导致无规则", "忽略业务场景"],
-                code: "import pandas as pd\nfrom mlxtend.frequent_patterns import apriori\nfrom mlxtend.preprocessing import TransactionEncoder\n\n# 读取数据\ndf = pd.read_csv('market_basket.csv')\nprint(df.head())"
-            },
-            {
-                id: 3, emoji: "👥", title: "客户聚类分析", difficulty: "intermediate", difficultyText: "进阶",
-                duration: "45分钟", dataset: "customer_features.csv", desc: "使用K-Means算法对客户进行分群。",
-                goals: ["特征工程", "数据标准化", "确定聚类数", "客户分群解读"],
-                tips: ["聚类前先标准化", "用肘部法则确定K值", "结合业务理解分群"],
-                errors: ["忽略特征重要性", "K值选择不当"],
-                code: "import pandas as pd\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.cluster import KMeans\n\ndf = pd.read_csv('customer_features.csv')\nfeatures = df[['age', 'income', 'spending_score']]\n\n# 标准化\nscaler = StandardScaler()\nX = scaler.fit_transform(features)\n\n# 聚类\nkmeans = KMeans(n_clusters=4, random_state=42)\ndf['cluster'] = kmeans.fit_predict(X)\nprint(df['cluster'].value_counts())"
-            },
-            {
-                id: 4, emoji: "📈", title: "数据可视化实战", difficulty: "intermediate", difficultyText: "进阶",
-                duration: "45分钟", dataset: "sales_data.csv", desc: "制作专业的销售数据可视化报表。",
-                goals: ["多维度分析", "制作多种图表", " Dashboard设计", "结论提炼"],
-                tips: ["图表选择要合适", "配色要统一", "关键信息突出"],
-                errors: ["图表类型选择不当", "信息过载"],
-                code: "import pandas as pd\nimport matplotlib.pyplot as plt\n\ndf = pd.read_csv('sales_data.csv')\n\n# 销售趋势图\ndf['date'] = pd.to_datetime(df['date'])\nmonthly = df.groupby(df['date'].dt.month)['sales'].sum()\n\nplt.figure(figsize=(10, 6))\nmonthly.plot(kind='bar')\nplt.title('月度销售趋势')\nplt.xlabel('月份')\nplt.ylabel('销售额')\nplt.show()"
-            },
-            {
-                id: 5, emoji: "🧪", title: "A/B测试分析", difficulty: "intermediate", difficultyText: "进阶",
-                duration: "45分钟", dataset: "ab_test_results.csv", desc: "分析A/B测试结果，判断实验效果。",
-                goals: ["计算转化率", "统计显著性检验", "置信区间估计", "给出决策建议"],
-                tips: ["样本量要足够", "注意时间因素", "考虑多重检验问题"],
-                errors: ["忽略统计显著性", "只看表面数字"],
-                code: "import pandas as pd\nfrom scipy import stats\n\ndf = pd.read_csv('ab_test_results.csv')\n\n# 分组统计\na_group = df[df['group'] == 'A']['converted']\nb_group = df[df['group'] == 'B']['converted']\n\n# t检验\nt_stat, p_value = stats.ttest_ind(a_group, b_group)\nprint(f'A组转化率: {a_group.mean():.2%}')\nprint(f'B组转化率: {b_group.mean():.2%}')\nprint(f'p值: {p_value:.4f}')"
-            },
-            {
-                id: 6, emoji: "📉", title: "时间序列预测", difficulty: "advanced", difficultyText: "高级",
-                duration: "60分钟", dataset: "daily_sales.csv", desc: "使用ARIMA模型预测未来销售。",
-                goals: ["时序可视化", "平稳性检验", "模型拟合", "预测未来"],
-                tips: ["数据预处理要充分", "参数选择关键", "验证预测准确性"],
-                errors: ["忽略季节性", "过度拟合"],
-                code: "import pandas as pd\nimport numpy as np\nfrom statsmodels.tsa.arima.model import ARIMA\n\ndf = pd.read_csv('daily_sales.csv')\ndf['date'] = pd.to_datetime(df['date'])\ndf = df.set_index('date')\n\n# ARIMA模型\nmodel = ARIMA(df['sales'], order=(1, 1, 1))\nmodel_fit = model.fit()\n\n# 预测未来7天\nforecast = model_fit.forecast(steps=7)\nprint('未来7天预测:', forecast)"
-            },
-            {
-                id: 7, emoji: "💎", title: "客户价值分析RFM", difficulty: "intermediate", difficultyText: "进阶",
-                duration: "45分钟", dataset: "customer_data.csv", desc: "使用RFM模型评估客户价值。",
-                goals: ["计算RFM指标", "客户分层", "制定策略", "效果评估"],
-                tips: ["RFM窗口期要合理", "分层标准要结合业务", "针对性营销"],
-                errors: ["窗口期设置不当", "分层太细或太粗"],
-                code: "import pandas as pd\nfrom datetime import datetime\n\ndf = pd.read_csv('customer_data.csv')\ndf['order_date'] = pd.to_datetime(df['order_date'])\n\n# 计算RFM\nnow = df['order_date'].max()\nrfm = df.groupby('customer_id').agg({\n    'order_date': lambda x: (now - x.max()).days,\n    'order_id': 'count',\n    'amount': 'sum'\n}).rename(columns={\n    'order_date': 'recency',\n    'order_id': 'frequency',\n    'amount': 'monetary'\n})\nprint(rfm.head())"
-            },
-            {
-                id: 8, emoji: "💬", title: "情感分析入门", difficulty: "advanced", difficultyText: "高级",
-                duration: "60分钟", dataset: "reviews.csv", desc: "对评论文本进行情感分析。",
-                goals: ["文本预处理", "特征提取", "情感分类", "结果分析"],
-                tips: ["中文要分词处理", "注意文本清洗", "模型选择要合适"],
-                errors: ["忽视文本长度", "类别不平衡"],
-                code: "import pandas as pd\n\ndf = pd.read_csv('reviews.csv')\nprint('评论样例:', df['review'].iloc[0])\nprint('情感标签分布:', df['sentiment'].value_counts())"
-            },
-            {
-                id: 9, emoji: "📈", title: "股票数据基础分析", difficulty: "advanced", difficultyText: "高级",
-                duration: "60分钟", dataset: "stock_prices.csv", desc: "分析股票价格走势和收益率。",
-                goals: ["数据获取", "收益率计算", "风险分析", "相关性分析"],
-                tips: ["考虑复权因素", "注意时间范围", "风险收益要平衡"],
-                errors: ["忽略交易费用", "过度依赖历史数据"],
-                code: "import pandas as pd\nimport numpy as np\n\ndf = pd.read_csv('stock_prices.csv')\ndf['date'] = pd.to_datetime(df['date'])\ndf = df.sort_values('date')\n\n# 计算日收益率\ndf['return'] = df['close'].pct_change()\n\nprint('平均日收益率:', df['return'].mean())\nprint('波动率:', df['return'].std())"
-            }
-        ];
-
-        // ==================== 成就数据 ====================
-        const achievementsData = [
-            {id: 0, emoji: "🌱", name: "入门学徒", desc: "完成3个小节", condition: "lessons", value: 3},
-            {id: 1, emoji: "⭐", name: "代码新星", desc: "完成10个小节", condition: "lessons", value: 10},
-            {id: 2, emoji: "📚", name: "学习达人", desc: "完成20个小节", condition: "lessons", value: 20},
-            {id: 3, emoji: "🐍", name: "Python入门", desc: "完成Python基础入门课程", condition: "course", value: 0},
-            {id: 4, emoji: "🏆", name: "十项全能", desc: "完成5个项目", condition: "projects", value: 5},
-            {id: 5, emoji: "🔥", name: "学习狂人", desc: "完成50个小节", condition: "lessons", value: 50},
-            {id: 6, emoji: "🎯", name: "精准分析师", desc: "完成数据清洗实战", condition: "course", value: 4},
-            {id: 7, emoji: "📊", name: "可视化达人", desc: "完成数据可视化课程", condition: "course", value: 5}
-        ];
-
-        // ==================== 进度管理 ====================
-        function loadProgress() {
-            const saved = localStorage.getItem('studyProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                // 恢复课程进度
-                if (progress.courses) {
-                    progress.courses.forEach((completed, idx) => {
-                        if (coursesData[idx]) {
-                            coursesData[idx].lessons.forEach((lesson, lIdx) => {
-                                lesson.completed = completed[lIdx] || false;
-                            });
-                        }
-                    });
-                }
-                // 恢复项目进度
-                if (progress.projects) {
-                    progress.projects.forEach((completed, idx) => {
-                        if (projectsData[idx]) {
-                            projectsData[idx].completed = completed;
-                        }
-                    });
-                }
-            }
-        }
-
-        function saveProgress() {
-            const progress = {
-                courses: coursesData.map(c => c.lessons.map(l => l.completed)),
-                projects: projectsData.map(p => p.completed || false)
-            };
-            localStorage.setItem('studyProgress', JSON.stringify(progress));
-        }
-
-        // ==================== 导航系统 ====================
-        let currentPage = 'courses';
-        let currentCourse = null;
-        let currentLesson = null;
-        let currentProject = null;
-
-        function navigateTo(page) {
-            currentPage = page;
-            currentCourse = null;
-            currentLesson = null;
-            currentProject = null;
-            
-            // 更新导航高亮
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.dataset.page === page) {
-                    link.classList.add('active');
-                }
-            });
-
-            // 隐藏所有页面
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
-            // 显示目标页面
-            if (page === 'courses' || page === 'course-detail' || page === 'lesson-detail') {
-                document.getElementById('page-courses').classList.add('active');
-                if (page === 'course-detail') {
-                    document.getElementById('page-course-detail').classList.add('active');
-                } else if (page === 'lesson-detail') {
-                    document.getElementById('page-lesson-detail').classList.add('active');
-                }
-            } else if (page === 'projects' || page === 'project-detail') {
-                document.getElementById('page-projects').classList.add('active');
-                if (page === 'project-detail') {
-                    document.getElementById('page-project-detail').classList.add('active');
-                }
-            } else if (page === 'achievements') {
-                document.getElementById('page-achievements').classList.add('active');
-            }
-
-            renderCurrentPage();
-        }
-
-        function renderCurrentPage() {
-            if (currentPage === 'courses') {
-                renderCourses();
-            } else if (currentPage === 'course-detail') {
-                renderCourseDetail(currentCourse);
-            } else if (currentPage === 'lesson-detail') {
-                renderLessonDetail(currentCourse, currentLesson);
-            } else if (currentPage === 'projects') {
-                renderProjects();
-            } else if (currentPage === 'project-detail') {
-                renderProjectDetail(currentProject);
-            } else if (currentPage === 'achievements') {
-                renderAchievements();
-            }
-        }
-
-        // ==================== 渲染函数 ====================
-        function renderCourses() {
-            const container = document.getElementById('courses-container');
-            
-            // 按阶段分组
-            const beginner = coursesData.filter(c => c.difficulty === 'beginner');
-            const intermediate = coursesData.filter(c => c.difficulty === 'intermediate');
-            const advanced = coursesData.filter(c => c.difficulty === 'advanced');
-
-            let html = '';
-
-            // 入门课程
-            html += '<h2 style="margin: 24px 0 16px; font-size: 24px;">🌱 入门课程</h2><div class="courses-grid">';
-            beginner.forEach(course => {
-                const completed = course.lessons.filter(l => l.completed).length;
-                const total = course.lessons.length;
-                const percent = (completed / total) * 100;
-                html += `
-                    <div class="course-card" onclick="showCourse(${course.id})">
-                        <div class="course-emoji">${course.emoji}</div>
-                        <div class="course-title">${course.title}</div>
-                        <div class="course-desc">${course.desc}</div>
-                        <div class="course-meta">
-                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
-                            <span class="progress-text">${completed}/${total}小节</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percent}%"></div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-
-            // 进阶课程
-            html += '<h2 style="margin: 32px 0 16px; font-size: 24px;">📈 进阶课程</h2><div class="courses-grid">';
-            intermediate.forEach(course => {
-                const completed = course.lessons.filter(l => l.completed).length;
-                const total = course.lessons.length;
-                const percent = (completed / total) * 100;
-                html += `
-                    <div class="course-card" onclick="showCourse(${course.id})">
-                        <div class="course-emoji">${course.emoji}</div>
-                        <div class="course-title">${course.title}</div>
-                        <div class="course-desc">${course.desc}</div>
-                        <div class="course-meta">
-                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
-                            <span class="progress-text">${completed}/${total}小节</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percent}%"></div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-
-            // 高级课程
-            html += '<h2 style="margin: 32px 0 16px; font-size: 24px;">🔥 高级课程</h2><div class="courses-grid">';
-            advanced.forEach(course => {
-                const completed = course.lessons.filter(l => l.completed).length;
-                const total = course.lessons.length;
-                const percent = (completed / total) * 100;
-                html += `
-                    <div class="course-card" onclick="showCourse(${course.id})">
-                        <div class="course-emoji">${course.emoji}</div>
-                        <div class="course-title">${course.title}</div>
-                        <div class="course-desc">${course.desc}</div>
-                        <div class="course-meta">
-                            <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
-                            <span class="progress-text">${completed}/${total}小节</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percent}%"></div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-
-            container.innerHTML = html;
-        }
-
-        function showCourse(courseId) {
-            currentCourse = courseId;
-            navigateTo('course-detail');
-        }
-
-        function renderCourseDetail(courseId) {
-            const course = coursesData[courseId];
-            const container = document.getElementById('course-detail-content');
-            const completed = course.lessons.filter(l => l.completed).length;
-            const total = course.lessons.length;
-
-            let lessonsHtml = '';
-            course.lessons.forEach((lesson, idx) => {
-                const statusIcon = lesson.completed ? '✅' : '⭕';
-                lessonsHtml += `
-                    <div class="lesson-row">
-                        <div class="lesson-status">${statusIcon}</div>
-                        <div class="lesson-info" onclick="showLesson(${courseId}, ${idx})">
-                            <div class="lesson-name">${lesson.name}</div>
-                            <div class="lesson-duration">${lesson.duration}</div>
-                        </div>
-                        <button class="complete-btn ${lesson.completed ? 'done' : ''}" 
-                                onclick="toggleLessonComplete(${courseId}, ${idx})">
-                            ${lesson.completed ? '已完成' : '标记完成'}
-                        </button>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <button class="back-btn" onclick="navigateTo('courses')">
-                    ← 返回课程中心
-                </button>
-                <div class="detail-header">
-                    <h1>${course.emoji} ${course.title}</h1>
-                    <div class="detail-meta">
-                        <span>📚 ${total}个小节</span>
-                        <span>✅ 已完成 ${completed}个</span>
-                        <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
-                    </div>
-                </div>
-                <div class="lessons-list">
-                    ${lessonsHtml}
-                </div>
-            `;
-        }
-
-        function showLesson(courseId, lessonId) {
-            currentCourse = courseId;
-            currentLesson = lessonId;
-            navigateTo('lesson-detail');
-        }
-
-        function renderLessonDetail(courseId, lessonId) {
-            const course = coursesData[courseId];
-            const lesson = course.lessons[lessonId];
-            const container = document.getElementById('lesson-detail-content');
-
-            if (!lesson.content) {
-                container.innerHTML = `
-                    <button class="back-btn" onclick="navigateTo('course-detail')">
-                        ← 返回课程
-                    </button>
-                    <div class="detail-header">
-                        <h1>📖 ${lesson.name}</h1>
-                        <div class="detail-meta">
-                            <span>⏱️ ${lesson.duration}</span>
-                            <span>所属: ${course.title}</span>
-                        </div>
-                    </div>
-                    <div class="content-section">
-                        <h2>🚧 内容开发中</h2>
-                        <p>这部分课程内容正在紧张开发中，敬请期待！</p>
-                    </div>
-                `;
-                return;
-            }
-
-            const content = lesson.content;
-            const tipsHtml = content.tips.map(t => `<div class="tip-box"><h4>💡 小贴士</h4><p>${t}</p></div>`).join('');
-            const errorsHtml = content.errors.map(e => `<div class="error-box"><h4>⚠️ 常见错误</h4><p>${e}</p></div>`).join('');
-
-            container.innerHTML = `
-                <button class="back-btn" onclick="navigateTo('course-detail')">
-                    ← 返回课程
-                </button>
-                <div class="detail-header">
-                    <h1>📖 ${lesson.name}</h1>
-                    <div class="detail-meta">
-                        <span>⏱️ ${lesson.duration}</span>
-                        <span>所属: ${course.title}</span>
-                        <button class="complete-btn ${lesson.completed ? 'done' : ''}" 
-                                onclick="toggleLessonComplete(${courseId}, ${lessonId})">
-                            ${lesson.completed ? '✅ 已完成' : '✓ 标记完成'}
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="content-section">
-                    <h2>📝 知识讲解</h2>
-                    <p>${content.explanation.replace(/\n/g, '<br>')}</p>
-                </div>
-                
-                <div class="content-section">
-                    <h2>💻 代码示例</h2>
-                    <div class="code-block">${content.code}</div>
-                </div>
-                
-                <div class="content-section">
-                    <h2>💡 小贴士</h2>
-                    ${tipsHtml}
-                </div>
-                
-                <div class="content-section">
-                    <h2>⚠️ 常见错误</h2>
-                    ${errorsHtml}
-                </div>
-                
-                <div class="content-section">
-                    <h2>❓ 思考题</h2>
-                    <div class="question-box">
-                        <h4>🤔 动动脑筋</h4>
-                        <p>${content.question}</p>
-                    </div>
-                </div>
-                
-                <div class="content-section">
-                    <h2>✏️ 自己试一试</h2>
-                    <div class="code-editor">
-                        <div class="editor-toolbar">
-                            <button class="run-btn" onclick="runCode()">▶️ 运行代码</button>
-                        </div>
-                        <textarea id="code-input" class="editor-textarea" placeholder="在这里输入你的代码...">${content.code}</textarea>
-                        <div id="code-output" class="output-area">// 输出结果将显示在这里</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function toggleLessonComplete(courseId, lessonId) {
-            const lesson = coursesData[courseId].lessons[lessonId];
-            lesson.completed = !lesson.completed;
-            saveProgress();
-            renderCurrentPage();
-        }
-
-        function runCode() {
-            const output = document.getElementById('code-output');
-            const code = document.getElementById('code-input').value;
-            output.textContent = '⏳ 正在运行...';
-            
-            // 模拟代码执行
-            setTimeout(() => {
-                const lines = code.split('\n');
-                const prints = lines.filter(l => l.includes('print'));
-                
-                if (prints.length > 0) {
-                    output.innerHTML = '✅ 运行成功！<br><br>';
-                    prints.forEach(p => {
-                        const match = p.match(/print\s*\(\s*['"]([^'"]*)['"]/);
-                        if (match) {
-                            output.innerHTML += match[1] + '<br>';
-                        }
-                    });
-                } else {
-                    output.textContent = '✅ 代码已执行（无print输出）';
-                }
-            }, 500);
-        }
-
-        // ==================== 项目渲染 ====================
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            container.innerHTML = '<div class="courses-grid">' + 
-                projectsData.map(p => `
-                    <div class="project-card" onclick="showProject(${p.id})">
-                        <div class="project-header">
-                            <div class="project-emoji">${p.emoji}</div>
-                            <div class="project-meta">
-                                <span class="difficulty ${p.difficulty}">${p.difficultyText}</span>
-                            </div>
-                        </div>
-                        <div class="project-title">${p.title}</div>
-                        <div class="project-desc">${p.desc}</div>
-                        <div class="dataset-tag">📁 ${p.dataset}</div>
-                        <button class="start-btn" onclick="event.stopPropagation(); showProject(${p.id})">
-                            开始练习
-                        </button>
-                    </div>
-                `).join('') + '</div>';
-        }
-
-        function showProject(projectId) {
-            currentProject = projectId;
-            navigateTo('project-detail');
-        }
-
-        function renderProjectDetail(projectId) {
-            const project = projectsData[projectId];
-            const container = document.getElementById('project-detail-content');
-            
-            const tipsHtml = project.tips.map(t => `<div class="tip-box"><h4>💡 小提示</h4><p>${t}</p></div>`).join('');
-            const errorsHtml = project.errors.map(e => `<div class="error-box"><h4>⚠️ 常见错误</h4><p>${e}</p></div>`).join('');
-
-            // 生成CSV下载内容
-            const csvContent = generateSampleCSV(project.dataset);
-
-            container.innerHTML = `
-                <button class="back-btn" onclick="navigateTo('projects')">
-                    ← 返回实战项目
-                </button>
-                <div class="detail-header">
-                    <h1>${project.emoji} ${project.title}</h1>
-                    <div class="detail-meta">
-                        <span>⏱️ ${project.duration}</span>
-                        <span class="difficulty ${project.difficulty}">${project.difficultyText}</span>
-                    </div>
-                </div>
-                
-                <div class="content-section">
-                    <h2>📁 数据集</h2>
-                    <div class="dataset-tag" style="font-size: 14px; margin-bottom: 16px;">
-                        ${project.dataset}
-                    </div>
-                    <button class="download-btn" onclick="downloadDataset('${project.dataset}', '${csvContent}')">
-                        ⬇️ 下载数据集
-                    </button>
-                </div>
-                
-                <div class="content-section">
-                    <h2>🎯 项目目标</h2>
-                    <ul style="margin-left: 24px; color: var(--text-secondary);">
-                        ${project.goals.map(g => `<li style="margin-bottom: 8px;">${g}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="content-section">
-                    <h2>💡 小提示</h2>
-                    ${tipsHtml}
-                </div>
-                
-                <div class="content-section">
-                    <h2>⚠️ 常见错误</h2>
-                    ${errorsHtml}
-                </div>
-                
-                <div class="content-section">
-                    <h2>💻 代码示例</h2>
-                    <div class="code-block">${project.code}</div>
-                </div>
-                
-                <div class="content-section">
-                    <h2>✏️ 练习区</h2>
-                    <div class="code-editor">
-                        <div class="editor-toolbar">
-                            <button class="run-btn" onclick="runProjectCode()">▶️ 运行代码</button>
-                        </div>
-                        <textarea id="project-code-input" class="editor-textarea" placeholder="在这里编写你的代码...">${project.code}</textarea>
-                        <div id="project-code-output" class="output-area">// 输出结果将显示在这里</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateSampleCSV(filename) {
-            // 根据文件名生成示例数据
-            const sampleData = {
-                'retail_orders.csv': 'order_id,customer_id,order_date,amount,product\n1001,101,2024-01-15,299.00,产品A\n1002,102,2024-01-16,159.00,产品B\n1003,101,2024-01-18,89.00,产品C\n1004,103,2024-01-19,450.00,产品A\n1005,104,2024-01-20,299.00,产品B',
-                'market_basket.csv': 'transaction_id,items\n1,"牛奶,面包,鸡蛋"\n2,"面包,黄油"\n3,"牛奶,鸡蛋,面包"\n4,"黄油,鸡蛋"\n5,"牛奶,面包,黄油"',
-                'customer_features.csv': 'customer_id,age,income,spending_score\n101,35,80000,75\n102,28,55000,60\n103,42,120000,90\n104,25,45000,45\n105,38,95000,80',
-                'sales_data.csv': 'date,product,sales,region\n2024-01-01,产品A,1000,北京\n2024-01-02,产品A,1200,北京\n2024-01-03,产品B,800,上海\n2024-01-04,产品A,1500,北京\n2024-01-05,产品B,950,上海',
-                'ab_test_results.csv': 'user_id,group,converted\n1001,A,0\n1002,A,1\n1003,B,1\n1004,B,1\n1005,A,0',
-                'daily_sales.csv': 'date,sales\n2024-01-01,1200\n2024-01-02,1350\n2024-01-03,1100\n2024-01-04,1450\n2024-01-05,1600',
-                'customer_data.csv': 'customer_id,order_date,amount\n101,2024-01-15,500\n101,2024-01-20,300\n102,2024-01-18,800\n103,2024-01-22,1200\n104,2024-01-25,450',
-                'reviews.csv': 'review_id,review,sentiment\n1,"这个产品很好用",positive\n2,"质量一般",neutral\n3,"非常满意",positive\n4,"不推荐",negative\n5,"还行吧",neutral',
-                'stock_prices.csv': 'date,open,high,low,close,volume\n2024-01-01,100.0,105.0,99.0,104.0,1000000\n2024-01-02,104.0,108.0,103.0,107.0,1200000\n2024-01-03,107.0,110.0,106.0,109.0,950000\n2024-01-04,109.0,112.0,108.0,111.0,1100000\n2024-01-05,111.0,115.0,110.0,114.0,1300000'
-            };
-            return sampleData[filename] || 'col1,col2\n1,2\n3,4';
-        }
-
-        function downloadDataset(filename, content) {
-            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-        }
-
-        function runProjectCode() {
-            const output = document.getElementById('project-code-output');
-            output.textContent = '⏳ 正在运行...';
-            
-            setTimeout(() => {
-                output.textContent = '✅ 代码已执行\n\n提示：在实际环境中，此代码将访问CSV文件并输出结果。\n请确保已下载数据集并配置正确的文件路径。';
-            }, 500);
-        }
-
-        // ==================== 成就渲染 ====================
-        function renderAchievements() {
-            const container = document.getElementById('achievements-container');
-            
-            // 计算已解锁的成就
-            const totalLessons = coursesData.reduce((sum, c) => sum + c.lessons.filter(l => l.completed).length, 0);
-            const totalProjects = projectsData.filter(p => p.completed).length;
-            
-            const unlockedAchievements = [];
-            achievementsData.forEach(a => {
-                let unlocked = false;
-                if (a.condition === 'lessons' && totalLessons >= a.value) unlocked = true;
-                if (a.condition === 'course' && coursesData[a.value]?.lessons.every(l => l.completed)) unlocked = true;
-                if (a.condition === 'projects' && totalProjects >= a.value) unlocked = true;
-                unlockedAchievements.push({...a, unlocked});
-            });
-
-            container.innerHTML = `
-                <div style="margin-bottom: 24px; text-align: center;">
-                    <p style="color: var(--text-secondary);">已解锁 ${unlockedAchievements.filter(a => a.unlocked).length} / ${unlockedAchievements.length} 个成就</p>
-                </div>
-                <div class="achievements-grid">
-                    ${unlockedAchievements.map(a => `
-                        <div class="achievement-card ${a.unlocked ? 'unlocked' : ''}">
-                            <div class="achievement-emoji">${a.emoji}</div>
-                            <div class="achievement-name">${a.name}</div>
-                            <div class="achievement-desc">${a.desc}</div>
-                            <div class="achievement-status">${a.unlocked ? '已解锁' : '未解锁'}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        // ==================== 初始化 ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProgress();
-            renderCurrentPage();
         });
+    }
+    const savedProjects = localStorage.getItem('pythonLearningProjects');
+    if (savedProjects) {
+        const projectProgress = JSON.parse(savedProjects);
+        projectsData.forEach(project => {
+            if (projectProgress[project.id] !== undefined) {
+                project.completed = projectProgress[project.id];
+            }
+        });
+    }
+}
+
+function saveProgress() {
+    const progress = {};
+    coursesData.forEach(course => {
+        progress[course.id] = course.lessons.map(l => l.completed);
+    });
+    localStorage.setItem('pythonLearningProgress', JSON.stringify(progress));
+}
+
+function saveProjectProgress() {
+    const progress = {};
+    projectsData.forEach(project => {
+        progress[project.id] = project.completed || false;
+    });
+    localStorage.setItem('pythonLearningProjects', JSON.stringify(progress));
+}
+
+function showPage(page) {
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    if (page === 'courses') renderCourses();
+    else if (page === 'projects') renderProjects();
+    else if (page === 'achievements') renderAchievements();
+}
+
+function renderCourses() {
+    const grid = document.getElementById('courses-grid');
+    grid.innerHTML = coursesData.map(course => {
+        const completed = course.lessons.filter(l => l.completed).length;
+        const total = course.lessons.length;
+        const progress = Math.round((completed / total) * 100);
+        return `<div class="card" onclick="showCourseDetail(${course.id})">
+            <div class="card-header">
+                <span class="card-icon">${course.emoji}</span>
+                <div class="card-info">
+                    <h3>${course.title}</h3>
+                    <div class="card-meta">
+                        <span class="difficulty ${course.difficulty}">${course.difficultyText}</span>
+                        <span>${total}个小节</span>
+                    </div>
+                </div>
+            </div>
+            <p class="card-desc">${course.desc}</p>
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span>学习进度</span>
+                    <span>${completed}/${total}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function showCourseDetail(courseId) {
+    currentCourse = courseId;
+    const course = coursesData[courseId];
+    const completed = course.lessons.filter(l => l.completed).length;
+    const progress = Math.round((completed / course.lessons.length) * 100);
+    document.getElementById('page-courses').classList.remove('active');
+    document.getElementById('page-course-detail').classList.add('active');
+    const content = document.getElementById('course-detail-content');
+    content.innerHTML = `<div class="course-header">
+        <h1>${course.emoji} ${course.title}</h1>
+        <p>${course.desc}</p>
+        <div class="course-progress">
+            <div class="progress-header">
+                <span>总进度</span>
+                <span>${completed}/${course.lessons.length} 小节 (${progress}%)</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${progress}%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="lesson-list">
+        ${course.lessons.map((lesson, index) => `
+            <div class="lesson-item">
+                <div class="lesson-number ${lesson.completed ? 'completed' : ''}">${lesson.completed ? '✓' : index + 1}</div>
+                <div class="lesson-info" onclick="showLessonDetail(${courseId}, ${index})">
+                    <h4>${lesson.name}</h4>
+                    <span>⏱️ ${lesson.duration}</span>
+                </div>
+                <div class="lesson-status">
+                    ${lesson.completed ? '<span style="color: var(--success);">已完成</span>' : `<button class="btn btn-outline" onclick="event.stopPropagation(); toggleLessonComplete(${courseId}, ${index})">标记完成</button>`}
+                </div>
+            </div>`).join('')}
+    </div>`;
+}
+
+function backToCourses() {
+    document.getElementById('page-course-detail').classList.remove('active');
+    document.getElementById('page-courses').classList.add('active');
+    renderCourses();
+}
+
+function toggleLessonComplete(courseId, lessonId) {
+    coursesData[courseId].lessons[lessonId].completed = true;
+    saveProgress();
+    showCourseDetail(courseId);
+}
+
+function showLessonDetail(courseId, lessonId) {
+    currentCourse = courseId;
+    currentLesson = lessonId;
+    const course = coursesData[courseId];
+    const lesson = course.lessons[lessonId];
+    document.getElementById('page-course-detail').classList.remove('active');
+    document.getElementById('page-lesson-detail').classList.add('active');
+    const content = document.getElementById('lesson-detail-content');
+    if (!lesson.content) {
+        content.innerHTML = `<div class="lesson-content">
+            <h1>${lesson.name}</h1>
+            <p class="lesson-meta">⏱️ 预计时长：${lesson.duration}</p>
+            <div class="content-section"><h3>🚧 内容开发中</h3><p>该小节内容正在紧张开发中，敬请期待！</p></div>
+            <button class="btn btn-success complete-btn" onclick="completeLesson(${courseId}, ${lessonId})">✓ 标记完成</button>
+        </div>`;
+        return;
+    }
+    const c = lesson.content;
+    content.innerHTML = `<div class="lesson-content">
+        <h1>${lesson.name}</h1>
+        <p class="lesson-meta">⏱️ 预计时长：${lesson.duration}</p>
+        <div class="content-section"><h3>📖 讲解</h3><p>${c.explanation}</p></div>
+        <div class="content-section"><h3>💻 代码示例</h3><pre class="code-block">${c.code}</pre></div>
+        <div class="content-section"><div class="tip-box"><h4>💡 小贴士</h4><ul>${c.tips.map(t => `<li>${t}</li>`).join('')}</ul></div></div>
+        <div class="content-section"><div class="error-box"><h4>⚠️ 常见错误</h4>${c.errors.map(e => `<div class="error-example"><strong>错误：</strong>${e.error}</div><div class="correct-example"><strong>正确做法：</strong>${e.solution}</div>`).join('')}</div></div>
+        <div class="content-section"><div class="question-box"><h4>❓ 思考题</h4><p>${c.question}</p></div></div>
+        <div class="practice-section"><h3>✏️ 自己试一试</h3><textarea id="code-input" class="code-editor">${c.practiceCode || '# 在这里写代码'}</textarea><button class="btn btn-primary run-btn" onclick="runCode()">▶ 运行</button><div id="code-output" class="output-area"></div></div>
+        <button class="btn btn-success complete-btn" onclick="completeLesson(${courseId}, ${lessonId})">✓ 标记完成</button>
+    </div>`;
+}
+
+function backToCourseDetail() {
+    document.getElementById('page-lesson-detail').classList.remove('active');
+    document.getElementById('page-course-detail').classList.add('active');
+    showCourseDetail(currentCourse);
+}
+
+function completeLesson(courseId, lessonId) {
+    coursesData[courseId].lessons[lessonId].completed = true;
+    saveProgress();
+    backToCourseDetail();
+}
+
+function runCode() {
+    const code = document.getElementById('code-input').value;
+    const outputDiv = document.getElementById('code-output');
+    const printMatches = code.match(/print\s*\(\s*(.+?)\s*\)/g);
+    let output = '';
+    if (printMatches) {
+        printMatches.forEach(match => {
+            const content = match.match(/print\s*\(\s*(.+?)\s*\)/)[1];
+            if (content.startsWith('f"') || content.startsWith("f'")) {
+                let processed = content.slice(2, -1);
+                processed = processed.replace(/\{([^}]+)\}/g, (m, expr) => {
+                    try { return String(eval(expr)); } catch { return m; }
+                });
+                output += processed + '\n';
+            } else if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
+                output += content.slice(1, -1) + '\n';
+            } else {
+                try { output += String(eval(content)) + '\n'; } catch { output += `[${content}]\n`; }
+            }
+        });
+    }
+    if (!output) output = '（没有输出。使用print()函数查看结果）';
+    outputDiv.textContent = output;
+}
+
+function renderProjects() {
+    const grid = document.getElementById('projects-grid');
+    grid.innerHTML = projectsData.map(project => `<div class="card project-card" onclick="showProjectDetail(${project.id})">
+        <div class="card-header"><span class="card-icon">${project.emoji}</span><div class="card-info"><h3>${project.name}</h3><div class="card-meta"><span class="difficulty ${project.difficulty}">${project.difficultyText}</span><span>⏱️ ${project.duration}</span></div></div></div>
+        <p class="card-desc">${project.desc}</p>
+        <div class="dataset-info">📄 ${project.dataset}</div>
+        <button class="btn btn-primary" onclick="event.stopPropagation(); showProjectDetail(${project.id})" style="width: 100%;">开始练习</button>
+    </div>`).join('');
+}
+
+function showProjectDetail(projectId) {
+    currentProject = projectId;
+    const project = projectsData[projectId];
+    document.getElementById('page-projects').classList.remove('active');
+    document.getElementById('page-project-detail').classList.add('active');
+    const content = document.getElementById('project-detail-content');
+    content.innerHTML = `<div class="project-detail">
+        <h1>${project.emoji} ${project.name}</h1>
+        <div class="project-meta"><span class="difficulty ${project.difficulty}">${project.difficultyText}</span><span>⏱️ ${project.duration}</span></div>
+        <div class="content-section"><h3>🎯 项目目标</h3><p>${project.goal}</p></div>
+        <div class="dataset-download-section"><h4>📊 数据集</h4><p>文件：${project.dataset}</p><button class="download-btn" onclick="downloadCSV('${project.dataset}')">⬇️ 下载数据集</button></div>
+        <div class="content-section"><div class="tip-box"><h4>💡 小提示</h4><ul>${project.tips.map(t => `<li>${t}</li>`).join('')}</ul></div></div>
+        <div class="content-section"><div class="error-box"><h4>⚠️ 常见错误</h4>${project.errors.map(e => `<div class="error-example"><strong>错误：</strong>${e.error}</div><div class="correct-example"><strong>正确做法：</strong>${e.solution}</div>`).join('')}</div></div>
+        <div class="practice-section"><h3>✏️ 在线练习</h3><textarea id="project-code-input" class="code-editor">${project.practiceCode || '# 开始编程练习'}</textarea><button class="btn btn-primary run-btn" onclick="runProjectCode()">▶ 运行代码</button><div id="project-code-output" class="output-area"></div></div>
+        <button class="btn btn-success complete-btn" onclick="completeProject(${projectId})">✓ 标记完成</button>
+    </div>`;
+}
+
+function runProjectCode() {
+    const code = document.getElementById('project-code-input').value;
+    const outputDiv = document.getElementById('project-code-output');
+    const printMatches = code.match(/print\s*\(\s*(.+?)\s*\)/g);
+    let output = '';
+    if (printMatches) {
+        printMatches.forEach(match => {
+            const content = match.match(/print\s*\(\s*(.+?)\s*\)/)[1];
+            if (content.startsWith('f"') || content.startsWith("f'")) {
+                let processed = content.slice(2, -1);
+                processed = processed.replace(/\{([^}]+)\}/g, (m, expr) => {
+                    try { return String(eval(expr)); } catch { return m; }
+                });
+                output += processed + '\n';
+            } else if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
+                output += content.slice(1, -1) + '\n';
+            } else {
+                try { output += String(eval(content)) + '\n'; } catch { output += `[${content}]\n`; }
+            }
+        });
+    }
+    if (!output) output = '（没有输出。使用print()函数查看结果）';
+    outputDiv.textContent = output;
+}
+
+function backToProjects() {
+    document.getElementById('page-project-detail').classList.remove('active');
+    document.getElementById('page-projects').classList.add('active');
+    renderProjects();
+}
+
+function completeProject(projectId) {
+    projectsData[projectId].completed = true;
+    saveProjectProgress();
+    backToProjects();
+}
+
+function downloadCSV(filename) {
+    alert('数据集功能已准备好！\n\n文件名: ' + filename + '\n\n在实际使用时，可以从服务器下载CSV文件进行练习。');
+}
+
+function renderAchievements() {
+    const completedLessons = coursesData.reduce((sum, course) => sum + course.lessons.filter(l => l.completed).length, 0);
+    const completedProjects = projectsData.filter(p => p.completed).length;
+    const course0Completed = coursesData[0].lessons.every(l => l.completed);
+    const grid = document.getElementById('achievements-grid');
+    grid.innerHTML = achievementsData.map(a => {
+        let unlocked = false;
+        if (a.type === 'lessons') unlocked = completedLessons >= a.requirement;
+        else if (a.type === 'projects') unlocked = completedProjects >= a.requirement;
+        else if (a.type === 'course_0') unlocked = course0Completed;
+        return `<div class="card achievement-card ${unlocked ? 'unlocked' : ''}">
+            <div class="achievement-icon">${a.icon}</div>
+            <h3>${a.name}</h3>
+            <p>${a.desc}</p>
+            <span class="achievement-badge">${unlocked ? '已解锁' : '未解锁'}</span>
+        </div>`;
+    }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadProgress();
+    renderCourses();
+});
     </script>
 </body>
 </html>
